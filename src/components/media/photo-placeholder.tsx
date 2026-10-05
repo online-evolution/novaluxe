@@ -3,28 +3,22 @@ type PhotoPlaceholderProps = {
   shot: string;
   /** Wat er op de foto moet komen. */
   subject: string;
-  /** Beeldverhouding als CSS aspect-ratio, bijvoorbeeld "4 / 5". */
-  ratio: string;
+  /** Maat en beeldverhouding via klassen, bijvoorbeeld "aspect-[4/5] lg:aspect-[3/2]". */
   className?: string;
 };
 
 /**
  * Zichtbare plek voor echte NovaLuxe-fotografie die nog gemaakt wordt.
  * Bewust herkenbaar als placeholder: geen stock- of AI-beeld.
+ * TODO(foto's): vervangen door next/image zodra het shot er is.
  */
-export function PhotoPlaceholder({
-  shot,
-  subject,
-  ratio,
-  className = "",
-}: PhotoPlaceholderProps) {
+export function PhotoPlaceholder({ shot, subject, className = "" }: PhotoPlaceholderProps) {
   return (
     <figure
       role="img"
       aria-label={`Foto volgt: ${subject}`}
       className={`relative flex items-end overflow-hidden bg-ivory ${className}`}
       style={{
-        aspectRatio: ratio,
         backgroundImage:
           "repeating-linear-gradient(135deg, transparent 0 14px, rgb(51 44 37 / 0.05) 14px 15px)",
       }}

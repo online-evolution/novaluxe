@@ -1,28 +1,27 @@
-import { ActionLink } from "@/components/ui/action";
-import { bookingHref } from "@/config/navigation";
+import { HomeAttention } from "@/components/home/home-attention";
+import { HomeBooking } from "@/components/home/home-booking";
+import { HomeHero } from "@/components/home/home-hero";
+import { HomeJessie } from "@/components/home/home-jessie";
+import { HomeTreatments } from "@/components/home/home-treatments";
+import { HomeWork } from "@/components/home/home-work";
+import { getCatalog } from "@/server/catalog";
 
 /*
- * Tijdelijke homepage met de hero-tekst uit de bron. Het echte ontwerp volgt
- * in Fase 3.
+ * Homepage als één verhaal: opening → twee hoofdstukken (haar, nagels) →
+ * rustpunt (aandacht) → Jessie → werk → afspraak → colofon (footer).
+ * Teksten uit docs/bron; prijzen uit de database.
  */
-export default function HomePage() {
+export default async function HomePage() {
+  const catalog = await getCatalog();
+
   return (
-    <div className="px-gutter pt-section-tight">
-      <h1 className="text-display-xl font-medium">
-        <span className="block text-balance">Extensions en nagels</span>{" "}
-        <span className="block md:pl-[18%]">in Kijkduin</span>
-      </h1>
-      <div className="mt-12 lg:ml-[50%]">
-        <p className="max-w-measure text-lede">
-          Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij
-          NovaLuxe in Kijkduin neem ik de tijd om te luisteren naar wat jij mooi
-          vindt. Je krijgt eerlijk advies en mijn volledige aandacht. Neem plaats,
-          voel je op je gemak en geniet van een moment voor jezelf.
-        </p>
-        <div className="mt-10">
-          <ActionLink href={bookingHref}>Maak een afspraak</ActionLink>
-        </div>
-      </div>
-    </div>
+    <>
+      <HomeHero />
+      <HomeTreatments catalog={catalog} />
+      <HomeAttention />
+      <HomeJessie />
+      <HomeWork />
+      <HomeBooking />
+    </>
   );
 }

@@ -50,6 +50,19 @@ export function isPubliclyBookable(
   return treatment.publiclyBookable && isVariantComplete(variant);
 }
 
+/** Laagste bekende prijs over één of meer behandelingen ("vanaf"-prijs). */
+export function lowestPriceCents(
+  catalog: CatalogTreatment[],
+  slugs: string[],
+): number | null {
+  const prices = catalog
+    .filter((treatment) => slugs.includes(treatment.slug))
+    .flatMap((treatment) => treatment.variants)
+    .map((variant) => variant.priceCents)
+    .filter((price): price is number => price !== null);
+  return prices.length > 0 ? Math.min(...prices) : null;
+}
+
 export function optionsForVariant(
   treatment: CatalogTreatment,
   variant: CatalogVariant,
