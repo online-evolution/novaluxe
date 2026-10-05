@@ -1,0 +1,97 @@
+/*
+ * NovaLuxe design tokens
+ *
+ * Eén bron voor kleur, typografie, ritme en beweging. Compositie per sectie
+ * mag vrij blijven; deze waarden niet.
+ *
+ * Huisletter: Familjen Grotesk voor koppen en tekst; koppen op gewicht 500.
+ *
+ * Kleuren zijn voorlopig afgeleid uit de briefing. Zodra het logo en de
+ * prijslijst binnen zijn, worden ze daarop gekalibreerd (zie PROJECT-TODOS.md).
+ *
+ * Contrast (WCAG, gemeten op ivory / cream):
+ *   ink          11.5 / 13.6  → alle tekst
+ *   ink-soft      6.2 /  7.3  → secundaire tekst
+ *   bronze-deep   5.1 /  6.0  → kleine accenttekst, labels, links
+ *   bronze        3.4 /  4.0  → alleen grote koppen (≥ 24px) en decoratie
+ *   sand          1.7 /  2.0  → alleen lijnen en vlakken; op ink 6.9 → tekst mag
+ */
+
+@theme {
+  /* Tailwind-standaardpalet uit: alleen merkkleuren zijn beschikbaar. */
+  --color-*: initial;
+
+  --color-ivory: #f6e9de;
+  --color-cream: #fffdfc;
+  --color-sand: #c5b5a8;
+  --color-bronze: #9a7854;
+  --color-bronze-deep: #7a5c3e;
+  --color-ink: #332c25;
+  --color-ink-soft: #5e544a;
+  --color-line: rgb(51 44 37 / 0.16);
+  --color-line-strong: rgb(51 44 37 / 0.4);
+  --color-alert: #8e3b2e;
+
+  /* Typografische schaal: kleine labels, rustige body, grote editorial koppen. */
+  --text-*: initial;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.45;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.75;
+  --text-lede: clamp(1.1875rem, 1.05rem + 0.55vw, 1.5rem);
+  --text-lede--line-height: 1.55;
+  --text-display-s: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+  --text-display-s--line-height: 1.1;
+  --text-display-s--letter-spacing: -0.015em;
+  --text-display-m: clamp(2.5rem, 1.8rem + 3.4vw, 4.75rem);
+  --text-display-m--line-height: 1;
+  --text-display-m--letter-spacing: -0.025em;
+  --text-display-l: clamp(3.25rem, 2rem + 6.5vw, 8.5rem);
+  --text-display-l--line-height: 0.94;
+  --text-display-l--letter-spacing: -0.03em;
+  --text-display-xl: clamp(4rem, 1.8rem + 11vw, 13rem);
+  --text-display-xl--line-height: 0.86;
+  --text-display-xl--letter-spacing: -0.035em;
+
+  --tracking-tight: -0.02em;
+
+  /* Ritme */
+  --spacing-gutter: clamp(1rem, 0.4rem + 2.6vw, 3rem);
+  --spacing-section: clamp(5rem, 3rem + 8vw, 11rem);
+  --spacing-section-tight: clamp(3rem, 2rem + 4vw, 6rem);
+
+  /* Maten */
+  --container-measure: 36rem;
+  --container-page: 90rem;
+
+  /* Bijna geen afrondingen: het merk werkt met lijnen, niet met kaarten. */
+  --radius-*: initial;
+  --radius-hair: 2px;
+  --radius-full: 9999px;
+
+  --shadow-*: initial;
+  --shadow-print: 0 40px 60px -48px rgb(51 44 37 / 0.45);
+
+  --ease-*: initial;
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-calm: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/*
+ * Fonts via `inline`: de utilities verwijzen direct naar --nl-font-*, zodat
+ * een sectie (of later het gekozen paar) die variabelen lokaal kan zetten.
+ */
+@theme inline {
+  --font-*: initial;
+  --font-display: var(--nl-font-display, "Iowan Old Style"), "Times New Roman", serif;
+  --font-sans: var(--nl-font-body, system-ui), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --duration-quick: 180ms;
+  --duration-calm: 600ms;
+  --duration-slow: 1100ms;
+  --border-hair: 1px;
+}
