@@ -2,11 +2,11 @@ import type { Metadata, Route } from "next";
 import { PlacementPrices } from "@/components/extensions/placement-prices";
 import { WeftsDiagram } from "@/components/extensions/wefts-diagram";
 import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { PriceList } from "@/components/pricing/price-list";
 import { PageIndex } from "@/components/site/page-index";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ActionLink, actionClass } from "@/components/ui/action";
 import { placementMatrix, priceRows } from "@/domain/pricing";
-import { formatEuro } from "@/lib/format";
 import { getTreatment } from "@/server/catalog";
 
 export const metadata: Metadata = {
@@ -229,19 +229,9 @@ export default async function ExtensionsPage() {
             </div>
 
             <h3 className="mt-14 text-lede font-medium">Omhoogplaatsen</h3>
-            <dl className="mt-5 border-t border-line-strong">
-              {refreshRows.map((row) => (
-                <div
-                  key={row.label}
-                  className="flex items-baseline justify-between gap-6 border-b border-line py-3"
-                >
-                  <dt>{row.label}</dt>
-                  <dd className="figures">
-                    {row.priceCents === null ? "—" : formatEuro(row.priceCents)}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <div className="mt-5">
+              <PriceList rows={refreshRows} caption="Prijzen omhoogplaatsen" />
+            </div>
           </div>
         </div>
       </section>

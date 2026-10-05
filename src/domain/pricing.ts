@@ -33,6 +33,32 @@ export function placementMatrix(treatment: CatalogTreatment | undefined): PriceM
   };
 }
 
+export type SetRefillRow = {
+  label: string;
+  newSetCents: number | null;
+  refillCents: number | null;
+  /** Toelichting, bijvoorbeeld "Neem contact op voor opvullen." */
+  note: string | null;
+};
+
+/** Tabel "nieuwe set / opvullen" per afwerking (BIAB, acryl), in Jessies volgorde. */
+export function setRefillRows(treatment: CatalogTreatment | undefined): SetRefillRow[] {
+  const rows = new Map<string, SetRefillRow>();
+  for (const variant of treatment?.variants ?? []) {
+    const row = rows.get(variant.label) ?? {
+      label: variant.label,
+      newSetCents: null,
+      refillCents: null,
+      note: null,
+    };
+    if (variant.kind === "new_set") row.newSetCents = variant.priceCents;
+    if (variant.kind === "refill") row.refillCents = variant.priceCents;
+    row.note ??= variant.note;
+    rows.set(variant.label, row);
+  }
+  return [...rows.values()];
+}
+
 /** Eenvoudige lijst label → prijs, in de volgorde die Jessie heeft ingesteld. */
 export function priceRows(treatment: CatalogTreatment | undefined): PriceRow[] {
   return (treatment?.variants ?? []).map((variant) => ({
