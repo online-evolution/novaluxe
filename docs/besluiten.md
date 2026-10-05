@@ -128,4 +128,10 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 
 ## Infrastructuur
 
+- **Vercel-project:** `novaluxe` (`prj_fDPRn3wbSlpEiL78kBJpNWO7vVHw`).
+  - Gekoppeld aan GitHub `online-evolution/novaluxe`: elke push naar `main` deployt naar productie.
+  - Functions draaien in `fra1` (Frankfurt), naast de database.
+  - `DATABASE_URL` en `DATABASE_URL_UNPOOLED` staan er als sensitive variabelen.
+  - Productie-URL tot het domein gekoppeld is: `novaluxe-seven.vercel.app` (noindex).
+
 - De architectuur gaat uit van een commerciële productieomgeving (Vercel Pro of externe cron). Ze leunt niet op Hobby-beperkingen.

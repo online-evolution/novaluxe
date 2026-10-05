@@ -20,8 +20,7 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 
 ## Techniek en infrastructuur
 
-- [ ] **Vercel-omgeving:** `DATABASE_URL` en `DATABASE_URL_UNPOOLED` instellen, en de functions-regio op Frankfurt (`fra1`) zetten zodat app en database (Neon `aws-eu-central-1`) dicht bij elkaar staan. De build leest openingstijden en prijzen uit de database.
-- [ ] **Vercel-project** koppelen. Pro-plan of externe cron nodig voor de geplande taken (verlopen aanvragen, agenda-sync, opruimen van uploads).
+- [ ] **Vercel-plan:** het project staat in een Hobby-omgeving. Hobby is niet bedoeld voor commercieel gebruik, en cronjobs draaien daar hooguit één keer per dag. Vóór livegang: Pro-plan of externe cron voor de geplande taken (verlopen aanvragen, agenda-sync, opruimen van uploads).
 - [ ] **Mailprovider** kiezen en de credentials instellen.
 - [ ] **Storageprovider** kiezen voor de private uploads.
 - [ ] **iCloud:** een test-Apple-ID voor de spike, en daarna een app-specifiek wachtwoord voor de agenda van Jessie.
