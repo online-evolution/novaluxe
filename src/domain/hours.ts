@@ -15,6 +15,34 @@ const shortNames: Record<Weekday, string> = {
 
 export type HoursLine = { days: string; hours: string };
 
+const fullNames: Record<Weekday, string> = {
+  1: "Maandag",
+  2: "Dinsdag",
+  3: "Woensdag",
+  4: "Donderdag",
+  5: "Vrijdag",
+  6: "Zaterdag",
+  7: "Zondag",
+};
+
+export function formatRanges(ranges: OpeningRange[]): string {
+  return ranges.length === 0
+    ? "Gesloten"
+    : ranges.map((range) => `${range.opensAt}–${range.closesAt}`).join(", ");
+}
+
+/** Elke dag op een eigen regel, voor de contactpagina. */
+export function weekdayRows(week: WeeklyHours): HoursLine[] {
+  return weekdays.map((day) => ({ days: fullNames[day], hours: formatRanges(week[day]) }));
+}
+
+/** Afwijking op één datum, zonder Jessies interne notitie. */
+export type DateException = {
+  date: string; // YYYY-MM-DD, lokale datum
+  closed: boolean;
+  ranges: OpeningRange[];
+};
+
 /**
  * Vat de week samen tot leesbare regels, bijvoorbeeld:
  *   Ma–wo, vr   09:00–18:00

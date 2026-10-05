@@ -40,6 +40,11 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - **Neon:** project `novaluxe` (`lingering-star-28236795`) in `aws-eu-central-1` (Frankfurt), Postgres 18.
   - De app gebruikt de pooled verbinding.
   - Migraties gebruiken de directe verbinding.
+- **Twee Neon-branches:**
+  - `main` is productie. Vercel gebruikt hem, en lokaal staat hij in `.env.production.local`.
+  - `dev` is voor lokale ontwikkeling en testdata, in `.env.local`.
+  - `npm run db:migrate` werkt op `dev`. `npm run db:migrate:prod` werkt bewust op productie.
+  - Na een schemawijziging migreer je eerst `dev`, dan pas productie, vóór de deploy die het nieuwe schema nodig heeft.
 - **Catalogus:**
   - `treatments` is wat de klant in stap 2 kiest. `publiclyBookable = false` voor een nieuwe plaatsing.
   - `treatment_variants` bevat prijs en duur per afwerking, lengte en banen. Een lege prijs of duur betekent incompleet en niet boekbaar.

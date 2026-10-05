@@ -6,5 +6,7 @@
 export const cacheTags = {
   catalog: "catalog",
   businessHours: "business-hours",
+  /** Uitzonderingen per datum (gesloten of afwijkende tijden). */
+  exceptions: "availability-exceptions",
   settings: "settings",
 } as const;

@@ -8,10 +8,16 @@ Website en reserveringssysteem voor NovaLuxe, de salon voor extensions en nagels
 
 ```bash
 npm install
-cp .env.example .env.local   # vul de Neon-verbindingen in
-npm run db:migrate           # schema bijwerken
+cp .env.example .env.local   # Neon-branch "dev" invullen
+npm run db:migrate           # schema bijwerken op dev
 npm run db:seed              # startgegevens (overschrijft nooit wijzigingen)
 npm run dev
+```
+
+Productie (Neon-branch `main`) staat lokaal in `.env.production.local` (zelfde variabelen). Die wordt gebruikt door `npm run build` en door:
+
+```bash
+npm run db:migrate:prod      # schema bijwerken op productie, vóór de deploy
 ```
 
 ## Controles
