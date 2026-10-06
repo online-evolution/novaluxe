@@ -4,7 +4,7 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 
 ## Content en bedrijfsgegevens
 
-- [ ] **Behandeltijden extensions:** gratis consult, nieuwe plaatsing en omhoogplaatsen (per 1–4 banen). Tot die tijd niet publiek boekbaar. **Het consult is het belangrijkst:** zonder die duur kan een nieuwe extensionsklant online niets aanvragen.
+- [ ] **Behandeltijden extensions:** nieuwe plaatsing en omhoogplaatsen (per 1–4 banen). Tot die tijd niet publiek boekbaar. Het gratis consult (15 minuten) is wel compleet.
 - [ ] **Acryl babyboom/colourboom:** behandelduur van de nieuwe set. Tot die tijd incompleet en niet boekbaar.
 - [ ] **"Verwijderen bij een nieuwe set: € 15 extra":** de uitleg moet bevestigd worden. Op dit moment opgevat als € 15 voor het verwijderen, náást de prijs van de nieuwe set. Niet als definitief tonen.
 - [ ] **Uitleg "baan" bevestigen:** op /extensions staat bij het diagram "Eén baan is één rij wefts." Die zin staat niet in de bron; Jessie moet hem controleren.

@@ -82,6 +82,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 | Behandeling klaar vóór sluitingstijd | ja |
 | Pending-termijn | 12 uur |
 | Nail-artbuffer | 15 minuten |
+| Gratis consult extensions | 15 minuten |
 
 ## Openingstijden (startwaarden, instelbaar)
 

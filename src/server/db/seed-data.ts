@@ -119,12 +119,13 @@ export const seedTreatments: SeedTreatment[] = [
     ],
   },
 
-  // Extensions. TODO(content): behandeltijden ontbreken nog; tot die tijd niet boekbaar.
+  // Extensions. TODO(content): behandeltijden plaatsing en omhoogplaatsen ontbreken nog;
+  // tot die tijd niet boekbaar. Het consult duurt 15 minuten.
   {
     slug: "gratis-consult",
     category: "extensions",
     name: "Gratis consult",
-    variants: [{ label: "Gratis consult", priceCents: 0, durationMinutes: null }],
+    variants: [{ label: "Gratis consult", priceCents: 0, durationMinutes: 15 }],
   },
   {
     slug: "omhoogplaatsen",
