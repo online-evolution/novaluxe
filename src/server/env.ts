@@ -12,6 +12,18 @@ const databaseSchema = z.object({
     .refine((value) => value.startsWith("postgres"), "Verwacht een Postgres-URL"),
 });
 
+const authSchema = z.object({
+  AUTH_SECRET: z.string().min(32),
+});
+
+export function getAuthEnv() {
+  const parsed = authSchema.safeParse(process.env);
+  if (!parsed.success) {
+    throw new Error("AUTH_SECRET ontbreekt of is te kort. Zie .env.example.");
+  }
+  return parsed.data;
+}
+
 export function getDatabaseEnv() {
   const parsed = databaseSchema.safeParse(process.env);
   if (!parsed.success) {

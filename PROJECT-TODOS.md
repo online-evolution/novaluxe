@@ -10,6 +10,7 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 - [ ] **Uitleg "baan" bevestigen:** op /extensions staat bij het diagram "Eén baan is één rij wefts." Die zin staat niet in de bron; Jessie moet hem controleren.
 - [ ] **Bewaartermijn** van voorbeeldfoto's voor nail art.
 - [ ] **E-mailadres** van NovaLuxe: afzender, reply-to en het adres voor meldingen aan Jessie.
+- [ ] **Beheerdersaccount voor Jessie in productie:** met welk e-mailadres logt zij in? Aanmaken met `npm run admin:create` tegen productie, en het wachtwoord veilig aan haar geven.
 - [ ] **Privacyverklaring en algemene voorwaarden:** de inhoud aanleveren. Nodig vanwege persoonsgegevens en foto-uploads (AVG).
 
 ## Merk en beeld

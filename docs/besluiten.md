@@ -67,6 +67,26 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - **Seed:** voegt alleen ontbrekende rijen toe en overschrijft nooit wijzigingen van Jessie (`npm run db:seed`).
 - **Later:** admin-accounts, uploads, e-mail en agenda-sync krijgen hun tabellen in hun eigen fase.
 
+## Admin-inloggen (Fase 9)
+
+- **Geen openbare registratie.** Beheerders worden aangemaakt met `npm run admin:create`, dat een willekeurig wachtwoord genereert. Daarna wijzigt de beheerder het zelf onder Account.
+- **Wachtwoorden:** scrypt (N=2¹⁷, r=8, p=1, 64 bytes), met de parameters in de hash zodat ze later verhoogd kunnen worden.
+  - Minimaal 12 tekens.
+  - Ook een onbekend e-mailadres krijgt een hashcontrole, zodat de responstijd niet verraadt of een account bestaat.
+- **Sessies:** een willekeurig token van 32 bytes in een cookie.
+  - De cookie is `httpOnly`, `SameSite=Lax`, en in productie `Secure` met het `__Host-`-voorvoegsel.
+  - In de database staat alleen de SHA-256-hash van het token.
+  - Een sessie geldt 30 dagen.
+  - Bij een wachtwoordwijziging worden andere sessies beëindigd.
+- **Autorisatie:**
+  - `requireAdmin()` in elke adminpagina en elke serveractie.
+  - `proxy.ts` stuurt alleen optimistisch door als er geen cookie is.
+  - Serveracties zijn met de Origin-controle van Next.js beschermd tegen CSRF.
+- **Rate limiting:** maximaal 5 mislukte pogingen per e-mailadres en 20 per IP-adres per 15 minuten.
+  - De sleutels staan als HMAC met `AUTH_SECRET` in de database.
+  - Een geslaagde login wist de teller voor dat e-mailadres.
+- **Cache Components:** het lezen van de sessie gebeurt binnen `<Suspense>`. De adminpagina's zijn partial prerendered.
+
 ## Caching
 
 - `cacheComponents` staat aan. Catalogus, openingstijden en instellingen worden gelezen via `"use cache"` met een tag uit `src/server/cache-tags.ts`.

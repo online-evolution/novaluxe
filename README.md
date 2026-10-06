@@ -20,6 +20,20 @@ Productie (Neon-branch `main`) staat lokaal in `.env.production.local` (zelfde v
 npm run db:migrate:prod      # schema bijwerken op productie, vóór de deploy
 ```
 
+## Beheerders
+
+Er is geen openbare registratie. Een beheerder maak je aan met een gegenereerd wachtwoord, dat één keer wordt getoond:
+
+```bash
+npm run admin:create -- naam@voorbeeld.nl "Naam"
+```
+
+Gebruik `--reset` voor een nieuw wachtwoord bij een bestaand account. Dit werkt standaard op de dev-branch. Voor productie:
+
+```bash
+node --env-file=.env.production.local --import tsx scripts/create-admin.ts naam@voorbeeld.nl "Naam"
+```
+
 ## Controles
 
 ```bash
