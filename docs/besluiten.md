@@ -87,6 +87,27 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - Een geslaagde login wist de teller voor dat e-mailadres.
 - **Cache Components:** het lezen van de sessie gebeurt binnen `<Suspense>`. De adminpagina's zijn partial prerendered.
 
+## Instellingenbeheer (Fase 12)
+
+- **Behandelingen:** Jessie past per variant de prijs, de duur en aan/uit aan, en per behandeling aan/uit.
+  - Een lege prijs of duur betekent "nog niet online te boeken".
+  - Nieuwe behandelingen toevoegen kan nog niet; dat bouwen we pas als er vraag naar is.
+- **Extra opties:**
+  - Nail art: prijs per nagel. De extra tijd staat onder Instellingen.
+  - Verwijderen vóór een nieuwe set: prijs, duur, en "prijs klopt en mag op de website".
+- **Openingstijden:**
+  - De vaste week, met per dag een optionele pauze; intern zijn dat twee tijdvakken.
+  - Afwijkende dagen: dicht, of andere tijden.
+  - Blokkades: van datum en tijd tot datum en tijd. Jessie typt Nederlandse tijd; opgeslagen wordt UTC (`zonedDateTimeToUtc`, getest rond zomer- en wintertijd).
+- **Instellingen:** de boekingsregels, uitgelegd in gewone taal, en gecontroleerd met hetzelfde Zod-schema als bij het lezen.
+- **Cache:**
+  - Na een wijziging roept de serveractie `updateTag()` aan, zodat de publieke site direct bijgewerkt is.
+  - Blokkades hebben geen publieke cache; daar vernieuwt `refresh()` alleen het adminscherm.
+- **Formulieren:**
+  - React leegt formulieren standaard na een actie. `ActionForm` voorkomt dat, zodat invoer na een foutmelding blijft staan.
+  - Alleen formulieren die iets toevoegen worden na succes leeggemaakt.
+- **Tests:** `npm test` (node:test) voor de geldinvoer en de tijdzone-omzetting.
+
 ## Caching
 
 - `cacheComponents` staat aan. Catalogus, openingstijden en instellingen worden gelezen via `"use cache"` met een tag uit `src/server/cache-tags.ts`.

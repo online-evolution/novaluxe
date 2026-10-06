@@ -40,6 +40,7 @@ node --env-file=.env.production.local --import tsx scripts/create-admin.ts naam@
 npm run lint
 npm run typecheck
 npm run build
+npm test
 ```
 
 ## Structuur

@@ -33,18 +33,25 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
   );
 }
 
+const menu = [
+  { href: "/admin", label: "Vandaag" },
+  { href: "/admin/behandelingen", label: "Behandelingen" },
+  { href: "/admin/openingstijden", label: "Openingstijden" },
+  { href: "/admin/instellingen", label: "Instellingen" },
+  { href: "/admin/account", label: "Account" },
+] as const;
+
 async function AdminNav() {
   const admin = await getCurrentAdmin();
   if (!admin) return null;
 
   return (
-    <nav aria-label="Beheermenu" className="flex items-baseline gap-6 text-small">
-      <Link href="/admin" className="font-medium hover:text-bronze-deep">
-        Vandaag
-      </Link>
-      <Link href="/admin/account" className="font-medium hover:text-bronze-deep">
-        Account
-      </Link>
+    <nav aria-label="Beheermenu" className="flex flex-wrap items-baseline gap-x-6 gap-y-2 text-small">
+      {menu.map((item) => (
+        <Link key={item.href} href={item.href} className="font-medium hover:text-bronze-deep">
+          {item.label}
+        </Link>
+      ))}
       <form action={logout}>
         <button type="submit" className="text-ink-soft underline underline-offset-4 hover:text-ink">
           Uitloggen
