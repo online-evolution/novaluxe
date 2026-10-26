@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ActionForm } from "@/components/admin/action-form";
 import { AdminPageHeader, AdminSection, Loading } from "@/components/admin/admin-page";
+import { TimeField } from "@/components/admin/fields";
 import type { Weekday } from "@/domain/hours";
 import { formatLongDate, localDateString, utcToZonedParts } from "@/lib/time";
 import { listBlocksForAdmin, listExceptionsForAdmin } from "@/server/admin/schedule";
@@ -269,35 +270,5 @@ async function Editors() {
         </ActionForm>
       </AdminSection>
     </>
-  );
-}
-
-function TimeField({
-  name,
-  label,
-  value,
-  required,
-}: {
-  name: string;
-  label: string;
-  value?: string;
-  required?: boolean;
-}) {
-  const id = `tijd-${name.replace(".", "-")}`;
-  return (
-    <div>
-      <label htmlFor={id} className="field-label">
-        {label}
-      </label>
-      <input
-        id={id}
-        name={name}
-        type="time"
-        step={300}
-        defaultValue={value}
-        required={required}
-        className="field-input"
-      />
-    </div>
   );
 }

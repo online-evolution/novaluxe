@@ -21,13 +21,14 @@ export const customers = pgTable(
   {
     id: id(),
     name: text().notNull(),
-    email: text().notNull(),
+    /** Leeg bij een afspraak die Jessie zelf invoert (bijv. telefonisch gemaakt). */
+    email: text(),
     phone: text().notNull(),
     /** Alleen zichtbaar voor Jessie. */
     internalNotes: text(),
     ...timestamps,
   },
-  // Eén klant per e-mailadres, ongeacht hoofdletters.
+  // Eén klant per e-mailadres, ongeacht hoofdletters (lege adressen tellen niet mee).
   (t) => [uniqueIndex("customers_email_unique").on(sql`lower(${t.email})`)],
 );
 

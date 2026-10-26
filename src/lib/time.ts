@@ -97,3 +97,17 @@ const longDate = new Intl.DateTimeFormat(site.locale, {
 export function formatLongDate(date: string): string {
   return longDate.format(new Date(`${date}T00:00:00Z`));
 }
+
+const moment = new Intl.DateTimeFormat(site.locale, {
+  timeZone: site.timeZone,
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+/** "ma 12 okt 09:30": kort tijdstip in Nederlandse tijd, bijv. voor het logboek. */
+export function formatMoment(at: Date): string {
+  return moment.format(at);
+}

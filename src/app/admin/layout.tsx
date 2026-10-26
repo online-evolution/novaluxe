@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { countOpenRequests } from "@/server/admin/appointments";
 import { getCurrentAdmin } from "@/server/auth/session";
 import monogram from "../../../public/brand/novaluxe-monogram.png";
 import { logout } from "./actions";
@@ -37,6 +38,7 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
 
 const menu = [
   { href: "/admin", label: "Vandaag" },
+  { href: "/admin/afspraken", label: "Afspraken" },
   { href: "/admin/behandelingen", label: "Behandelingen" },
   { href: "/admin/openingstijden", label: "Openingstijden" },
   { href: "/admin/instellingen", label: "Instellingen" },
@@ -46,12 +48,19 @@ const menu = [
 async function AdminNav() {
   const admin = await getCurrentAdmin();
   if (!admin) return null;
+  const openRequests = await countOpenRequests();
 
   return (
     <nav aria-label="Beheermenu" className="flex flex-wrap items-baseline gap-x-6 gap-y-2 text-small">
       {menu.map((item) => (
         <Link key={item.href} href={item.href} className="font-medium hover:text-bronze-deep">
           {item.label}
+          {item.href === "/admin/afspraken" && openRequests > 0 && (
+            <span className="ml-1.5 figures text-bronze-deep">
+              ({openRequests}
+              <span className="sr-only"> {openRequests === 1 ? "nieuwe aanvraag" : "nieuwe aanvragen"}</span>)
+            </span>
+          )}
         </Link>
       ))}
       <form action={logout}>
