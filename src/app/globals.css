@@ -181,10 +181,11 @@ html:has(dialog[open]) {
 }
 
 /*
- * Voor en na als transformatie: het resultaat ("na") wordt van boven naar
- * beneden over het voor getrokken, met een zachte rand en een lichtstreep,
- * alsof er een borstel door het haar gaat. --reveal is geregistreerd zodat de
- * browser hem kan animeren (anders springt een custom property in één keer).
+ * Voor en na als transformatie: het resultaat ("na") golft van boven naar
+ * beneden over het voor, als een krul door het haar. De golf deint zijwaarts
+ * mee, het resultaat veert zacht op zijn plek en aan het eind flonkeren drie
+ * sterretjes uit het logo. --reveal en --wave zijn geregistreerd zodat de
+ * browser ze kan animeren (anders springt een custom property in één keer).
  */
 @property --reveal {
   syntax: "<percentage>";
@@ -192,26 +193,75 @@ html:has(dialog[open]) {
   initial-value: -20%;
 }
 
+@property --wave {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
 @layer components {
   .transform-layer {
-    transition: --reveal 2400ms cubic-bezier(0.45, 0, 0.2, 1);
+    transition:
+      --reveal 2200ms cubic-bezier(0.45, 0, 0.2, 1),
+      --wave 2200ms cubic-bezier(0.3, 0, 0.3, 1);
   }
 
+  /*
+   * Twee maskerlagen: alles boven de golf, en de golf zelf (een tegel van
+   * 16% hoog die zijwaarts herhaalt). De tegel staat met zijn bovenkant op
+   * --edge; bij een percentage-positie is dat edge / (1 - 0,16).
+   */
   .transform-after {
-    mask-image: linear-gradient(to bottom, #000 calc(var(--reveal) - 14%), transparent var(--reveal));
+    --edge: calc(var(--reveal) - 14%);
+    mask-image:
+      linear-gradient(to bottom, #000 var(--edge), transparent var(--edge)),
+      url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20200%2040%27%20preserveAspectRatio%3D%27none%27%3E%3Cfilter%20id%3D%27z%27%20x%3D%27-50%25%27%20y%3D%27-50%25%27%20width%3D%27200%25%27%20height%3D%27200%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%272.2%27%2F%3E%3C%2Ffilter%3E%3Cpath%20filter%3D%27url(%23z)%27%20d%3D%27M-100%20-10H300V22C283%2034%20267%2034%20250%2022S217%2010%20200%2022%20167%2034%20150%2022%20117%2010%20100%2022%2067%2034%2050%2022%2017%2010%200%2022-33%2034-50%2022-83%2010-100%2022Z%27%2F%3E%3C%2Fsvg%3E");
+    mask-size: 100% 100%, 50% 16%;
+    mask-repeat: no-repeat, repeat-x;
+    mask-position: 0 0, var(--wave) calc(var(--edge) / 0.84);
+  }
+
+  .transform-settle {
+    transform: scale(1.12);
+    transition: transform 2600ms cubic-bezier(0.3, 1.3, 0.5, 1);
+  }
+  [data-phase="na"] .transform-settle {
+    transform: scale(1.02);
   }
 
   .transform-streak {
-    top: calc(var(--reveal) - 16%);
-    height: 18%;
+    top: calc(var(--reveal) - 18%);
+    height: 20%;
     background: linear-gradient(
       to bottom,
       transparent,
-      rgb(255 253 252 / 0.45) 70%,
-      rgb(255 253 252 / 0.7) 88%,
+      rgb(255 253 252 / 0.4) 65%,
+      rgb(255 253 252 / 0.75) 85%,
       transparent
     );
     mix-blend-mode: soft-light;
+  }
+
+  .transform-sparkle {
+    opacity: 0;
+  }
+  [data-phase="na"] .transform-sparkle {
+    animation: twinkle 1100ms cubic-bezier(0.3, 1.4, 0.5, 1) var(--delay, 0ms) both;
+  }
+
+  @keyframes twinkle {
+    0% {
+      opacity: 0;
+      transform: scale(0.2) rotate(0deg);
+    }
+    45% {
+      opacity: 1;
+      transform: scale(1) rotate(45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.5) rotate(90deg);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -224,7 +274,12 @@ html:has(dialog[open]) {
     [data-phase="voor"] .transform-after {
       opacity: 0;
     }
-    .transform-streak {
+    .transform-settle,
+    [data-phase="na"] .transform-settle {
+      transform: none;
+    }
+    .transform-streak,
+    .transform-sparkle {
       display: none;
     }
   }

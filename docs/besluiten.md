@@ -226,7 +226,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 ## Foto's op de website
 
 - **Beheer → Foto's**, in drie delen:
-  - *Voor en na*: twee foto's per paar, op de homepage als transformatie (maximaal drie paren). Het resultaat wordt van boven naar beneden over het voor getrokken, met een zachte rand en een lichtstreep; dat speelt één keer vanzelf af als de foto in beeld komt. Tikken speelt het terug en weer vooruit. Met "minder beweging" ingesteld start niets vanzelf en is het een rustige overgang. (Een schuifregelaar en drie statische varianten zijn afgewezen.)
+  - *Voor en na*: twee foto's per paar, op de homepage als transformatie (maximaal drie paren). Het resultaat golft van boven naar beneden over het voor, met een zachte golvende rand die zijwaarts meedeint en een lichtstreep. Daarna veert het resultaat zacht op zijn plek en flonkeren even drie ✦-sterretjes uit het logo. Dat speelt één keer vanzelf af als de foto in beeld komt. Tikken speelt het terug en weer vooruit. Met "minder beweging" ingesteld start niets vanzelf en is het een rustige overgang. (Een schuifregelaar en drie statische varianten zijn afgewezen.)
   - *Werk*: losse foto's; op de homepage staan de eerste acht, in Jessies volgorde;
   - *Vaste plekken*: één foto per shotcode uit `PHOTO-SHOTLIST.md` (`src/config/photo-shots.ts`). Zonder foto toont de site de placeholder.
   - Per foto een optioneel onderschrift, een beschrijving (alt-tekst) en welk deel zichtbaar moet blijven bij bijsnijden (boven, midden, onder).
