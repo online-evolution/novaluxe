@@ -43,3 +43,6 @@ next-env.d.ts
 
 # Renders van ontwerpconcepten (opnieuw te maken)
 docs/concepten/renders/
+
+# Lokale uploads tijdens ontwikkeling (src/server/storage)
+/public/uploads/

@@ -1,4 +1,4 @@
-import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { SitePhoto } from "@/components/media/site-photo";
 import { ActionLink } from "@/components/ui/action";
 
 /**
@@ -12,7 +12,7 @@ export function HomeJessie() {
         Maak kennis met Jessie
       </h2>
       <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
-        <PhotoPlaceholder
+        <SitePhoto
           shot="J01"
           subject="Portret van Jessie in de salon"
           className="reveal aspect-[4/5] w-[78%] sm:w-1/2 lg:col-span-4 lg:col-start-4 lg:w-full"

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { SitePhoto } from "@/components/media/site-photo";
 import { ActionLink } from "@/components/ui/action";
 import { bookingHref } from "@/config/navigation";
 
@@ -34,10 +34,12 @@ export default function AboutPage() {
               Het verhaal van Jessie
             </h1>
           </div>
-          <PhotoPlaceholder
+          <SitePhoto
             shot="J04"
             subject="Portret van Jessie van dichtbij"
             className="aspect-[3/4] w-3/4 justify-self-end sm:w-1/2 lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:w-full"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 75vw"
+            priority
           />
           <p className="max-w-measure text-display-s font-medium text-pretty lg:col-span-6 lg:col-start-2 lg:row-start-2 lg:self-end lg:pt-10">
             NovaLuxe begon in een klein zijkamertje bij mij thuis. Ik deed mijn eigen
@@ -80,10 +82,11 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-        <PhotoPlaceholder
+        <SitePhoto
           shot="J02"
           subject="Jessie aan het werk, half van opzij"
-          className="reveal -mx-gutter mt-section-tight aspect-[4/3] sm:aspect-[21/9]"
+          className="reveal mt-section-tight ml-auto aspect-[4/5] w-3/4 sm:w-1/2 lg:mr-[8.333%] lg:w-1/3"
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 75vw"
         />
       </section>
 
@@ -121,12 +124,12 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="grid grid-cols-5 items-end gap-4 lg:col-span-6 lg:col-start-7">
-            <PhotoPlaceholder
+            <SitePhoto
               shot="S01"
               subject="De behandelplek, leeg, met daglicht"
               className="reveal col-span-3 aspect-[3/4]"
             />
-            <PhotoPlaceholder
+            <SitePhoto
               shot="S02"
               subject="Sfeerdetail: textiel, spiegel, licht"
               className="reveal col-span-2 aspect-square"

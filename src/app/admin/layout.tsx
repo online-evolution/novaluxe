@@ -39,6 +39,7 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
 const menu = [
   { href: "/admin", label: "Vandaag" },
   { href: "/admin/afspraken", label: "Afspraken" },
+  { href: "/admin/fotos", label: "Foto's" },
   { href: "/admin/behandelingen", label: "Behandelingen" },
   { href: "/admin/openingstijden", label: "Openingstijden" },
   { href: "/admin/instellingen", label: "Instellingen" },

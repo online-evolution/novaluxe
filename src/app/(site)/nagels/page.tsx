@@ -1,5 +1,5 @@
 import type { Metadata, Route } from "next";
-import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { SitePhoto } from "@/components/media/site-photo";
 import { NailProfile, type NailTreatment } from "@/components/nails/nail-profile";
 import { PriceList, SetRefillTable } from "@/components/pricing/price-list";
 import { PageIndex } from "@/components/site/page-index";
@@ -134,10 +134,12 @@ export default async function NailsPage() {
               </div>
             </div>
           </div>
-          <PhotoPlaceholder
+          <SitePhoto
             shot="N02"
             subject="Gellak in een mooie kleur"
             className="aspect-[4/5] w-2/3 justify-self-end sm:w-1/2 lg:col-span-3 lg:col-start-10 lg:w-full"
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 66vw"
+            priority
           />
         </div>
       </section>
@@ -188,12 +190,13 @@ export default async function NailsPage() {
       {/* 04 Nail art */}
       <section id="nail-art" aria-labelledby="nail-art-titel" className="mt-section scroll-mt-8">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
-          <PhotoPlaceholder
+          <SitePhoto
             shot="N06"
             subject="Nail art met details, zoals 3D-bloemen of glitter"
-            className="reveal aspect-[4/5] sm:aspect-[3/2] lg:col-span-7 lg:aspect-[4/3]"
+            className="reveal aspect-[4/5] w-[88%] sm:w-2/3 lg:col-span-5 lg:w-full"
+            sizes="(min-width: 1024px) 42vw, (min-width: 640px) 66vw, 88vw"
           />
-          <div className="px-gutter lg:col-span-5 lg:col-start-8 lg:pl-0">
+          <div className="px-gutter lg:col-span-5 lg:col-start-7 lg:pl-0">
             <SectionHeading id="nail-art-titel" number="04">
               Maak je set persoonlijk met nail art
             </SectionHeading>
@@ -213,20 +216,22 @@ export default async function NailsPage() {
             )}
           </div>
         </div>
-        <PhotoPlaceholder
+        <SitePhoto
           shot="W05"
           subject="Nail art in wording: penseel en details"
-          className="reveal relative mx-gutter mt-10 aspect-square w-1/2 sm:w-1/3 lg:-mt-24 lg:ml-[38%] lg:w-1/5 lg:outline-8 lg:outline-cream"
+          className="reveal relative mx-gutter mt-10 aspect-square w-1/2 sm:w-1/3 lg:-mt-24 lg:ml-[26%] lg:w-1/5 lg:outline-8 lg:outline-cream"
+          sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
         />
       </section>
 
       {/* Eigen nagels */}
       <section aria-labelledby="zorg-titel" className="mt-section bg-ivory px-gutter py-section-tight">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <PhotoPlaceholder
+          <SitePhoto
             shot="W04"
             subject="Product afweken in plaats van wegvijlen"
-            className="reveal aspect-[3/2] lg:col-span-5"
+            className="reveal aspect-[4/5] w-3/4 sm:w-1/2 lg:col-span-4 lg:w-full"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 75vw"
           />
           <div className="lg:col-span-5 lg:col-start-7">
             <SectionHeading id="zorg-titel" size="s">

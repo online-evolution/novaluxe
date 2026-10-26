@@ -223,6 +223,26 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - afgewezen → Jessie handelt de afwijzing of het contact af.
 - Er is één server-side `MailService` met één adapter per provider. Afzender en ontvangers zijn centraal instelbaar. We gebruiken geen voorlopig adres alsof het definitief is.
 
+## Foto's op de website
+
+- **Beheer → Foto's**, in drie delen:
+  - *Voor en na*: twee foto's per paar; op de homepage schuift de bezoeker tussen voor en na (maximaal drie paren);
+  - *Werk*: losse foto's; op de homepage staan de eerste acht, in Jessies volgorde;
+  - *Vaste plekken*: één foto per shotcode uit `PHOTO-SHOTLIST.md` (`src/config/photo-shots.ts`). Zonder foto toont de site de placeholder.
+  - Per foto een optioneel onderschrift, een beschrijving (alt-tekst) en welk deel zichtbaar moet blijven bij bijsnijden (boven, midden, onder).
+- **Staande foto's eerst:** Jessie levert vooral staand aan. Alle fotoplekken zijn daarom staand (4:5, 3:4 of 2:3) of vierkant; de liggende plekken en de banden van 21:9 zijn omgezet.
+- **Verwerking:**
+  - de browser verkleint de foto eerst tot 2000 px (canvas; dat laat ook de metadata achter);
+  - de server controleert met `sharp` of het echt een JPG, PNG of WebP is, zet de foto rechtop, verkleint tot maximaal 2000 px, slaat op als JPG en verwijdert alle metadata (zoals de GPS-locatie);
+  - een foto met een korte zijde onder 600 px wordt geweigerd;
+  - serveracties accepteren maximaal 4 MB (Vercel staat 4,5 MB per verzoek toe).
+- **Opslag** achter een kleine interface (`src/server/storage`):
+  - productie: **Vercel Blob**, store `novaluxe-fotos` in fra1, openbaar (de foto's staan toch op de website), via `BLOB_READ_WRITE_TOKEN`;
+  - lokaal zonder token: `public/uploads` (niet in git);
+  - in de database (`images`, `site_photos`, `gallery_items`) staan alleen de verwijzing en de afmetingen;
+  - vervangen of verwijderen ruimt het oude bestand op.
+- Na elke wijziging ververst `updateTag("photos")` de website direct.
+
 ## Uploads
 
 - Private object storage achter een kleine storage-interface, zodat de provider vervangbaar is.

@@ -1,5 +1,5 @@
 import type { Metadata, Route } from "next";
-import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { SitePhoto } from "@/components/media/site-photo";
 import { ActionLink, actionClass } from "@/components/ui/action";
 import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
@@ -71,10 +71,11 @@ export default async function ContactPage() {
       {/* Locatie en openingstijden */}
       <section aria-labelledby="salon-titel" className="mt-section px-gutter">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <PhotoPlaceholder
+          <SitePhoto
             shot="S03"
             subject="De entree van de salon"
-            className="reveal aspect-[4/3] lg:col-span-5 lg:aspect-[4/5]"
+            className="reveal aspect-[4/5] w-3/4 sm:w-1/2 lg:col-span-5 lg:w-full"
+            sizes="(min-width: 1024px) 42vw, (min-width: 640px) 50vw, 75vw"
           />
 
           <div className="lg:col-span-6 lg:col-start-7">

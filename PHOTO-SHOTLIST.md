@@ -2,10 +2,13 @@
 
 De site wordt gedragen door fotografie. Placeholders op de site verwijzen naar de shot-ID's hieronder (bijvoorbeeld `W01`). Er komen geen stock- of AI-beelden van "klanten".
 
+Foto's plaatsen gaat in het beheer onder **Foto's**: per shot-ID bij "Vaste plekken", en werk en voor en na als verzameling. Alle plekken op de site zijn staand of vierkant.
+
 ## Algemeen
 
 - **Licht:** daglicht of zacht, warm licht, overal dezelfde kleurtemperatuur. Geen flits recht van voren.
-- **Formaten:** schiet ruim, want we croppen editorial. Elk beeld zowel staand (4:5 of 3:4) als liggend (3:2), met lucht rondom het onderwerp.
+- **Formaten:** staand (4:5 of 3:4) is genoeg; de site is daarop ingericht. Schiet ruim, met lucht rondom het onderwerp, want sommige plekken snijden iets bij.
+- **Voor en na:** zelfde licht, zelfde hoek en zelfde afstand, zodat het schuiven het verschil laat zien en niet de camera.
 - **Resolutie:** minimaal 3000 px aan de lange zijde. Lever de originelen aan, niet via WhatsApp of Instagram.
 - **Toestemming:** herkenbare klanten alleen met schriftelijke toestemming (AVG). Voor handen en haar zonder gezicht is ook toestemming netjes.
 - **Echtheid:** geen zware filters. Kleuren van haar en nagels moeten kloppen, want klanten kiezen erop.

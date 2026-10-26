@@ -2,6 +2,10 @@
 
 import { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import { actionClass } from "@/components/ui/action";
+import { shrinkImagesIn } from "@/lib/shrink-image";
+
+/** Iets onder de serverlimiet (4 MB) voor de extra bytes van het formulier. */
+const uploadLimitBytes = 3.8 * 1024 * 1024;
 
 export type ActionState = {
   error?: string;
@@ -38,6 +42,10 @@ export function ActionForm({
 }: ActionFormProps) {
   const [state, formAction, pending] = useActionState<ActionState, FormData>(action, {});
   const formRef = useRef<HTMLFormElement>(null);
+  // Foto's verkleinen gebeurt vóór de serveractie; dat telt ook als "bezig".
+  const [preparing, setPreparing] = useState(false);
+  const [clientError, setClientError] = useState<string | null>(null);
+  const busy = pending || preparing;
 
   useEffect(() => {
     if (resetOnSuccess && state.success) formRef.current?.reset();
@@ -47,9 +55,19 @@ export function ActionForm({
     <form
       ref={formRef}
       action={formAction}
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
+        const form = event.currentTarget;
+        const data = new FormData(form);
+        setClientError(null);
+        if (form.querySelector("input[type=file][data-shrink]")) {
+          setPreparing(true);
+          const bytes = await shrinkImagesIn(form, data).finally(() => setPreparing(false));
+          if (bytes > uploadLimitBytes) {
+            setClientError("De foto's zijn samen te groot om te versturen. Probeer een andere foto.");
+            return;
+          }
+        }
         startTransition(() => formAction(data));
       }}
       className={className}
@@ -58,27 +76,27 @@ export function ActionForm({
       <div className={`flex flex-wrap items-center gap-x-6 gap-y-3 ${children ? "mt-8" : ""}`}>
         <button
           type="submit"
-          disabled={pending}
+          disabled={busy}
           className={
             quiet
               ? "text-small text-ink-soft underline underline-offset-4 hover:text-alert disabled:opacity-60"
               : `${actionClass("primary")} disabled:opacity-60`
           }
         >
-          {pending ? "Bezig…" : submitLabel}
+          {preparing ? "Foto's klaarmaken…" : pending ? "Bezig…" : submitLabel}
         </button>
-        {state.error && (
+        {(clientError ?? state.error) && !busy && (
           <p role="alert" className="form-message text-alert">
-            {state.error}
+            {clientError ?? state.error}
           </p>
         )}
-        {state.success && !pending && (
+        {state.success && !busy && !clientError && (
           <p role="status" className="form-message text-bronze-deep">
             {state.success}
           </p>
         )}
       </div>
-      {state.copy && !pending && <CopyField key={state.copy.value} {...state.copy} />}
+      {state.copy && !busy && <CopyField key={state.copy.value} {...state.copy} />}
     </form>
   );
 }

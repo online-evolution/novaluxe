@@ -1,4 +1,4 @@
-import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { SitePhoto } from "@/components/media/site-photo";
 
 /**
  * Rustpunt: een ivoren vlak over de volle breedte, met de kop als typografisch
@@ -24,10 +24,11 @@ export function HomeAttention() {
             jouw haar of nagels.
           </p>
         </div>
-        <PhotoPlaceholder
+        <SitePhoto
           shot="S01"
           subject="De behandelplek, leeg, met daglicht"
-          className="reveal aspect-[3/2] w-4/5 lg:col-span-4 lg:col-start-2 lg:w-full"
+          className="reveal aspect-[4/5] w-3/5 sm:w-2/5 lg:col-span-3 lg:col-start-2 lg:w-full"
+          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 40vw, 60vw"
         />
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { SitePhoto } from "@/components/media/site-photo";
 import { ActionLink } from "@/components/ui/action";
 import { lowestPriceCents, type CatalogTreatment } from "@/domain/catalog";
 import { formatEuro } from "@/lib/format";
@@ -19,7 +19,7 @@ export function HomeTreatments({ catalog }: { catalog: CatalogTreatment[] }) {
   return (
     <section aria-label="Behandelingen" className="mt-section grid gap-section-tight lg:grid-cols-12 lg:gap-8">
       <article aria-labelledby="home-extensions" className="lg:col-span-6">
-        <PhotoPlaceholder
+        <SitePhoto
           shot="E01"
           subject="Extensions: resultaat van achteren, natuurlijke val"
           className="reveal aspect-[3/4]"
@@ -49,7 +49,7 @@ export function HomeTreatments({ catalog }: { catalog: CatalogTreatment[] }) {
       </article>
 
       <article aria-labelledby="home-nagels" className="lg:col-span-5 lg:col-start-8 lg:pt-[min(40vh,24rem)]">
-        <PhotoPlaceholder
+        <SitePhoto
           shot="N03"
           subject="BIAB naturel of French op de eigen nagel"
           className="reveal ml-[18%] aspect-[4/5] lg:ml-0 lg:mr-gutter"

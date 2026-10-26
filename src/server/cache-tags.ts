@@ -9,4 +9,6 @@ export const cacheTags = {
   /** Uitzonderingen per datum (gesloten of afwijkende tijden). */
   exceptions: "availability-exceptions",
   settings: "settings",
+  /** Foto's op vaste plekken en het werk (voor en na). */
+  photos: "photos",
 } as const;

@@ -6,9 +6,12 @@ type FieldProps = {
   value?: string;
   required?: boolean;
   hint?: string;
+  /** Maakt het id uniek als hetzelfde veld in meer formulieren op één pagina staat. */
+  scope?: string;
 };
 
-const fieldId = (prefix: string, name: string) => `${prefix}-${name.replace(/\W/g, "-")}`;
+const fieldId = (prefix: string, name: string, scope?: string) =>
+  [prefix, scope, name].filter(Boolean).join("-").replace(/[^\w-]/g, "-");
 
 function Hint({ id, text }: { id: string; text?: string }) {
   return text ? (
@@ -18,8 +21,8 @@ function Hint({ id, text }: { id: string; text?: string }) {
   ) : null;
 }
 
-export function TimeField({ name, label, value, required, hint }: FieldProps) {
-  const id = fieldId("tijd", name);
+export function TimeField({ name, label, value, required, hint, scope }: FieldProps) {
+  const id = fieldId("tijd", name, scope);
   return (
     <div>
       <label htmlFor={id} className="field-label">
@@ -40,8 +43,8 @@ export function TimeField({ name, label, value, required, hint }: FieldProps) {
   );
 }
 
-export function DateField({ name, label, value, required, hint, min }: FieldProps & { min?: string }) {
-  const id = fieldId("datum", name);
+export function DateField({ name, label, value, required, hint, scope, min }: FieldProps & { min?: string }) {
+  const id = fieldId("datum", name, scope);
   return (
     <div>
       <label htmlFor={id} className="field-label">
@@ -68,6 +71,7 @@ export function TextField({
   value,
   required,
   hint,
+  scope,
   type = "text",
   inputMode,
   autoComplete,
@@ -78,7 +82,7 @@ export function TextField({
   autoComplete?: string;
   maxLength?: number;
 }) {
-  const id = fieldId("veld", name);
+  const id = fieldId("veld", name, scope);
   return (
     <div>
       <label htmlFor={id} className="field-label">
@@ -101,8 +105,8 @@ export function TextField({
   );
 }
 
-export function TextArea({ name, label, value, hint, rows = 4 }: FieldProps & { rows?: number }) {
-  const id = fieldId("tekst", name);
+export function TextArea({ name, label, value, hint, scope, rows = 4 }: FieldProps & { rows?: number }) {
+  const id = fieldId("tekst", name, scope);
   return (
     <div>
       <label htmlFor={id} className="field-label">

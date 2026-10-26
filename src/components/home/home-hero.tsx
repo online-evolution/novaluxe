@@ -1,11 +1,11 @@
-import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { SitePhoto } from "@/components/media/site-photo";
 import { ActionLink } from "@/components/ui/action";
 import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
 
 /**
- * Opening: de grote kop springt in, de foto loopt op mobiel van rand tot rand
- * en op desktop tot de rechterrand. Tekst en knop staan onderaan naast het beeld.
+ * Opening: de grote kop springt in, de staande foto staat op mobiel tegen de
+ * rechterrand en op desktop rechts naast de tekst. Tekst en knop staan onderaan naast het beeld.
  */
 export function HomeHero() {
   return (
@@ -16,7 +16,7 @@ export function HomeHero() {
       </h1>
 
       <div className="mt-10 grid gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-8">
-        <div className="order-2 px-gutter lg:order-1 lg:col-span-4 lg:self-end lg:pr-0">
+        <div className="order-2 px-gutter lg:order-1 lg:col-span-5 lg:self-end lg:pr-0">
           <p className="max-w-measure text-lede">
             Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij
             NovaLuxe in Kijkduin neem ik de tijd om te luisteren naar wat jij mooi
@@ -34,10 +34,12 @@ export function HomeHero() {
           </p>
         </div>
 
-        <PhotoPlaceholder
+        <SitePhoto
           shot="W01"
           subject="Detail: handen van Jessie aan het werk"
-          className="order-1 aspect-[4/3] sm:aspect-[3/2] lg:order-2 lg:col-span-7 lg:col-start-6"
+          className="order-1 aspect-[4/5] w-[88%] justify-self-end sm:w-2/3 lg:order-2 lg:col-span-5 lg:col-start-8 lg:w-full"
+          sizes="(min-width: 1024px) 40vw, (min-width: 640px) 66vw, 88vw"
+          priority
         />
       </div>
     </section>

@@ -1,7 +1,7 @@
 import type { Metadata, Route } from "next";
 import { PlacementPrices } from "@/components/extensions/placement-prices";
 import { WeftsDiagram } from "@/components/extensions/wefts-diagram";
-import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { SitePhoto } from "@/components/media/site-photo";
 import { PriceList } from "@/components/pricing/price-list";
 import { PageIndex } from "@/components/site/page-index";
 import { SectionHeading } from "@/components/site/section-heading";
@@ -57,10 +57,12 @@ export default async function ExtensionsPage() {
               Meer lengte en volume met een natuurlijke uitstraling
             </h1>
           </div>
-          <PhotoPlaceholder
+          <SitePhoto
             shot="E01"
             subject="Resultaat van achteren, natuurlijke val"
-            className="aspect-[4/3] sm:aspect-[3/2] lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:aspect-[4/5]"
+            className="aspect-[4/5] w-[88%] sm:w-2/3 lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:w-full"
+            sizes="(min-width: 1024px) 42vw, (min-width: 640px) 66vw, 88vw"
+            priority
           />
           <div className="px-gutter lg:col-span-4 lg:col-start-8 lg:row-start-2 lg:pl-0">
             <p className="max-w-measure text-lede">
@@ -114,19 +116,21 @@ export default async function ExtensionsPage() {
             </figcaption>
           </figure>
         </div>
-        <PhotoPlaceholder
+        <SitePhoto
           shot="E02"
           subject="Haar in een staart, bevestigingen niet zichtbaar"
-          className="reveal mt-section-tight aspect-[3/2] lg:ml-[25%] lg:w-7/12"
+          className="reveal mt-section-tight ml-auto aspect-[4/5] w-3/4 sm:w-1/2 lg:mr-[16.667%] lg:w-1/3"
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 75vw"
         />
       </section>
 
       {/* 02 Consult */}
       <section id="consult" aria-labelledby="consult-titel" className="mt-section scroll-mt-8">
-        <PhotoPlaceholder
+        <SitePhoto
           shot="J03"
           subject="Jessie in gesprek met een klant tijdens het consult"
-          className="reveal aspect-[4/3] sm:aspect-[21/9]"
+          className="reveal mx-gutter aspect-[4/5] w-3/4 sm:w-1/2 lg:w-1/3"
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 75vw"
         />
         <div className="grid gap-10 px-gutter pt-12 lg:grid-cols-12 lg:gap-8">
           <SectionHeading id="consult-titel" number="02" className="lg:col-span-5">
@@ -255,7 +259,7 @@ export default async function ExtensionsPage() {
             </ol>
           </div>
           <aside aria-labelledby="zwemmen-titel" className="lg:col-span-4 lg:col-start-9">
-            <PhotoPlaceholder
+            <SitePhoto
               shot="M05"
               subject="Borstel, satijnen kussensloop of bonnet"
               className="reveal aspect-square w-3/4 lg:w-full"
