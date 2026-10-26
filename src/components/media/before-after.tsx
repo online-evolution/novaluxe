@@ -1,16 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { focusPosition, type PhotoFocus } from "./focus";
 
 type Photo = { url: string };
+type Phase = "voor" | "na";
+
+/** Hoe ver de overgang is: boven de foto (alleen voor) of eronder (helemaal na). */
+const revealFor: Record<Phase, string> = { voor: "-20%", na: "120%" };
 
 /*
- * Voor en na in één beeld: links "voor", rechts "na", met een lijn die je
- * verschuift. Muis: klikken of slepen. Touch: horizontaal vegen (verticaal
- * blijft de pagina gewoon scrollen). Toetsenbord en schermlezer: een echte
- * schuifregelaar (pijltjestoetsen).
+ * Voor en na als transformatie. De foto begint bij het voor; zodra hij goed
+ * in beeld is, wordt het resultaat er van boven naar beneden overheen
+ * getrokken (zie .transform-* in globals.css). Tikken of klikken speelt de
+ * overgang terug naar het voor, en weer vooruit. Met "minder beweging"
+ * ingesteld start niets vanzelf en is het een rustige overgang.
  */
 export function BeforeAfter({
   before,
@@ -27,85 +32,76 @@ export function BeforeAfter({
   focus: PhotoFocus;
   sizes: string;
 }) {
-  const [position, setPosition] = useState(50);
-  const areaRef = useRef<HTMLDivElement>(null);
-  const drag = useRef<{ startX: number; startY: number; active: boolean } | null>(null);
+  const [phase, setPhase] = useState<Phase>("voor");
+  const ref = useRef<HTMLButtonElement>(null);
 
-  function moveTo(clientX: number) {
-    const rect = areaRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const percent = ((clientX - rect.left) / rect.width) * 100;
-    setPosition(Math.round(Math.min(100, Math.max(0, percent))));
-  }
+  // Eén keer vanzelf afspelen als de foto voor het grootste deel in beeld is.
+  useEffect(() => {
+    const element = ref.current;
+    if (!element || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
+        timer = setTimeout(() => setPhase("na"), 450);
+      },
+      { threshold: 0.6 },
+    );
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, []);
 
   const objectPosition = focusPosition[focus];
+  const reveal = { "--reveal": revealFor[phase] } as React.CSSProperties;
 
   return (
     <figure>
-      <div
-        ref={areaRef}
-        className="group relative aspect-[4/5] touch-pan-y overflow-hidden bg-ivory select-none"
-        onPointerDown={(event) => {
-          // Muis: direct verschuiven. Touch: pas als duidelijk is dat het horizontaal is.
-          const isMouse = event.pointerType === "mouse";
-          drag.current = { startX: event.clientX, startY: event.clientY, active: isMouse };
-          if (isMouse) {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            moveTo(event.clientX);
-          }
-        }}
-        onPointerMove={(event) => {
-          const state = drag.current;
-          if (!state) return;
-          if (!state.active) {
-            const dx = Math.abs(event.clientX - state.startX);
-            const dy = Math.abs(event.clientY - state.startY);
-            if (dx < 8 || dx < dy) return;
-            state.active = true;
-            event.currentTarget.setPointerCapture(event.pointerId);
-          }
-          moveTo(event.clientX);
-        }}
-        // Anders start de browser het slepen van de foto zelf en stopt het verschuiven.
-        onDragStart={(event) => event.preventDefault()}
-        onPointerUp={() => (drag.current = null)}
-        onPointerCancel={() => (drag.current = null)}
+      <button
+        ref={ref}
+        type="button"
+        data-phase={phase}
+        onClick={() => setPhase((current) => (current === "na" ? "voor" : "na"))}
+        aria-label={phase === "na" ? `Toon hoe het was: ${alt}` : `Toon het resultaat: ${alt}`}
+        className="group relative block aspect-[4/5] w-full cursor-pointer overflow-hidden bg-ivory focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze-deep"
       >
-        <Image src={after.url} alt={`Na: ${alt}`} draggable={false} fill sizes={sizes} className="object-cover" style={{ objectPosition }} />
-        <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
-          <Image src={before.url} alt={`Voor: ${alt}`} draggable={false} fill sizes={sizes} className="object-cover" style={{ objectPosition }} />
-        </div>
-
-        <span aria-hidden="true" className="label absolute top-3 left-3 bg-cream/85 px-2 py-1 text-ink">
-          Voor
-        </span>
-        <span aria-hidden="true" className="label absolute top-3 right-3 bg-cream/85 px-2 py-1 text-ink">
-          Na
-        </span>
-
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={position}
-          onChange={(event) => setPosition(Number(event.currentTarget.value))}
-          aria-label={`Schuif tussen voor en na${caption ? `: ${caption}` : ""}`}
-          aria-valuetext={`${position} procent voor`}
-          className="peer sr-only"
+        <Image
+          src={before.url}
+          alt=""
+          fill
+          sizes={sizes}
+          className="object-cover transition-transform duration-[2400ms] ease-calm group-data-[phase=na]:scale-[1.04]"
+          style={{ objectPosition }}
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 w-px bg-cream shadow-[0_0_0_1px_rgb(51_44_37/0.25)] peer-focus-visible:[&>span]:outline-2 peer-focus-visible:[&>span]:outline-offset-2 peer-focus-visible:[&>span]:outline-bronze-deep"
-          style={{ left: `${position}%` }}
-        >
-          <span className="absolute top-1/2 left-1/2 flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-ink/20 bg-cream text-ink shadow-print">
-            <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M9 6l-6 6 6 6M15 6l6 6-6 6" />
-            </svg>
-          </span>
+        <div className="transform-layer transform-after absolute inset-0" style={reveal}>
+          <Image src={after.url} alt="" fill sizes={sizes} className="object-cover" style={{ objectPosition }} />
         </div>
-      </div>
-      {caption && <figcaption className="mt-3 text-small text-ink-soft">{caption}</figcaption>}
+        <span aria-hidden="true" className="transform-layer transform-streak pointer-events-none absolute inset-x-0" style={reveal} />
+
+        <span
+          aria-hidden="true"
+          className="absolute bottom-4 left-4 flex items-baseline gap-3 bg-cream/90 px-3 py-2 text-small font-medium text-ink"
+        >
+          <span className={`transition-opacity duration-500 ${phase === "voor" ? "opacity-100" : "opacity-40"}`}>Voor</span>
+          <span className="relative h-px w-8 self-center bg-line-strong">
+            <span
+              className={`absolute inset-y-0 left-0 bg-ink transition-[width] duration-[2400ms] ease-calm ${
+                phase === "na" ? "w-full" : "w-0"
+              }`}
+            />
+          </span>
+          <span className={`transition-opacity duration-500 ${phase === "na" ? "opacity-100" : "opacity-40"}`}>Na</span>
+        </span>
+      </button>
+      <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-small">
+        <span>{caption}</span>
+        <span className="text-ink-soft" aria-live="polite">
+          {phase === "na" ? "Tik op de foto om terug te kijken" : "Tik op de foto voor het resultaat"}
+        </span>
+      </figcaption>
     </figure>
   );
 }

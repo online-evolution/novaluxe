@@ -47,7 +47,7 @@ export async function HomeWork() {
 
       {shownPairs.length > 0 && (
         <div className="mt-8 px-gutter">
-          <p className="text-small text-ink-soft">Voor en na. Schuif over de foto om het verschil te zien.</p>
+          <p className="text-small text-ink-soft">Voor en na</p>
           <ul className="mt-5 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
             {shownPairs.map((pair) => (
               <li key={pair.id}>
