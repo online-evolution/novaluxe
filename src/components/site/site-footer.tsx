@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cacheLife } from "next/cache";
+import { LogoFull } from "@/components/brand/logo";
 import { bookingHref, mainNavigation } from "@/config/navigation";
 import { site } from "@/config/site";
 import { summariseWeeklyHours } from "@/domain/hours";
@@ -14,6 +15,7 @@ export async function SiteFooter() {
 
   return (
     <footer className="mt-section bg-ivory px-gutter pt-section-tight pb-10">
+      <LogoFull className="mb-14 w-48 lg:w-60" />
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-6">
           <h2 className="label text-ink-soft">Je vindt de salon in {site.area}</h2>

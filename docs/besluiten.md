@@ -14,6 +14,11 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - op `/reserveren` vervalt de afspraakknop in de balk.
 - **Desktopheader:** zonder achtergrondvlak en niet sticky.
 - **Footer:** een colofon met adres en contact groot, zonder kolommenraster.
+- **Logo:**
+  - het origineel staat in `docs/bron/logo/novaluxe.svg` (getraceerd, ±440 KB); de site toont daarvan gerenderde PNG's uit `public/brand/`;
+  - in de kopregel en het beheer staat alleen het monogram, omdat "NOVA LUXE" klein onleesbaar wordt;
+  - het volledige logo staat bovenaan de footer;
+  - favicon (`src/app/icon.png`) en app-icoon (`src/app/apple-icon.png`) zijn uit het monogram gemaakt.
 
 ## Bron van waarheid
 

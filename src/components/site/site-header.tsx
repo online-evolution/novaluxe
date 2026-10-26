@@ -1,23 +1,24 @@
 import Link from "next/link";
-import { Wordmark } from "@/components/brand/wordmark";
+import { LogoMark } from "@/components/brand/logo";
 import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
 import { MainNav } from "./main-nav";
 
 /**
- * Rustige kopregel zonder balk of achtergrondvlak. Op mobiel staat alleen het
- * woordbeeld met de plaats; navigatie en afspraakknop zitten in de balk onderin.
+ * Rustige kopregel zonder balk of achtergrondvlak, met het monogram van het logo.
+ * Op mobiel staat daarnaast alleen de plaats; navigatie en afspraakknop zitten in
+ * de balk onderin.
  */
 export function SiteHeader() {
   return (
-    <header className="flex items-baseline justify-between gap-8 px-gutter pt-6 pb-4 lg:pt-8">
-      <Wordmark />
+    <header className="flex items-center justify-between gap-8 px-gutter pt-5 pb-3 lg:pt-6">
+      <LogoMark className="h-11 w-auto lg:h-14" />
 
       <p className="label text-ink-soft lg:hidden">
         {site.area} · {site.address.city}
       </p>
 
-      <div className="hidden items-baseline gap-14 lg:flex">
+      <div className="hidden items-center gap-14 lg:flex">
         <MainNav />
         <Link
           href={bookingHref}

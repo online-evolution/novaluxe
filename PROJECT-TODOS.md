@@ -15,7 +15,7 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 
 ## Merk en beeld
 
-- [ ] **Logo** aanleveren, bij voorkeur als SVG. Daarna het tijdelijke woordbeeld in de header vervangen (`src/components/brand/wordmark.tsx`).
+- [ ] **Kleuren afstemmen op het logo:** het logo is helder goud (rond #F9C45C/#C2811F), de site gebruikt gedempt brons (#9a7854). Voorstel volgt; niets aangepast zonder akkoord.
 - [ ] **Prijslijst-afbeelding** aanleveren, voor het kalibreren van de kleuren.
 - [ ] **Bestaande foto's** van haar werk aanleveren.
 - [ ] **Nieuwe fotografie** van Jessie en de salon (gepland deze week). Zie `PHOTO-SHOTLIST.md`.
@@ -29,5 +29,4 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 - [ ] **Melding aan Jessie bij een nieuwe aanvraag:** volgt met de e-mail (Fase 13). Tot die tijd ziet ze aanvragen alleen in het beheer (Fase 11).
 - [ ] **iCloud:** een test-Apple-ID voor de spike, en daarna een app-specifiek wachtwoord voor de agenda van Jessie.
 - [ ] **Domein** koppelen.
-- [ ] **Favicon en app-icoon** maken uit het logo (de standaard-favicon van Next.js is verwijderd).
 - [ ] **Bij livegang:** `robots: noindex` in `src/app/layout.tsx` verwijderen.

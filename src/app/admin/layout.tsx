@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { getCurrentAdmin } from "@/server/auth/session";
+import monogram from "../../../public/brand/novaluxe-monogram.png";
 import { logout } from "./actions";
 
 export const metadata: Metadata = {
@@ -17,10 +19,10 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: LayoutProps<"/admin">) {
   return (
     <div className="flex min-h-dvh flex-col bg-cream">
-      <header className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 border-b border-line px-gutter py-4">
-        <p className="text-small">
-          <span className="text-[1.25rem] font-medium tracking-[-0.03em]">NovaLuxe</span>
-          <span className="ml-3 text-ink-soft">Beheer</span>
+      <header className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-b border-line px-gutter py-4">
+        <p className="flex items-center gap-3 text-small">
+          <Image src={monogram} alt="NovaLuxe" className="h-9 w-auto" sizes="64px" priority />
+          <span className="text-ink-soft">Beheer</span>
         </p>
         <Suspense fallback={null}>
           <AdminNav />
