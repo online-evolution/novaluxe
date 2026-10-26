@@ -108,6 +108,30 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - Alleen formulieren die iets toevoegen worden na succes leeggemaakt.
 - **Tests:** `npm test` (node:test) voor de geldinvoer en de tijdzone-omzetting.
 
+## Reserveringsflow (Fase 10)
+
+- **Stappen:** categorie → behandeling → afwerking en opties (alleen als er iets te kiezen is) → datum en tijd → gegevens → controle → "Afspraak aanvragen".
+  - Keuzes blijven bewaard bij teruggaan.
+  - Een deep link kiest alvast iets: `?categorie=nagels` of `?behandeling=<slug>`.
+- **Beschikbaarheid:**
+  - wordt berekend op de server (`src/domain/availability.ts`, getest) via `GET /api/beschikbaarheid`;
+  - openingstijden of een afwijking voor die datum, min bevestigde afspraken, niet-verlopen aanvragen en blokkades;
+  - met de behandelduur plus opties plus de nail-artbuffer, de tijdstappen, de minimale aanvraagtijd, de maximale weken vooruit, en "klaar vóór sluitingstijd".
+- **Opslaan** (`src/server/booking/request.ts`): één transactie met een advisory lock.
+  1. Verlopen aanvragen op `expired` zetten, met een regel in het logboek.
+  2. Keuze, prijs en duur vers uit de database halen.
+  3. De tijd opnieuw toetsen.
+  4. De klant opslaan (één per e-mailadres) en de aanvraag als `pending` vastleggen, met een momentopname van de opties.
+  - Daarna weigert de exclusion constraint nog overlap.
+  - Getest: bij twee gelijktijdige aanvragen slaagt er precies één.
+- **Een tijdstip dat intussen weg is:** de klant gaat terug naar datum en tijd, met een melding en opnieuw geladen tijden. Alle andere keuzes blijven bewaard.
+- **Prijs:** het totaal bevat alleen bevestigde prijzen. Nail art (€ 1 per nagel) en een onbevestigde meerprijs staan erbij als "volgt".
+- **Spam en misbruik:**
+  - een honeypot-veld en een minimale invultijd van 4 seconden (bots krijgen dezelfde bevestigingspagina);
+  - maximaal 5 aanvragen per uur per IP-adres (`rate_limit_events`, HMAC-sleutels);
+  - invoercontrole met Zod op de server.
+- **Na versturen:** `/reserveren/ontvangen`, met de goedgekeurde tekst en zonder persoonsgegevens in de URL.
+
 ## Caching
 
 - `cacheComponents` staat aan. Catalogus, openingstijden en instellingen worden gelezen via `"use cache"` met een tag uit `src/server/cache-tags.ts`.

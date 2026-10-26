@@ -142,6 +142,21 @@ export const appointmentEvents = pgTable(
 );
 
 /**
+ * Gebeurtenissen voor rate limiting buiten het inloggen (bijv. afspraak-
+ * aanvragen per IP). De sleutel staat alleen als HMAC-hash opgeslagen.
+ */
+export const rateLimitEvents = pgTable(
+  "rate_limit_events",
+  {
+    id: id(),
+    scope: text().notNull(),
+    keyHash: text().notNull(),
+    createdAt: timestamptz().notNull().defaultNow(),
+  },
+  (t) => [index().on(t.scope, t.keyHash, t.createdAt)],
+);
+
+/**
  * Vrijgave voor een nieuwe extensionsplaatsing na het gratis consult.
  * De klant krijgt een eenmalige link; alleen de hash van het token staat hier.
  * Een aanbetaling is alleen een status die Jessie bijhoudt (geen betaalintegratie).
