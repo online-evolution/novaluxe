@@ -1,0 +1,204 @@
+<title>NovaLuxe homepageconcepten</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* Vergelijkingsblad: drie concepten onder elkaar, elk met dezelfde opbouw
+   (idee, verschillen, eerste scherm, volledige pagina), zodat je eerlijk kunt vergelijken. */
+:root {
+  --bg: #fffdfc;
+  --panel: #f6e9de;
+  --fg: #332c25;
+  --muted: #5e544a;
+  --accent: #7a5c3e;
+  --line: rgb(51 44 37 / .16);
+  --shadow: rgb(51 44 37 / .18);
+  --font: "Familjen Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1f1a16; --panel: #2a231d; --fg: #f6e9de; --muted: #c5b5a8; --accent: #c9a37a;
+    --line: rgb(246 233 222 / .16); --shadow: rgb(0 0 0 / .5); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1f1a16; --panel: #2a231d; --fg: #f6e9de; --muted: #c5b5a8; --accent: #c9a37a;
+  --line: rgb(246 233 222 / .16); --shadow: rgb(0 0 0 / .5); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 400 16px/1.6 var(--font); -webkit-font-smoothing: antialiased;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 48px 96px; }
+
+header.intro h1 { margin: 0; font-size: clamp(36px, 6vw, 72px); line-height: .95; letter-spacing: -0.04em; font-weight: 700; text-wrap: balance; }
+header.intro p { max-width: 62ch; color: var(--muted); }
+.jump { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 24px; padding-block: 14px; border-block: 1px solid var(--line); }
+.jump a { text-decoration: none; font-weight: 600; }
+.jump a span { color: var(--accent); margin-right: 8px; font-variant-numeric: tabular-nums; }
+
+.concept { margin-top: 88px; scroll-margin-top: 16px; }
+.concept-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 24px 56px; align-items: start; }
+.concept-head .letter { font-size: 14px; color: var(--accent); font-weight: 600; }
+.concept-head h2 { margin: 6px 0 0; font-size: clamp(32px, 4.4vw, 56px); line-height: 1; letter-spacing: -0.035em; font-weight: 700; }
+.concept-head p.idea { margin: 14px 0 0; font-size: 18px; max-width: 46ch; }
+.open { display: inline-block; margin-top: 18px; font-weight: 600; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.traits { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); border-top: 1px solid var(--line); }
+.traits dt, .traits dd { padding: 10px 0; border-bottom: 1px solid var(--line); margin: 0; }
+.traits dt { color: var(--muted); padding-right: 24px; font-size: 14px; padding-top: 12px; }
+
+.screens { margin-top: 36px; display: grid; grid-template-columns: minmax(0, 3.2fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+figure { margin: 0; min-width: 0; }
+figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }
+.frame { background: var(--panel); border: 1px solid var(--line); box-shadow: 0 24px 48px -32px var(--shadow); }
+.frame img { display: block; width: 100%; height: auto; max-width: 100%; }
+
+details.full { margin-top: 22px; }
+details.full summary { cursor: pointer; font-weight: 600; padding-block: 10px; }
+.long { display: grid; grid-template-columns: minmax(0, 3.2fr) minmax(0, 1fr); gap: 20px; margin-top: 12px; align-items: start; }
+.long .frame { max-height: 1100px; overflow-y: auto; }
+
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.table-wrap { overflow-x: auto; margin-top: 24px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); min-width: 180px; }
+th { font-size: 13px; color: var(--muted); font-weight: 500; }
+td:first-child { color: var(--muted); min-width: 120px; }
+
+.note { margin-top: 88px; padding: 28px; background: var(--panel); }
+.note h2 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
+.note p { margin: 12px 0 0; max-width: 70ch; }
+
+@media (max-width: 760px) {
+  .concept-head { grid-template-columns: 1fr; }
+  .screens, .long { grid-template-columns: 1fr 1fr; }
+  .screens figure:first-child, .long figure:first-child { grid-column: 1 / -1; }
+}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>Drie richtingen voor de homepage</h1>
+    <p>Elk concept gebruikt dezelfde teksten, prijzen en huisstijl (kleuren en Familjen Grotesk), maar verschilt in fotografie, typografie, compositie, navigatie en beleving. Logo en foto's volgen nog. Elk beeldvlak toont daarom de fotografierichting van dat concept: onderwerp, licht en formaat. Open een concept om het echt te gebruiken (filteren, hoofdstukken, uitklappen) en maak je venster smaller om de mobiele versie te zien.</p>
+    <nav class="jump" aria-label="Concepten">
+      <a href="#contactvel"><span>A</span>Contactvel</a>
+      <a href="#avondsalon"><span>B</span>Avondsalon</a>
+      <a href="#behandelkaart"><span>C</span>Behandelkaart</a>
+      <a href="#vergelijk"><span>·</span>Naast elkaar</a>
+    </nav>
+  </header>
+
+  <section class="concept" id="contactvel" aria-labelledby="a-titel">
+    <div class="concept-head">
+      <div>
+        <span class="letter">Concept A</span>
+        <h2 id="a-titel">Contactvel</h2>
+        <p class="idea">Het werk van Jessie ís de homepage: een afdrukvel met veel beelden in vaste rijen, de teksten ertussen als bijschriften.</p>
+        <a class="open" href="contactvel.html">Open concept A</a>
+      </div>
+      <dl class="traits">
+        <dt>Fotografie</dt><dd>Veel beelden, close-ups van nagels en haar, steeds dezelfde lichte linnen achtergrond en daglicht. Herkenbaar als één serie.</dd>
+        <dt>Typografie</dt><dd>Eén grote regel bovenaan, daarna klein en precies: nummers, behandeling en prijs onder elk beeld.</dd>
+        <dt>Compositie</dt><dd>Rijen van gelijke hoogte met verschillende formaten. Een grote openingsrij en één typografisch tussenmoment.</dd>
+        <dt>Navigatie</dt><dd>Filteren (Alles, Nagels, Extensions, Jessie) in plaats van een menu. Een beeld aantikken toont behandeling, prijs, duur en een aanvraagknop.</dd>
+        <dt>Beleving</dt><dd>Bladeren door een portfolio. Snel, licht, laat direct zien wat Jessie kan.</dd>
+      </dl>
+    </div>
+    <div class="screens">
+      <figure><div class="frame"><img src="renders/contactvel-desktop-eerste-scherm.png" alt="Concept A, eerste scherm op desktop" width="1440" height="900" loading="lazy"></div><figcaption>Desktop, eerste scherm (1440 px)</figcaption></figure>
+      <figure><div class="frame"><img src="renders/contactvel-mobiel-eerste-scherm.png" alt="Concept A, eerste scherm op mobiel" width="780" height="1688" loading="lazy"></div><figcaption>Mobiel (390 px)</figcaption></figure>
+    </div>
+    <details class="full">
+      <summary>Volledige pagina bekijken</summary>
+      <div class="long">
+        <figure><div class="frame"><img src="renders/contactvel-desktop.png" alt="Concept A, volledige pagina op desktop" loading="lazy"></div></figure>
+        <figure><div class="frame"><img src="renders/contactvel-mobiel.png" alt="Concept A, volledige pagina op mobiel" loading="lazy"></div></figure>
+      </div>
+    </details>
+  </section>
+
+  <section class="concept" id="avondsalon" aria-labelledby="b-titel">
+    <div class="concept-head">
+      <div>
+        <span class="letter">Concept B</span>
+        <h2 id="b-titel">Avondsalon</h2>
+        <p class="idea">Filmisch en intiem: een donkere salon met één warme lichtbron. Vier hoofdstukken; bij de afspraak gaat het licht aan.</p>
+        <a class="open" href="avondsalon.html">Open concept B</a>
+      </div>
+      <dl class="traits">
+        <dt>Fotografie</dt><dd>Weinig beelden, elk groot. Low-key: warm lamplicht van één kant, veel schaduw, korrel. Handen, haar, Jessie bij de spiegel.</dd>
+        <dt>Typografie</dt><dd>Groot, licht van gewicht en ruim gezet, met cursief als accent. Hoofdstukken genummerd I tot IV.</dd>
+        <dt>Compositie</dt><dd>Beeld over de volle breedte, een staand beeld met een kleiner detail eroverheen, een filmstrook van drie sets, een groot citaat.</dd>
+        <dt>Navigatie</dt><dd>Vaste hoofdstukrail links (desktop) die meeloopt; op mobiel een balk onderin met het huidige hoofdstuk en de afspraakknop.</dd>
+        <dt>Beleving</dt><dd>Rustig doorlezen als een tijdschriftverhaal. Het meest luxe en het meest afhankelijk van sterke fotografie.</dd>
+      </dl>
+    </div>
+    <div class="screens">
+      <figure><div class="frame"><img src="renders/avondsalon-desktop-eerste-scherm.png" alt="Concept B, eerste scherm op desktop" width="1440" height="900" loading="lazy"></div><figcaption>Desktop, eerste scherm (1440 px)</figcaption></figure>
+      <figure><div class="frame"><img src="renders/avondsalon-mobiel-eerste-scherm.png" alt="Concept B, eerste scherm op mobiel" width="780" height="1688" loading="lazy"></div><figcaption>Mobiel (390 px)</figcaption></figure>
+    </div>
+    <details class="full">
+      <summary>Volledige pagina bekijken</summary>
+      <div class="long">
+        <figure><div class="frame"><img src="renders/avondsalon-desktop.png" alt="Concept B, volledige pagina op desktop" loading="lazy"></div></figure>
+        <figure><div class="frame"><img src="renders/avondsalon-mobiel.png" alt="Concept B, volledige pagina op mobiel" loading="lazy"></div></figure>
+      </div>
+    </details>
+  </section>
+
+  <section class="concept" id="behandelkaart" aria-labelledby="c-titel">
+    <div class="concept-head">
+      <div>
+        <span class="letter">Concept C</span>
+        <h2 id="c-titel">Behandelkaart</h2>
+        <p class="idea">De prijslijst van NovaLuxe als ontwerpobject: grote namen en cijfers rechts, links één foto die wisselt met de behandeling waar je bent.</p>
+        <a class="open" href="behandelkaart.html">Open concept C</a>
+      </div>
+      <dl class="traits">
+        <dt>Fotografie</dt><dd>Still life van bovenaf op zandkleurig papier, hard zonlicht met grafische schaduwen: wefts, flesjes, penselen, handen op tafel.</dd>
+        <dt>Typografie</dt><dd>Zwaar en strak: namen en prijzen groot in tabulaire cijfers, zoals een menukaart of prijslijst.</dd>
+        <dt>Compositie</dt><dd>Gesplitst scherm. Op mobiel wordt de foto een vaste strook bovenin.</dd>
+        <dt>Navigatie</dt><dd>De kaart is de navigatie: elke behandeling is aan te wijzen of uit te klappen (varianten, nieuwe set en opvullen) met een eigen aanvraagknop.</dd>
+        <dt>Beleving</dt><dd>Direct en helder. Bezoekers weten meteen wat het kost en hoe lang het duurt; het minst afhankelijk van veel fotografie.</dd>
+      </dl>
+    </div>
+    <div class="screens">
+      <figure><div class="frame"><img src="renders/behandelkaart-desktop-eerste-scherm.png" alt="Concept C, eerste scherm op desktop" width="1440" height="900" loading="lazy"></div><figcaption>Desktop, eerste scherm (1440 px)</figcaption></figure>
+      <figure><div class="frame"><img src="renders/behandelkaart-mobiel-eerste-scherm.png" alt="Concept C, eerste scherm op mobiel" width="780" height="1688" loading="lazy"></div><figcaption>Mobiel (390 px)</figcaption></figure>
+    </div>
+    <details class="full">
+      <summary>Volledige pagina bekijken</summary>
+      <div class="long">
+        <figure><div class="frame"><img src="renders/behandelkaart-desktop.png" alt="Concept C, volledige pagina op desktop" loading="lazy"></div></figure>
+        <figure><div class="frame"><img src="renders/behandelkaart-mobiel.png" alt="Concept C, volledige pagina op mobiel" loading="lazy"></div></figure>
+      </div>
+    </details>
+  </section>
+
+  <section class="concept" id="vergelijk" aria-labelledby="v-titel">
+    <h2 id="v-titel" style="margin:0;font-size:clamp(28px,3.4vw,44px);letter-spacing:-0.03em">Naast elkaar</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>A · Contactvel</th><th>B · Avondsalon</th><th>C · Behandelkaart</th></tr></thead>
+        <tbody>
+          <tr><td>Werk van Jessie</td><td>Centraal en in aantal: tientallen beelden</td><td>Centraal en in grootte: weinig, groot</td><td>Als still life naast de behandeling</td></tr>
+          <tr><td>Fotografie nodig</td><td>Veel beelden, één vaste stijl</td><td>Weinig, maar heel goed belicht</td><td>Een still life per behandeling</td></tr>
+          <tr><td>Sfeer</td><td>Licht, open, portfolio</td><td>Donker, intiem, filmisch</td><td>Helder, grafisch, zakelijk-luxe</td></tr>
+          <tr><td>Prijzen</td><td>Onder elk beeld</td><td>Op de behandelpagina's</td><td>De kern van de homepage</td></tr>
+          <tr><td>Mobiel</td><td>Vel in twee kolommen, filter vast bovenin</td><td>Hoofdstukbalk onderin</td><td>Vaste fotostrook bovenin, kaart eronder</td></tr>
+          <tr><td>Grootste risico</td><td>Zonder genoeg goede foto's oogt het leeg</td><td>Valt of staat met professionele fotografie</td><td>Kan als prijslijst te zakelijk voelen</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <aside class="note" aria-labelledby="noot">
+    <h2 id="noot">Hoe nu verder</h2>
+    <p>Kies één richting (A, B of C), eventueel met onderdelen uit een andere, bijvoorbeeld de filter uit A of de uitklapbare prijzen uit C. Die richting werk ik uit voor de hele site. Het boekingssysteem, de database en de admin blijven zoals ze zijn.</p>
+  </aside>
+</div>

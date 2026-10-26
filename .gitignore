@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Renders van ontwerpconcepten (opnieuw te maken)
+docs/concepten/renders/

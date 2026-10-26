@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NovaLuxe · Concept Behandelkaart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/*
+ * Concept 3 · Behandelkaart
+ * De prijslijst als ontwerpobject. Gesplitst scherm: links één vaste foto die
+ * wisselt met de behandeling waar je bent, rechts de kaart met grote namen
+ * en cijfers. Op mobiel wordt de foto een vaste strook bovenin.
+ * Fotografie: still life van bovenaf, hard zonlicht, grafische schaduwen,
+ * zandkleurig papier. Materialen, flesjes, wefts, handen op tafel.
+ */
+:root {
+  color-scheme: light;
+  --paper: #f6e9de;
+  --cream: #fffdfc;
+  --sand: #c5b5a8;
+  --bronze: #9a7854;
+  --bronze-deep: #7a5c3e;
+  --ink: #332c25;
+  --ink-soft: #5e544a;
+  --line: rgb(51 44 37 / .18);
+  --font: "Familjen Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--cream); color: var(--ink); font: 400 16px/1.55 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--bronze-deep); outline-offset: 3px; }
+.figures { font-variant-numeric: tabular-nums lining-nums; }
+
+.layout { display: grid; grid-template-columns: minmax(0, 46fr) minmax(0, 54fr); }
+
+/* Vaste foto: hard zonlicht als diagonale schaduw */
+.stage {
+  position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden;
+  background: var(--tone, #e2d3c4);
+  transition: background-color .5s ease;
+}
+.stage::before { /* harde schaduw van zonlicht door een raam */
+  content: ""; position: absolute; inset: -20%;
+  background: linear-gradient(var(--angle, 118deg), transparent 0 52%, rgb(51 44 37 / .16) 52% 61%, transparent 61% 66%, rgb(51 44 37 / .12) 66% 74%, transparent 74%);
+  transition: transform .8s ease;
+  transform: translateX(var(--shift, 0%));
+}
+.stage .object { /* plek van het onderwerp, van bovenaf */
+  position: absolute; left: 50%; top: 46%; width: 38%; aspect-ratio: 1; translate: -50% -50%;
+  border-radius: 50%; background: rgb(255 253 252 / .38); box-shadow: 18px 26px 0 rgb(51 44 37 / .1);
+  transition: width .5s ease, border-radius .5s ease;
+}
+.stage .caption {
+  position: absolute; left: 24px; right: 24px; bottom: 22px; display: flex; justify-content: space-between; gap: 16px;
+  font-size: 13px; color: rgb(51 44 37 / .72);
+}
+.stage .caption b { color: var(--ink); font-weight: 600; }
+.stage .mark { position: absolute; top: 22px; left: 24px; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; text-decoration: none; z-index: 1; }
+
+/* De kaart */
+.card { padding: 22px clamp(20px, 4vw, 72px) 0; min-width: 0; }
+.top { display: flex; justify-content: flex-end; gap: 24px; align-items: baseline; font-size: 14px; }
+.top nav { display: flex; gap: 22px; }
+.top nav a { text-decoration: none; color: var(--ink-soft); }
+.top .book { font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+
+.intro { padding: clamp(56px, 9vw, 150px) 0 clamp(40px, 5vw, 72px); }
+.intro p.kicker { margin: 0; font-size: 14px; color: var(--ink-soft); }
+.intro h1 { margin: 14px 0 0; font-size: clamp(44px, 5.6vw, 96px); line-height: .92; letter-spacing: -0.045em; font-weight: 700; text-wrap: balance; }
+.intro p.lede { margin: 26px 0 0; max-width: 44ch; color: var(--ink-soft); font-size: 17px; }
+
+.group { margin-top: clamp(40px, 6vw, 88px); }
+.group h2 { margin: 0; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--ink); padding-bottom: 12px; font-size: clamp(30px, 3.4vw, 54px); line-height: 1; letter-spacing: -0.035em; font-weight: 700; }
+.group h2 span { font-size: 13px; letter-spacing: 0; font-weight: 500; color: var(--ink-soft); }
+.group > p { margin: 14px 0 0; color: var(--ink-soft); max-width: 52ch; font-size: 15px; }
+
+.item { border-bottom: 1px solid var(--line); }
+.item > summary, .item > .head { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto auto; gap: 8px 28px; align-items: baseline; padding: 20px 0; }
+.item > summary::-webkit-details-marker { display: none; }
+.name { font-size: clamp(21px, 1.9vw, 30px); letter-spacing: -0.02em; font-weight: 600; line-height: 1.1; }
+.name small { display: block; margin-top: 6px; font-size: 14px; letter-spacing: 0; font-weight: 400; color: var(--ink-soft); }
+.time { font-size: 14px; color: var(--ink-soft); white-space: nowrap; }
+.price { font-size: clamp(22px, 2vw, 32px); font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; text-align: right; min-width: 4.5ch; }
+.price .from { font-size: 13px; font-weight: 500; color: var(--ink-soft); letter-spacing: 0; margin-right: 6px; }
+.item[data-active="true"] .name { color: var(--bronze-deep); }
+.item > summary .time::after { content: "  +"; white-space: pre; font-weight: 600; color: var(--bronze-deep); }
+.item[open] > summary .time::after { content: "  –"; }
+
+.variants { padding: 0 0 22px; display: grid; gap: 0; }
+.variants .row { display: grid; grid-template-columns: 1fr auto auto; gap: 24px; padding: 9px 0; border-top: 1px dotted var(--line); font-size: 15px; }
+.variants .row span:not(:first-child) { text-align: right; min-width: 6ch; }
+.variants .labels { color: var(--ink-soft); font-size: 13px; border-top: 0; }
+.ask { display: inline-block; margin-top: 14px; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+
+.jessie { margin-top: clamp(56px, 8vw, 120px); display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: end; padding: 28px; background: var(--paper); }
+.jessie .portrait { aspect-ratio: 3 / 4; background: #dccbbb; position: relative; overflow: hidden; }
+.jessie .portrait::before { content: ""; position: absolute; inset: 0; background: linear-gradient(200deg, transparent 0 55%, rgb(51 44 37 / .14) 55%); }
+.jessie .portrait span { position: absolute; left: 12px; bottom: 10px; right: 12px; font-size: 12px; color: rgb(51 44 37 / .7); }
+.jessie h2 { margin: 0; font-size: clamp(28px, 2.6vw, 40px); line-height: 1.02; letter-spacing: -0.03em; font-weight: 700; }
+.jessie p { margin: 14px 0 0; color: var(--ink-soft); font-size: 15px; }
+
+.close { margin-top: clamp(56px, 8vw, 120px); border-top: 2px solid var(--ink); padding: 26px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.close h2 { margin: 0; font-size: clamp(32px, 3.4vw, 54px); line-height: .98; letter-spacing: -0.035em; font-weight: 700; text-wrap: balance; }
+.close dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 24px; font-size: 15px; }
+.close dt { color: var(--ink-soft); }
+.cta { display: inline-block; margin-top: 22px; background: var(--ink); color: var(--cream); padding: 16px 22px; font-weight: 600; text-decoration: none; }
+.foot { margin-top: 56px; padding: 20px 0 40px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 6px 26px; font-size: 13px; color: var(--ink-soft); }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+  .stage { position: sticky; top: 0; height: 34vh; height: 34dvh; z-index: 5; }
+  .stage .object { width: 26%; top: 50%; }
+  .stage .caption { bottom: 12px; left: var(--gutter); right: var(--gutter); }
+  .stage .mark { left: var(--gutter); top: calc(16px + env(safe-area-inset-top, 0px)); }
+  .card { padding: 18px var(--gutter) 0; }
+  .top { justify-content: space-between; }
+  .top nav { display: none; }
+  .intro { padding-top: 40px; }
+  .item > summary, .item > .head { grid-template-columns: 1fr auto; }
+  .time { grid-column: 1; grid-row: 2; }
+  .price { grid-row: 1 / span 2; align-self: center; }
+  .jessie, .close { grid-template-columns: 1fr; }
+  .jessie .portrait { width: 70%; }
+}
+@media (prefers-reduced-motion: reduce) { .stage, .stage::before, .stage .object { transition: none; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="stage" id="podium" aria-live="polite" role="img" aria-label="Foto volgt: still life van de gekozen behandeling" style="--tone:#e2d3c4">
+    <a class="mark" href="#">NovaLuxe</a>
+    <div class="object" id="object"></div>
+    <p class="caption"><b id="podium-name">Gratis consult</b><span id="podium-brief">Strengen in drie tinten op zandkleurig papier · van boven · hard zonlicht</span></p>
+  </aside>
+
+  <main class="card">
+    <div class="top">
+      <nav aria-label="Pagina's"><a href="#">Extensions</a><a href="#">Nagels</a><a href="#">Over Jessie</a><a href="#">Contact</a></nav>
+      <a class="book" href="#">Afspraak aanvragen</a>
+    </div>
+
+    <section class="intro" aria-labelledby="titel">
+      <p class="kicker">Wijndaelerduin 25 · Kijkduin, Den Haag</p>
+      <h1 id="titel">Extensions en nagels in Kijkduin</h1>
+      <p class="lede">Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij NovaLuxe neem ik de tijd om te luisteren naar wat jij mooi vindt. Je krijgt eerlijk advies en mijn volledige aandacht.</p>
+    </section>
+
+    <section class="group" aria-labelledby="ext">
+      <h2 id="ext">Extensions <span>Genius Wefts · invisible techniek</span></h2>
+      <p>We beginnen altijd met een gratis consult om te kijken wat bij jou past. Knippen, blenden en styling zijn inbegrepen.</p>
+
+      <div class="item" data-tone="#e2d3c4" data-angle="118deg" data-shift="0%" data-shape="50%" data-name="Gratis consult" data-brief="Strengen in drie tinten op zandkleurig papier · van boven · hard zonlicht">
+        <div class="head"><span class="name">Gratis consult<small>Wensen, kleur en lengte bespreken</small></span><span class="time figures">15 min</span><span class="price">Gratis</span></div>
+      </div>
+      <details class="item" data-tone="#d8c7b6" data-angle="140deg" data-shift="-6%" data-shape="12%" data-name="Nieuwe plaatsing" data-brief="Wefts uitgelegd op papier, in rijen · van boven · schaduw van een raam">
+        <summary><span class="name">Nieuwe plaatsing<small>Na het consult; 30 tot 60 cm, 1 tot 4 banen</small></span><span class="time">Na consult</span><span class="price figures"><span class="from">vanaf</span>€ 255,50</span></summary>
+        <div class="variants figures">
+          <div class="row labels"><span>50 cm</span><span>Prijs</span><span></span></div>
+          <div class="row"><span>1 baan</span><span>€ 290</span><span></span></div>
+          <div class="row"><span>2 banen</span><span>€ 480</span><span></span></div>
+          <div class="row"><span>3 banen</span><span>€ 670</span><span></span></div>
+          <div class="row"><span>4 banen</span><span>€ 860</span><span></span></div>
+        </div>
+      </details>
+      <div class="item" data-tone="#e7d9cb" data-angle="100deg" data-shift="8%" data-shape="30%" data-name="Omhoogplaatsen" data-brief="Ringetjes en tang op linnen · van boven · harde schaduw">
+        <div class="head"><span class="name">Omhoogplaatsen<small>Iedere 6 tot 8 weken; 1 tot 4 banen</small></span><span class="time">1–4 banen</span><span class="price figures"><span class="from">vanaf</span>€ 40</span></div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="nag">
+      <h2 id="nag">Nagels <span>manicure · BIAB · acryl</span></h2>
+      <p>Samen kiezen we een behandeling, vorm en afwerking die passen bij jouw nagels en de uitstraling die je zoekt.</p>
+
+      <div class="item" data-tone="#ecdfd2" data-angle="125deg" data-shift="-4%" data-shape="50%" data-name="Manicure naturel" data-brief="Hand op tafel, nagelriemolie ernaast · van boven · zonlicht">
+        <div class="head"><span class="name">Manicure naturel</span><span class="time figures">20 min</span><span class="price figures">€ 30</span></div>
+      </div>
+      <div class="item" data-tone="#e0cdbd" data-angle="110deg" data-shift="4%" data-shape="38%" data-name="Manicure met gellak" data-brief="Rij flesjes gellak, schaduwen als strepen · van boven">
+        <div class="head"><span class="name">Manicure met gellak<small>Ongeveer drie weken mooi</small></span><span class="time figures">30 min</span><span class="price figures">€ 40</span></div>
+      </div>
+      <div class="item" data-tone="#e9dccf" data-angle="132deg" data-shift="0%" data-shape="46%" data-name="Manicure met rubber base" data-brief="Twee handen gekruist op linnen · van boven">
+        <div class="head"><span class="name">Manicure met rubber base</span><span class="time figures">30 min</span><span class="price figures">€ 45</span></div>
+      </div>
+      <details class="item" data-tone="#dfcfc0" data-angle="96deg" data-shift="-8%" data-shape="22%" data-name="BIAB" data-brief="Hand met BIAB French, vingers gespreid op papier · harde schaduw van de hand">
+        <summary><span class="name">BIAB<small>Versteviging op de eigen nagel</small></span><span class="time figures">45–60 min</span><span class="price figures"><span class="from">vanaf</span>€ 50</span></summary>
+        <div class="variants figures">
+          <div class="row labels"><span>Afwerking</span><span>Nieuwe set</span><span>Opvullen</span></div>
+          <div class="row"><span>Naturel</span><span>€ 50</span><span>€ 50</span></div>
+          <div class="row"><span>Met gellak</span><span>€ 55</span><span>€ 55</span></div>
+          <div class="row"><span>Met French</span><span>€ 55</span><span>€ 55</span></div>
+          <div class="row"><span>Mixed design</span><span>€ 60</span><span>€ 60</span></div>
+        </div>
+        <a class="ask" href="#">BIAB aanvragen</a>
+      </details>
+      <details class="item" data-tone="#d6c3b1" data-angle="150deg" data-shift="6%" data-shape="14%" data-name="Acryl" data-brief="Lange nagels op een stuk steen · van boven · scherpe schaduw">
+        <summary><span class="name">Acryl<small>Extra lengte en vorm</small></span><span class="time figures">60–90 min</span><span class="price figures"><span class="from">vanaf</span>€ 50</span></summary>
+        <div class="variants figures">
+          <div class="row labels"><span>Afwerking</span><span>Nieuwe set</span><span>Opvullen</span></div>
+          <div class="row"><span>Naturel</span><span>€ 60</span><span>€ 50</span></div>
+          <div class="row"><span>Met gellak</span><span>€ 65</span><span>€ 55</span></div>
+          <div class="row"><span>Met French</span><span>€ 70</span><span>€ 60</span></div>
+          <div class="row"><span>Babyboom of colourboom</span><span>€ 70</span><span>—</span></div>
+          <div class="row"><span>Mixed design</span><span>€ 75</span><span>€ 70</span></div>
+        </div>
+        <a class="ask" href="#">Acryl aanvragen</a>
+      </details>
+      <div class="item" data-tone="#eadbd0" data-angle="120deg" data-shift="-2%" data-shape="50%" data-name="Nail art" data-brief="Penselen en een palet met kleine bloemetjes · van boven">
+        <div class="head"><span class="name">Nail art<small>Bij gellak, BIAB en acryl</small></span><span class="time">Na overleg</span><span class="price figures">€ 1<span class="from" style="margin:0 0 0 6px">p/nagel</span></span></div>
+      </div>
+      <div class="item" data-tone="#e4d6c8" data-angle="105deg" data-shift="3%" data-shape="34%" data-name="Verwijderen" data-brief="Kommetje en folie op een handdoek · van boven">
+        <div class="head"><span class="name">Verwijderen<small>Ik week het product af, ik vijl niet weg</small></span><span class="time figures">20 min</span><span class="price figures"><span class="from">vanaf</span>€ 15</span></div>
+      </div>
+    </section>
+
+    <section class="jessie" aria-labelledby="jessie-titel">
+      <div class="portrait"><span>Portret Jessie aan de tafel · zonlicht · 3:4</span></div>
+      <div>
+        <h2 id="jessie-titel">Maak kennis met Jessie</h2>
+        <p>Wat begon met nagels zetten in een klein kamertje thuis, groeide uit tot mijn eigen salon in Kijkduin. Ik behandel één klant tegelijk.</p>
+        <a class="ask" href="#">Lees mijn verhaal</a>
+      </div>
+    </section>
+
+    <section class="close figures" aria-labelledby="afspraak">
+      <div>
+        <h2 id="afspraak">Klaar voor je volgende afspraak</h2>
+        <a class="cta" href="#">Afspraak aanvragen</a>
+      </div>
+      <dl>
+        <dt>Ma–wo, vr</dt><dd>09:00–18:00</dd>
+        <dt>Donderdag</dt><dd>09:00–20:00</dd>
+        <dt>Zaterdag</dt><dd>09:00–14:00</dd>
+        <dt>Zondag</dt><dd>gesloten</dd>
+        <dt>Bellen</dt><dd>06 13867266</dd>
+      </dl>
+    </section>
+    <footer class="foot figures"><span>NovaLuxe · Wijndaelerduin 25, 2554 BX Den Haag</span><span>@bynovaluxe</span><span>KvK 93396007</span></footer>
+  </main>
+</div>
+
+<script>
+  const stage = document.getElementById("podium");
+  const object = document.getElementById("object");
+  const items = [...document.querySelectorAll(".item")];
+  function show(item) {
+    items.forEach((i) => i.dataset.active = String(i === item));
+    stage.style.setProperty("--tone", item.dataset.tone);
+    stage.style.setProperty("--angle", item.dataset.angle);
+    stage.style.setProperty("--shift", item.dataset.shift);
+    object.style.borderRadius = item.dataset.shape;
+    document.getElementById("podium-name").textContent = item.dataset.name;
+    document.getElementById("podium-brief").textContent = item.dataset.brief;
+  }
+  // De behandeling midden in beeld bepaalt de foto; op desktop ook bij aanwijzen.
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => { if (entry.isIntersecting) show(entry.target); });
+  }, { rootMargin: "-48% 0px -48% 0px" });
+  items.forEach((item) => {
+    observer.observe(item);
+    item.addEventListener("pointerenter", () => show(item));
+    item.addEventListener("focusin", () => show(item));
+  });
+  show(items[0]);
+</script>
+</body>
+</html>

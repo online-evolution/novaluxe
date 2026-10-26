@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NovaLuxe · Concept Avondsalon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/*
+ * Concept 2 · Avondsalon
+ * Filmisch en intiem: een donkere salon met één warme lichtbron. Weinig
+ * beelden, elk groot. Vier hoofdstukken met een vaste hoofdstukrail als
+ * navigatie. Het laatste hoofdstuk (de afspraak) gaat "het licht aan": ivoor.
+ * Fotografie: low-key, warm lamplicht, zijlicht, veel schaduw, korrel.
+ */
+:root {
+  color-scheme: dark;
+  --night: #1f1a16;
+  --night-2: #2a231d;
+  --ivory: #f6e9de;
+  --cream: #fffdfc;
+  --sand: #c5b5a8;
+  --bronze: #b38d64;
+  --bronze-deep: #7a5c3e;
+  --ink: #332c25;
+  --hair: rgb(246 233 222 / 0.16);
+  --font: "Familjen Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --rail: 0px;
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+}
+@media (min-width: 1000px) { :root { --rail: 200px; } }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; background: var(--night); color: var(--ivory); font: 400 16px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
+.figures { font-variant-numeric: tabular-nums lining-nums; }
+
+/* Lamplicht-placeholder: de lichtrichting staat in de opdracht */
+.shot {
+  position: relative; overflow: hidden; background: var(--night-2);
+  background-image: radial-gradient(ellipse at var(--lx, 30%) var(--ly, 35%), rgb(196 150 104 / .55), rgb(120 88 60 / .22) 38%, transparent 70%);
+}
+.shot::after { /* korrel */
+  content: ""; position: absolute; inset: 0; opacity: .18; mix-blend-mode: overlay;
+  background-image: repeating-radial-gradient(circle at 17% 23%, rgb(255 255 255 / .5) 0 1px, transparent 1px 3px);
+}
+.brief { position: absolute; left: 16px; bottom: 14px; right: 16px; font-size: 12px; color: rgb(246 233 222 / .6); z-index: 1; }
+
+/* Hoofdstukrail */
+.rail {
+  position: fixed; inset: 0 auto 0 0; width: var(--rail); z-index: 20;
+  padding: 28px 24px; display: none; flex-direction: column; justify-content: space-between;
+  border-right: 1px solid var(--hair); background: var(--night);
+}
+@media (min-width: 1000px) { .rail { display: flex; } }
+.mark { font-size: 22px; font-weight: 600; letter-spacing: -0.03em; text-decoration: none; }
+.chapters { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.chapters a { display: grid; grid-template-columns: 28px 1fr; text-decoration: none; color: rgb(246 233 222 / .5); font-size: 14px; transition: color .3s; }
+.chapters a span:first-child { color: var(--bronze); font-size: 12px; }
+.chapters a[aria-current="true"] { color: var(--ivory); }
+.rail .where { font-size: 12.5px; color: rgb(246 233 222 / .5); line-height: 1.6; }
+
+.book {
+  position: fixed; top: calc(22px + env(safe-area-inset-top, 0px)); right: max(24px, env(safe-area-inset-right, 0px)); z-index: 21;
+  background: var(--ivory); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 18px;
+}
+main { margin-left: var(--rail); }
+
+/* Opening */
+.opening { position: relative; min-height: min(92vh, 980px); display: grid; align-items: end; }
+.opening .shot { position: absolute; inset: 0; --lx: 72%; --ly: 30%; }
+.opening .brief { bottom: auto; top: calc(84px + env(safe-area-inset-top, 0px)); left: auto; max-width: 260px; text-align: right; right: clamp(24px, 4vw, 64px); }
+.opening .text { position: relative; z-index: 2; padding: 0 clamp(24px, 4vw, 64px) clamp(40px, 6vw, 88px); max-width: 1100px; }
+.mobile-mark { position: absolute; top: calc(22px + env(safe-area-inset-top, 0px)); left: clamp(24px, 4vw, 64px); font-size: 22px; font-weight: 600; letter-spacing: -0.03em; }
+@media (min-width: 1000px) { .mobile-mark { display: none; } }
+h1 { margin: 0; font-weight: 400; font-size: clamp(48px, 8.2vw, 150px); line-height: .9; letter-spacing: -0.045em; text-wrap: balance; }
+h1 em { font-style: italic; color: var(--sand); }
+.opening p { margin: 24px 0 0; max-width: 46ch; color: var(--sand); font-size: clamp(16px, 1.3vw, 19px); }
+
+/* Hoofdstukken */
+.chapter { padding: clamp(80px, 11vw, 180px) clamp(24px, 4vw, 64px) 0; scroll-margin-top: 0; }
+.num { font-size: 13px; color: var(--bronze); letter-spacing: .04em; }
+.chapter h2 { margin: 14px 0 0; font-weight: 400; font-size: clamp(36px, 5vw, 84px); line-height: .95; letter-spacing: -0.04em; text-wrap: balance; }
+.chapter p { color: var(--sand); max-width: 44ch; }
+.link { display: inline-block; margin-top: 10px; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--bronze); padding-bottom: 3px; }
+
+.haar { display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 24px; align-items: end; }
+.haar .copy { grid-column: 1 / span 4; padding-bottom: 40px; }
+.haar .big { grid-column: 6 / -1; aspect-ratio: 4 / 5; --lx: 22%; --ly: 28%; }
+.haar .small { grid-column: 3 / span 4; grid-row: 2; aspect-ratio: 1; margin-top: -18%; --lx: 60%; --ly: 70%; border: 10px solid var(--night); }
+
+.nagels .wide { margin: 0 calc(-1 * clamp(24px, 4vw, 64px)); aspect-ratio: 21 / 9; --lx: 50%; --ly: 25%; }
+.nagels .row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 64px; margin-top: 40px; }
+.strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 56px; }
+.strip figure { margin: 0; }
+.strip .shot { aspect-ratio: 3 / 4; }
+.strip figcaption { display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; color: var(--sand); }
+.strip figcaption b { color: var(--ivory); font-weight: 500; }
+
+.jessie { display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px 24px; align-items: center; }
+.jessie .portrait { grid-column: 1 / span 4; aspect-ratio: 3 / 4; --lx: 70%; --ly: 30%; }
+.jessie blockquote { grid-column: 6 / -1; margin: 0; }
+.jessie blockquote p { margin: 0; max-width: none; color: var(--ivory); font-size: clamp(30px, 3.6vw, 60px); line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance; }
+.jessie blockquote footer { margin-top: 22px; font-size: 14px; color: var(--sand); }
+
+/* Licht aan */
+.light { margin-top: clamp(96px, 12vw, 200px); background: var(--ivory); color: var(--ink); padding: clamp(64px, 8vw, 128px) clamp(24px, 4vw, 64px); }
+.light .num { color: var(--bronze-deep); }
+.light h2 { color: var(--ink); margin: 14px 0 0; font-weight: 400; font-size: clamp(36px, 5vw, 84px); line-height: .95; letter-spacing: -0.04em; text-wrap: balance; }
+.light .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px 64px; margin-top: 40px; align-items: start; }
+.steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgb(51 44 37 / .3); }
+.steps li { display: grid; grid-template-columns: 36px 1fr; padding: 16px 0; border-bottom: 1px solid rgb(51 44 37 / .16); font-size: 17px; }
+.steps li span { color: var(--bronze-deep); font-size: 13px; padding-top: 3px; }
+.light .side p { margin: 0 0 22px; color: #5e544a; }
+.cta { display: inline-block; background: var(--ink); color: var(--ivory); padding: 17px 24px; font-weight: 600; text-decoration: none; }
+.hours { margin: 32px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 28px; font-size: 14px; color: #5e544a; }
+.hours dt { color: var(--ink); }
+
+footer.end { padding: 28px clamp(24px, 4vw, 64px) calc(110px + env(safe-area-inset-bottom, 0px)); display: flex; flex-wrap: wrap; gap: 8px 32px; font-size: 13px; color: var(--sand); }
+@media (min-width: 1000px) { footer.end { padding-bottom: 40px; } }
+
+/* Mobiele hoofdstukbalk */
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; grid-template-columns: 1fr auto;
+  background: var(--night); border-top: 1px solid var(--hair);
+  padding: 0 max(16px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(16px, env(safe-area-inset-left, 0px));
+}
+.bar .now { display: flex; align-items: center; gap: 10px; height: 58px; font-size: 14px; }
+.bar .now span { color: var(--bronze); font-size: 12px; }
+.bar .now i { font-style: normal; color: rgb(246 233 222 / .45); }
+.bar a { align-self: center; background: var(--ivory); color: var(--ink); padding: 11px 16px; font-weight: 600; font-size: 14px; text-decoration: none; }
+@media (min-width: 1000px) { .bar { display: none; } }
+@media (max-width: 999px) { .book { display: none; } }
+
+@media (max-width: 760px) {
+  .haar .copy, .haar .big, .haar .small { grid-column: 1 / -1; }
+  .haar .big { grid-row: 1; margin: 0 calc(-1 * clamp(24px, 4vw, 64px)); }
+  .haar .copy { grid-row: 2; padding: 32px 0 0; }
+  .haar .small { grid-row: 3; width: 60%; margin: 32px 0 0 auto; border: 0; }
+  .nagels .row { grid-template-columns: 1fr; }
+  .strip { grid-template-columns: repeat(3, 72%); overflow-x: auto; scroll-snap-type: x mandatory; margin-right: calc(-1 * clamp(24px, 4vw, 64px)); padding-right: 24px; }
+  .strip figure { scroll-snap-align: start; }
+  .jessie .portrait, .jessie blockquote { grid-column: 1 / -1; }
+  .jessie .portrait { width: 70%; }
+  .light .grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .chapters a { transition: none; } }
+</style>
+</head>
+<body>
+
+<aside class="rail" aria-label="Hoofdstukken">
+  <a class="mark" href="#">NovaLuxe</a>
+  <ol class="chapters">
+    <li><a href="#haar" data-chapter="haar"><span>I</span><span>Haar</span></a></li>
+    <li><a href="#nagels" data-chapter="nagels"><span>II</span><span>Nagels</span></a></li>
+    <li><a href="#jessie" data-chapter="jessie"><span>III</span><span>Jessie</span></a></li>
+    <li><a href="#afspraak" data-chapter="afspraak"><span>IV</span><span>Afspraak</span></a></li>
+  </ol>
+  <p class="where">Wijndaelerduin 25<br>Kijkduin, Den Haag<br>06 13867266</p>
+</aside>
+<a class="book" href="#afspraak">Afspraak aanvragen</a>
+
+<main>
+  <section class="opening" id="begin" aria-labelledby="titel">
+    <div class="shot" role="img" aria-label="Foto volgt: handen van Jessie in warm lamplicht"><span class="brief">Handen van Jessie aan het werk · warm lamplicht van rechtsboven · veel schaduw · liggend</span></div>
+    <span class="mobile-mark">NovaLuxe</span>
+    <div class="text">
+      <h1 id="titel">Extensions en nagels <em>in Kijkduin</em></h1>
+      <p>Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij NovaLuxe neem ik de tijd om te luisteren naar wat jij mooi vindt.</p>
+    </div>
+  </section>
+
+  <section class="chapter haar" id="haar" aria-labelledby="haar-titel">
+    <div class="copy">
+      <span class="num">I · Haar</span>
+      <h2 id="haar-titel">Haar dat bij jou past</h2>
+      <p>Droom je van langer haar of mis je wat volume? Ik werk voornamelijk met ultradunne Genius Wefts, geplaatst met een invisible techniek. We beginnen altijd met een gratis consult om te kijken wat bij jou past.</p>
+      <a class="link" href="#">Plan je gratis consult</a>
+    </div>
+    <div class="shot big" role="img" aria-label="Foto volgt: lang haar van achteren"><span class="brief">Lang haar van achteren · zijlicht links · glans op de lengte · staand 4:5</span></div>
+    <div class="shot small" role="img" aria-label="Foto volgt: detail van de overgang"><span class="brief">Detail overgang eigen haar · 1:1</span></div>
+  </section>
+
+  <section class="chapter nagels" id="nagels" aria-labelledby="nagels-titel">
+    <span class="num">II · Nagels</span>
+    <div class="shot wide" role="img" aria-label="Foto volgt: hand op donkere stof" style="margin-top:28px"><span class="brief">Eén hand op donkere stof · licht van boven · nagels als enige heldere vlak · 21:9</span></div>
+    <div class="row">
+      <h2 id="nagels-titel">Jouw nagels in jouw stijl</h2>
+      <div>
+        <p>Een verzorgde naturel look, een mooie kleur of een set met opvallende nail art. Bij NovaLuxe kun je terecht voor manicures, gellak, BIAB en acryl.</p>
+        <a class="link" href="#">Bekijk de nagelbehandelingen</a>
+      </div>
+    </div>
+    <div class="strip">
+      <figure><div class="shot" style="--lx:40%;--ly:30%"><span class="brief">BIAB French · 3:4</span></div><figcaption class="figures"><b>BIAB met French</b><span>€ 55</span></figcaption></figure>
+      <figure><div class="shot" style="--lx:65%;--ly:40%"><span class="brief">Acryl, lang · 3:4</span></div><figcaption class="figures"><b>Acryl mixed design</b><span>€ 75</span></figcaption></figure>
+      <figure><div class="shot" style="--lx:30%;--ly:60%"><span class="brief">Nail art, 3D · 3:4</span></div><figcaption class="figures"><b>Nail art</b><span>€ 1 per nagel</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="chapter jessie" id="jessie" aria-labelledby="jessie-titel">
+    <div class="shot portrait" role="img" aria-label="Foto volgt: portret van Jessie"><span class="brief">Portret Jessie · spiegel in beeld · warm licht · 3:4</span></div>
+    <blockquote>
+      <span class="num" id="jessie-titel">III · Jessie</span>
+      <p style="margin-top:18px">“Het mooiste moment is voor mij wanneer je in de spiegel kijkt en blij wordt van wat je ziet.”</p>
+      <footer>Jessie · één klant tegelijk, sinds het kamertje thuis · <a class="link" href="#">Lees mijn verhaal</a></footer>
+    </blockquote>
+  </section>
+
+  <section class="light" id="afspraak" aria-labelledby="afspraak-titel">
+    <span class="num">IV · Afspraak</span>
+    <h2 id="afspraak-titel" style="margin-top:14px">Klaar voor je volgende afspraak</h2>
+    <div class="grid">
+      <ol class="steps">
+        <li><span class="figures">1</span>Kies je behandeling</li>
+        <li><span class="figures">2</span>Kies een datum en tijd</li>
+        <li><span class="figures">3</span>Jessie bevestigt je aanvraag</li>
+      </ol>
+      <div class="side">
+        <p>Zodra Jessie je aanvraag bevestigt, ontvang je automatisch een e-mail. Kom je voor extensions? Dan beginnen we met een gratis consult.</p>
+        <a class="cta" href="#">Afspraak aanvragen</a>
+        <dl class="hours figures">
+          <dt>Ma–wo, vr</dt><dd>09:00–18:00</dd>
+          <dt>Do</dt><dd>09:00–20:00</dd>
+          <dt>Za</dt><dd>09:00–14:00</dd>
+          <dt>Zo</dt><dd>gesloten</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <footer class="end figures">
+    <span>NovaLuxe · Wijndaelerduin 25, 2554 BX Den Haag</span><span>06 13867266</span><span>@bynovaluxe</span><span>KvK 93396007</span>
+  </footer>
+</main>
+
+<nav class="bar" aria-label="Hoofdstuk">
+  <div class="now" aria-live="polite"><span id="now-num">I–IV</span><b id="now-name">Hoofdstukken</b></div>
+  <a href="#afspraak">Afspraak</a>
+</nav>
+
+<script>
+  const names = { begin: ["I–IV", "Hoofdstukken"], haar: ["I", "Haar"], nagels: ["II", "Nagels"], jessie: ["III", "Jessie"], afspraak: ["IV", "Afspraak"] };
+  const links = document.querySelectorAll(".chapters a");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      links.forEach((link) => link.setAttribute("aria-current", String(link.dataset.chapter === id)));
+      document.getElementById("now-num").textContent = names[id][0];
+      document.getElementById("now-name").textContent = names[id][1];
+      document.querySelector(".bar .now i")?.remove();
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("#begin, #haar, #nagels, #jessie, #afspraak").forEach((s) => observer.observe(s));
+  links[0].setAttribute("aria-current", "true");
+</script>
+</body>
+</html>

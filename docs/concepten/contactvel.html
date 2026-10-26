@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NovaLuxe · Concept Contactvel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/*
+ * Concept 1 · Contactvel
+ * Het werk ís de homepage: een contactafdrukvel van Jessie's werk in vaste
+ * rijen (justified, verschillende formaten, één rijhoogte). De teksten staan
+ * tússen de beelden, als bijschriften in een fotoboek. Filteren vervangt het
+ * klassieke menu. Kleine, precieze typografie; één regel groot.
+ */
+:root {
+  color-scheme: light;
+  --cream: #fffdfc;
+  --ivory: #f6e9de;
+  --sand: #c5b5a8;
+  --linen: #ece2d8;
+  --bronze: #9a7854;
+  --bronze-deep: #7a5c3e;
+  --ink: #332c25;
+  --ink-soft: #5e544a;
+  --line: rgb(51 44 37 / 0.16);
+  --font: "Familjen Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --row: clamp(120px, 15vw, 260px);
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font: 400 15px/1.55 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--bronze-deep); outline-offset: 3px; }
+.figures { font-variant-numeric: tabular-nums lining-nums; }
+
+/* Kop: klein, op één regel */
+.top {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+  padding: 20px var(--gutter) 0;
+}
+.mark { font-size: 21px; font-weight: 600; letter-spacing: -0.03em; text-decoration: none; }
+.pages { display: flex; gap: 22px; font-size: 13.5px; }
+.pages a { text-decoration: none; color: var(--ink-soft); }
+.pages a:hover { color: var(--ink); }
+.book { font-size: 13.5px; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+
+/* De ene grote regel */
+.statement {
+  padding: clamp(48px, 9vw, 140px) var(--gutter) 0;
+  display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px 48px;
+}
+.statement h1 {
+  margin: 0; font-weight: 600; letter-spacing: -0.045em; line-height: 0.88;
+  font-size: clamp(54px, 9.6vw, 176px);
+}
+.statement h1 span { display: block; }
+.statement h1 .soft { color: var(--sand); }
+.meta { font-size: 13.5px; color: var(--ink-soft); text-align: right; line-height: 1.7; }
+.meta strong { color: var(--ink); font-weight: 600; }
+
+/* Filter = navigatie */
+.filter {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  margin-top: clamp(40px, 6vw, 88px);
+  background: color-mix(in oklab, var(--cream) 94%, transparent);
+  backdrop-filter: none;
+  border-block: 1px solid var(--line);
+  padding: 0 var(--gutter);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.tabs { display: flex; gap: 28px; overflow-x: auto; scrollbar-width: none; }
+.tabs button {
+  padding: 15px 0 13px; font-size: 14px; color: var(--ink-soft); white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+.tabs button sup { font-size: 10px; margin-left: 3px; }
+.tabs button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--bronze); font-weight: 600; }
+.legend { font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; }
+
+/* Het contactvel: rijen met één hoogte, formaten verschillen */
+.sheet {
+  display: flex; flex-wrap: wrap; gap: 28px 10px;
+  padding: 28px var(--gutter) 0;
+}
+.sheet::after { content: ""; flex-grow: 999; }
+.frame {
+  flex: var(--r) 1 calc(var(--r) * var(--row));
+  min-width: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;
+}
+.frame button { display: block; width: 100%; text-align: left; }
+.shot {
+  position: relative; width: 100%; aspect-ratio: var(--r);
+  background: var(--tone, var(--linen)); overflow: hidden;
+  transition: filter .4s ease;
+}
+/* Kadermarkeringen zoals op een afdrukvel */
+.shot::before, .shot::after {
+  content: ""; position: absolute; width: 10px; height: 10px; border-color: rgb(51 44 37 / .35); border-style: solid;
+}
+.shot::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+.shot::after { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+.brief {
+  position: absolute; left: 12px; right: 12px; bottom: 10px;
+  font-size: 11.5px; line-height: 1.35; color: rgb(51 44 37 / .62);
+}
+.frame:hover .shot { filter: brightness(.96); }
+figcaption { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; line-height: 1.35; }
+figcaption .no { color: var(--bronze-deep); font-weight: 600; flex: none; }
+figcaption .what { flex: 1; min-width: 0; }
+figcaption .price { color: var(--ink-soft); flex: none; }
+
+.sheet.lead { --row: clamp(200px, 30vw, 560px); padding-top: 28px; }
+.sheet + .sheet { padding-top: 28px; }
+.interlude {
+  margin: clamp(56px, 8vw, 128px) 0 clamp(40px, 6vw, 96px); padding: 0 var(--gutter);
+  font-size: clamp(40px, 7vw, 128px); line-height: .92; letter-spacing: -0.045em; font-weight: 600; text-wrap: balance;
+}
+.interlude span { display: block; margin-top: 18px; max-width: 34ch; font-size: clamp(16px, 1.3vw, 20px); line-height: 1.5; letter-spacing: 0; font-weight: 400; color: var(--ink-soft); }
+.work[data-filter]:not([data-filter="alles"]) .interlude { display: none; }
+
+/* Tekst tussen de beelden */
+.note {
+  flex: 1.9 1 calc(1.9 * var(--row)); min-width: min(100%, 300px);
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 14px;
+  padding: 4px 4px 34px;
+}
+.note h2 { margin: 0; font-size: clamp(26px, 2.6vw, 42px); line-height: 1.02; letter-spacing: -0.03em; font-weight: 600; text-wrap: balance; }
+.note p { margin: 0; max-width: 38ch; color: var(--ink-soft); }
+.note a { font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--ink); align-self: flex-start; padding-bottom: 2px; }
+
+.work[data-filter="nagels"] [data-cat]:not([data-cat~="nagels"]),
+.work[data-filter="extensions"] [data-cat]:not([data-cat~="extensions"]),
+.work[data-filter="jessie"] [data-cat]:not([data-cat~="jessie"]) { display: none; }
+
+/* Afsluiting: de afspraak als laatste rij van het vel */
+.close {
+  margin-top: clamp(64px, 9vw, 140px); padding: 0 var(--gutter);
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px 20px;
+  border-top: 1px solid var(--line); padding-top: 28px;
+}
+.close h2 { grid-column: 1 / span 7; margin: 0; font-size: clamp(36px, 5vw, 84px); line-height: .95; letter-spacing: -0.04em; font-weight: 600; text-wrap: balance; }
+.close .side { grid-column: 9 / span 4; display: grid; gap: 18px; align-content: end; }
+.close .side p { margin: 0; color: var(--ink-soft); }
+.cta { display: inline-flex; justify-content: center; background: var(--ink); color: var(--cream); padding: 16px 22px; font-weight: 600; text-decoration: none; }
+.foot {
+  margin-top: clamp(56px, 8vw, 120px); padding: 22px var(--gutter) 40px; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 8px 32px; font-size: 13px; color: var(--ink-soft);
+}
+.foot strong { color: var(--ink); font-weight: 600; }
+
+/* Detail van één beeld */
+dialog {
+  width: min(1100px, calc(100% - 32px)); max-height: calc(100dvh - 32px);
+  border: 0; padding: 0; background: var(--cream); color: var(--ink);
+}
+dialog::backdrop { background: rgb(51 44 37 / .55); }
+.detail { display: grid; grid-template-columns: 1.4fr 1fr; }
+.detail .shot { aspect-ratio: auto; min-height: 360px; height: 100%; }
+.detail .info { padding: 32px; display: flex; flex-direction: column; gap: 14px; }
+.detail .info h3 { margin: 0; font-size: 32px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 600; }
+.detail .row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0; font-size: 14px; }
+.detail .closebtn { align-self: flex-end; font-size: 13px; color: var(--ink-soft); text-decoration: underline; }
+
+@media (max-width: 760px) {
+  .pages { display: none; }
+  .statement { grid-template-columns: 1fr; }
+  .meta { text-align: left; }
+  .legend { display: none; }
+  .sheet { gap: 22px 8px; }
+  .close h2, .close .side { grid-column: 1 / -1; }
+  .detail { grid-template-columns: 1fr; }
+  .detail .shot { min-height: 260px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="#">NovaLuxe</a>
+  <nav class="pages" aria-label="Pagina's">
+    <a href="#">Extensions</a><a href="#">Nagels</a><a href="#">Over Jessie</a><a href="#">Tarieven</a><a href="#">Contact</a>
+  </nav>
+  <a class="book" href="#">Afspraak aanvragen</a>
+</header>
+
+<section class="statement" aria-labelledby="titel">
+  <h1 id="titel"><span>Extensions en nagels</span><span class="soft">in Kijkduin.</span></h1>
+  <p class="meta">Werk van Jessie · <strong>één klant tegelijk</strong><br>Wijndaelerduin 25, Den Haag</p>
+</section>
+
+<nav class="filter" aria-label="Werk filteren">
+  <div class="tabs" role="toolbar">
+    <button aria-pressed="true" data-filter="alles">Alles<sup class="figures">22</sup></button>
+    <button aria-pressed="false" data-filter="nagels">Nagels<sup class="figures">13</sup></button>
+    <button aria-pressed="false" data-filter="extensions">Extensions<sup class="figures">6</sup></button>
+    <button aria-pressed="false" data-filter="jessie">Jessie<sup class="figures">3</sup></button>
+  </div>
+  <span class="legend">Tik op een beeld voor behandeling, prijs en duur</span>
+</nav>
+
+<div class="work" id="vel" data-filter="alles">
+<div class="sheet lead">
+  <!-- Openingsrij: groter -->
+  <figure class="frame" data-cat="extensions" style="--r:1.5;--tone:#e6d9cc">
+    <button data-title="50 cm · 3 banen" data-price="€ 670" data-time="Na consult" data-brief="Achterhoofd, haar los, natuurlijke val tot halverwege de rug. Daglicht van opzij, linnen achtergrond.">
+      <div class="shot"><span class="brief">Achterhoofd, haar los · daglicht van opzij · 3:2</span></div>
+    </button>
+    <figcaption><span class="no figures">01</span><span class="what">50 cm · 3 banen</span><span class="price figures">€ 670</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:0.8;--tone:#efe4d9">
+    <button data-title="BIAB met French" data-price="€ 55" data-time="60 min" data-brief="Macro van één hand op linnen, nagels naar de camera, scherpte op de French-lijn.">
+      <div class="shot"><span class="brief">Macro hand op linnen · 4:5</span></div>
+    </button>
+    <figcaption><span class="no figures">02</span><span class="what">BIAB met French</span><span class="price figures">€ 55</span></figcaption>
+  </figure>
+  <div class="note" data-cat="extensions">
+    <h2>Haar dat bij jou past</h2>
+    <p>Ik werk voornamelijk met ultradunne Genius Wefts, geplaatst met een invisible techniek. We beginnen altijd met een gratis consult.</p>
+    <a href="#">Plan je gratis consult</a>
+  </div>
+</div>
+<div class="sheet">
+  <figure class="frame" data-cat="nagels" style="--r:1;--tone:#ddd0c3">
+    <button data-title="Manicure met gellak" data-price="€ 40" data-time="30 min" data-brief="Twee handen boven elkaar, één kleur, zachte schaduw.">
+      <div class="shot"><span class="brief">Twee handen, één kleur · 1:1</span></div>
+    </button>
+    <figcaption><span class="no figures">03</span><span class="what">Manicure met gellak</span><span class="price figures">€ 40</span></figcaption>
+  </figure>
+
+  <!-- Rij 2 -->
+  <figure class="frame" data-cat="jessie" style="--r:0.75;--tone:#d6c6b7">
+    <button data-title="Jessie aan het werk" data-price="" data-time="" data-brief="Jessie half van opzij, geconcentreerd, handen in beeld. Geen pose.">
+      <div class="shot"><span class="brief">Jessie aan het werk · 3:4</span></div>
+    </button>
+    <figcaption><span class="no figures">04</span><span class="what">Jessie, Kijkduin</span><span class="price"></span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:1.25;--tone:#eadfd3">
+    <button data-title="Acryl mixed design" data-price="€ 75" data-time="90 min" data-brief="Lange acryl, vijf nagels met verschillende details, vanaf boven.">
+      <div class="shot"><span class="brief">Lange acryl, details · 5:4</span></div>
+    </button>
+    <figcaption><span class="no figures">05</span><span class="what">Acryl mixed design</span><span class="price figures">€ 75</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="extensions" style="--r:0.8;--tone:#e1d3c5">
+    <button data-title="Kleur matchen" data-price="Gratis consult" data-time="15 min" data-brief="Strengen in drie tinten tegen het eigen haar gehouden, scherpte op de overgang.">
+      <div class="shot"><span class="brief">Strengen tegen eigen haar · 4:5</span></div>
+    </button>
+    <figcaption><span class="no figures">06</span><span class="what">Kleur matchen</span><span class="price">Consult</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:1;--tone:#f0e6dc">
+    <button data-title="Nail art · 3D-bloemen" data-price="€ 1 per nagel" data-time="+ 15 min" data-brief="Detail van één nagel met 3D-bloemen, extreem dichtbij.">
+      <div class="shot"><span class="brief">Eén nagel, 3D-bloemen · 1:1</span></div>
+    </button>
+    <figcaption><span class="no figures">07</span><span class="what">Nail art, 3D-bloemen</span><span class="price figures">€ 1 p/n</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:0.75;--tone:#ddcfc1">
+    <button data-title="BIAB naturel" data-price="€ 50" data-time="45 min" data-brief="Korte, verzorgde nagels op de eigen nagel, hand ontspannen.">
+      <div class="shot"><span class="brief">Korte naturel nagels · 3:4</span></div>
+    </button>
+    <figcaption><span class="no figures">08</span><span class="what">BIAB naturel</span><span class="price figures">€ 50</span></figcaption>
+  </figure>
+
+  <!-- Rij 3 -->
+  <div class="note" data-cat="nagels">
+    <h2>Jouw nagels in jouw stijl</h2>
+    <p>Een verzorgde naturel look, een mooie kleur of een set met opvallende nail art. Manicures, gellak, BIAB en acryl.</p>
+    <a href="#">Bekijk de nagelbehandelingen</a>
+  </div>
+  <figure class="frame" data-cat="extensions" style="--r:0.67;--tone:#e8dccf">
+    <button data-title="Invisible techniek" data-price="Na consult" data-time="" data-brief="Haar opgestoken in een staart, geen bevestiging zichtbaar. Van achteren.">
+      <div class="shot"><span class="brief">Staart, niets zichtbaar · 2:3</span></div>
+    </button>
+    <figcaption><span class="no figures">09</span><span class="what">Invisible, in een staart</span><span class="price"></span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:1.5;--tone:#e4d6c9">
+    <button data-title="Acryl met babyboom" data-price="€ 70" data-time="Nieuwe set" data-brief="Babyboom-verloop op lange nagels, hand op een donkere stof voor contrast.">
+      <div class="shot"><span class="brief">Babyboom-verloop · 3:2</span></div>
+    </button>
+    <figcaption><span class="no figures">10</span><span class="what">Acryl met babyboom</span><span class="price figures">€ 70</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:0.8;--tone:#efe3d7">
+    <button data-title="Manicure naturel" data-price="€ 30" data-time="20 min" data-brief="Hand met nagelriemolie, verzorgd en kort.">
+      <div class="shot"><span class="brief">Verzorgd en kort · 4:5</span></div>
+    </button>
+    <figcaption><span class="no figures">11</span><span class="what">Manicure naturel</span><span class="price figures">€ 30</span></figcaption>
+  </figure>
+
+</div>
+<p class="interlude" data-cat="alles">Eén klant tegelijk. <span>Tijdens jouw afspraak ben ik er helemaal voor jou. Ik behandel één klant tegelijk, zodat we rustig je wensen kunnen bespreken en kunnen bijpraten.</span></p>
+<div class="sheet">
+  <!-- Rij 4 -->
+  <figure class="frame" data-cat="extensions" style="--r:1;--tone:#dccdbf">
+    <button data-title="Genius Wefts" data-price="" data-time="" data-brief="Wefts uitgelegd op papier, van boven, harde schaduw.">
+      <div class="shot"><span class="brief">Wefts op papier, van boven · 1:1</span></div>
+    </button>
+    <figcaption><span class="no figures">12</span><span class="what">Genius Wefts</span><span class="price"></span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="jessie" style="--r:1.5;--tone:#e9ded2">
+    <button data-title="De salon" data-price="" data-time="" data-brief="De lege behandelplek bij daglicht. Eén stoel.">
+      <div class="shot"><span class="brief">De lege behandelplek · 3:2</span></div>
+    </button>
+    <figcaption><span class="no figures">13</span><span class="what">De salon, één stoel</span><span class="price"></span></figcaption>
+  </figure>
+  <div class="note" data-cat="jessie">
+    <h2>Alle aandacht voor jou</h2>
+    <p>Wat begon met nagels zetten in een klein kamertje thuis, groeide uit tot mijn eigen salon in Kijkduin. Ik behandel één klant tegelijk.</p>
+    <a href="#">Lees mijn verhaal</a>
+  </div>
+  <figure class="frame" data-cat="nagels" style="--r:0.75;--tone:#e3d5c7">
+    <button data-title="BIAB met gellak" data-price="€ 55" data-time="50 min" data-brief="Kleur op BIAB, hand rustend op een kopje.">
+      <div class="shot"><span class="brief">Kleur op BIAB · 3:4</span></div>
+    </button>
+    <figcaption><span class="no figures">14</span><span class="what">BIAB met gellak</span><span class="price figures">€ 55</span></figcaption>
+  </figure>
+
+  <!-- Rij 5 -->
+  <figure class="frame" data-cat="extensions" style="--r:0.8;--tone:#eadccf">
+    <button data-title="Volume, zelfde lengte" data-price="Na consult" data-time="" data-brief="Voor en na, zelfde licht, zelfde hoek. Volume zonder extra lengte.">
+      <div class="shot"><span class="brief">Volume, zelfde lengte · 4:5</span></div>
+    </button>
+    <figcaption><span class="no figures">15</span><span class="what">Volume, zelfde lengte</span><span class="price"></span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:1.25;--tone:#ddd1c4">
+    <button data-title="Acryl met French" data-price="€ 70" data-time="75 min" data-brief="Lange amandelvorm met French, vingers gespreid.">
+      <div class="shot"><span class="brief">Amandel met French · 5:4</span></div>
+    </button>
+    <figcaption><span class="no figures">16</span><span class="what">Acryl met French</span><span class="price figures">€ 70</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="jessie" style="--r:0.75;--tone:#d9cabd">
+    <button data-title="Jessie" data-price="" data-time="" data-brief="Portret, rustig, kijkt in de camera. Kijkduin-licht.">
+      <div class="shot"><span class="brief">Portret Jessie · 3:4</span></div>
+    </button>
+    <figcaption><span class="no figures">17</span><span class="what">Jessie</span><span class="price"></span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:1;--tone:#efe5da">
+    <button data-title="Rubber base" data-price="€ 45" data-time="30 min" data-brief="Zachte nude op rubber base, hand tegen licht.">
+      <div class="shot"><span class="brief">Nude op rubber base · 1:1</span></div>
+    </button>
+    <figcaption><span class="no figures">18</span><span class="what">Manicure met rubber base</span><span class="price figures">€ 45</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="extensions" style="--r:1.5;--tone:#e5d8cb">
+    <button data-title="Omhoogplaatsen" data-price="vanaf € 40" data-time="Elke 6–8 weken" data-brief="Handen van Jessie die een weft omhoog plaatsen, close-up.">
+      <div class="shot"><span class="brief">Omhoogplaatsen, handen · 3:2</span></div>
+    </button>
+    <figcaption><span class="no figures">19</span><span class="what">Omhoogplaatsen</span><span class="price figures">v.a. € 40</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:0.8;--tone:#e7dace">
+    <button data-title="Nail art · glitter" data-price="€ 1 per nagel" data-time="+ 15 min" data-brief="Glitterverloop, schuin licht zodat het oplicht.">
+      <div class="shot"><span class="brief">Glitter, schuin licht · 4:5</span></div>
+    </button>
+    <figcaption><span class="no figures">20</span><span class="what">Nail art, glitter</span><span class="price figures">€ 1 p/n</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:1;--tone:#dfd2c5">
+    <button data-title="Afweken, niet wegvijlen" data-price="€ 20" data-time="20 min" data-brief="Product dat wordt afgeweekt, aandacht voor zorgvuldigheid.">
+      <div class="shot"><span class="brief">Afweken · 1:1</span></div>
+    </button>
+    <figcaption><span class="no figures">21</span><span class="what">Verwijderen, voorzichtig</span><span class="price figures">€ 20</span></figcaption>
+  </figure>
+  <figure class="frame" data-cat="nagels" style="--r:0.75;--tone:#ebe0d4">
+    <button data-title="BIAB mixed design" data-price="€ 60" data-time="60 min" data-brief="Vijf nagels, vijf details, op de eigen nagel.">
+      <div class="shot"><span class="brief">Vijf nagels, vijf details · 3:4</span></div>
+    </button>
+    <figcaption><span class="no figures">22</span><span class="what">BIAB mixed design</span><span class="price figures">€ 60</span></figcaption>
+  </figure>
+</div>
+</div>
+
+<section class="close" aria-labelledby="afspraak">
+  <h2 id="afspraak">Klaar voor je volgende afspraak</h2>
+  <div class="side">
+    <p>Kies je behandeling en een moment dat jou uitkomt. Jessie bevestigt je aanvraag; daarna ontvang je een e-mail.</p>
+    <a class="cta" href="#">Afspraak aanvragen</a>
+  </div>
+</section>
+
+<footer class="foot figures">
+  <span><strong>NovaLuxe</strong> · Wijndaelerduin 25, 2554 BX Den Haag</span>
+  <span>06 13867266</span><span>@bynovaluxe</span>
+  <span>Ma–wo, vr 09:00–18:00 · Do 09:00–20:00 · Za 09:00–14:00</span>
+</footer>
+
+<dialog id="detail" aria-labelledby="detail-titel">
+  <div class="detail">
+    <div class="shot" id="detail-shot"><span class="brief" id="detail-brief"></span></div>
+    <div class="info">
+      <button class="closebtn" id="sluit">Sluiten</button>
+      <h3 id="detail-titel"></h3>
+      <div class="row figures"><span>Prijs</span><span id="detail-prijs"></span></div>
+      <div class="row figures"><span>Duur</span><span id="detail-duur"></span></div>
+      <a class="cta" href="#">Deze behandeling aanvragen</a>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const sheet = document.getElementById("vel");
+  document.querySelectorAll(".tabs button").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-pressed", String(t === tab)));
+      sheet.dataset.filter = tab.dataset.filter;
+    });
+  });
+  const dialog = document.getElementById("detail");
+  sheet.querySelectorAll(".frame button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const tone = button.closest(".frame").style.getPropertyValue("--tone");
+      document.getElementById("detail-shot").style.setProperty("--tone", tone);
+      document.getElementById("detail-brief").textContent = button.dataset.brief;
+      document.getElementById("detail-titel").textContent = button.dataset.title;
+      document.getElementById("detail-prijs").textContent = button.dataset.price || "—";
+      document.getElementById("detail-duur").textContent = button.dataset.time || "—";
+      dialog.showModal();
+    });
+  });
+  document.getElementById("sluit").addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
+</script>
+</body>
+</html>
