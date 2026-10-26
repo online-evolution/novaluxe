@@ -2,17 +2,31 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 import { isCurrent, mainNavigation } from "@/config/navigation";
 
-/** Desktopnavigatie; markeert de huidige pagina. */
+/**
+ * Desktopnavigatie; markeert de huidige pagina. Onder een route met een
+ * onbekende parameter is het pad pas bij het verzoek bekend (Suspense).
+ */
 export function MainNav() {
-  const pathname = usePathname();
+  return (
+    <Suspense fallback={<NavList pathname={null} />}>
+      <CurrentNav />
+    </Suspense>
+  );
+}
 
+function CurrentNav() {
+  return <NavList pathname={usePathname()} />;
+}
+
+function NavList({ pathname }: { pathname: string | null }) {
   return (
     <nav aria-label="Hoofdmenu">
       <ul className="flex items-baseline gap-8">
         {mainNavigation.map((item) => {
-          const current = isCurrent(pathname, item.href);
+          const current = pathname !== null && isCurrent(pathname, item.href);
           return (
             <li key={item.href}>
               <Link

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { bookingHref, isCurrent, mainNavigation } from "@/config/navigation";
 import { site } from "@/config/site";
 import { actionClass } from "@/components/ui/action";
@@ -13,10 +13,23 @@ import { actionClass } from "@/components/ui/action";
  * native <dialog>-element voor focusbeheer, Escape en de achtergrond.
  */
 export function MobileBar() {
-  const pathname = usePathname();
+  // Onder een route met een onbekende parameter (zoals een vrijgavelink) is het
+  // pad pas bij het verzoek bekend; tot dan de balk zonder actieve pagina.
+  return (
+    <Suspense fallback={<Bar pathname={null} />}>
+      <CurrentBar />
+    </Suspense>
+  );
+}
+
+function CurrentBar() {
+  return <Bar pathname={usePathname()} />;
+}
+
+function Bar({ pathname }: { pathname: string | null }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
-  const onBookingPage = isCurrent(pathname, bookingHref);
+  const onBookingPage = pathname !== null && isCurrent(pathname, bookingHref);
 
   function openMenu() {
     dialogRef.current?.showModal();
@@ -82,7 +95,7 @@ export function MobileBar() {
           <nav aria-label="Menu">
             <ol>
               {mainNavigation.map((item, index) => {
-                const current = isCurrent(pathname, item.href);
+                const current = pathname !== null && isCurrent(pathname, item.href);
                 return (
                   <li key={item.href} className="border-b border-line">
                     <Link

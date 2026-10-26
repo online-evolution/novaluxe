@@ -1,12 +1,13 @@
 "use server";
 
 import { refresh } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import type { ActionState } from "@/components/admin/action-form";
 import { parseEuroInput } from "@/lib/money";
 import { optionalText, parseDateInput, parseMinutesInput, parseTimeInput } from "@/lib/input";
-import { zonedDateTimeToUtc } from "@/lib/time";
+import { addDays, localDateString, zonedDateTimeToUtc } from "@/lib/time";
 import {
   changeStatus,
   createAdminAppointment,
@@ -16,6 +17,7 @@ import {
   type PlanResult,
 } from "@/server/admin/appointments";
 import { requireAdmin } from "@/server/auth/session";
+import { createRelease, revokeRelease, setDepositPaid } from "@/server/booking/release";
 
 const field = (formData: FormData, name: string) => String(formData.get(name) ?? "");
 
@@ -127,4 +129,70 @@ export async function createAppointmentAction(_previous: ActionState, formData: 
   });
   if (!result.ok) return { error: messages[result.reason] };
   redirect(`/admin/afspraken/${result.id}`);
+}
+
+/** Basis-URL voor links naar de klant: SITE_URL, of het adres waarop het beheer nu draait. */
+async function siteUrl(): Promise<string> {
+  if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/, "");
+  const headerList = await headers();
+  const host = headerList.get("x-forwarded-host") ?? headerList.get("host") ?? "localhost:3000";
+  const protocol = headerList.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
+  return `${protocol}://${host}`;
+}
+
+export async function createReleaseAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const appointmentId = z.uuid().safeParse(formData.get("appointmentId"));
+  const variantId = z.uuid().safeParse(formData.get("variantId"));
+  if (!appointmentId.success) return { error: reload };
+  if (!variantId.success) return { error: "Kies lengte en aantal banen." };
+
+  const duration = parseMinutesInput(field(formData, "duration"));
+  if (!duration.ok || duration.value === null) return { error: "Vul de duur van de plaatsing in minuten in." };
+  const price = parseEuroInput(field(formData, "price"));
+  const deposit = parseEuroInput(field(formData, "deposit"));
+  if (!price.ok || !deposit.ok) return { error: "Een bedrag klopt niet. Typ bijvoorbeeld 430 of 255,50." };
+  const validUntil = parseDateInput(field(formData, "validUntil"));
+  if (!validUntil.ok || validUntil.value <= localDateString()) {
+    return { error: "Kies tot wanneer de link werkt (vanaf morgen)." };
+  }
+
+  const result = await createRelease({
+    appointmentId: appointmentId.data,
+    variantId: variantId.data,
+    priceCents: price.cents,
+    durationMinutes: duration.value,
+    colourNotes: optionalText(formData.get("colourNotes"), 1000),
+    depositCents: deposit.cents,
+    // De link werkt tot en met de gekozen dag.
+    expiresAt: zonedDateTimeToUtc(addDays(validUntil.value, 1), "00:00"),
+  });
+  if (!result.ok) {
+    return {
+      error: result.reason === "prijs-onbekend" ? "Vul de prijs in; voor deze variant staat nog geen prijs." : reload,
+    };
+  }
+  refresh();
+  return {
+    success: "Vrijgave gemaakt. Stuur de klant deze link, bijvoorbeeld via WhatsApp. Je ziet hem maar één keer.",
+    copy: { label: "Link voor de klant", value: `${await siteUrl()}/reserveren/plaatsing/${result.token}` },
+  };
+}
+
+export async function revokeReleaseAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const id = z.uuid().safeParse(formData.get("releaseId"));
+  if (!id.success) return { error: reload };
+  await revokeRelease(id.data);
+  refresh();
+  return { success: "Ingetrokken. De link werkt niet meer." };
+}
+
+export async function depositPaidAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const id = z.uuid().safeParse(formData.get("releaseId"));
+  if (!id.success) return { error: reload };
+  await setDepositPaid(id.data, formData.get("paid") === "ja");
+  refresh();
+  return { success: "Opgeslagen." };
 }

@@ -107,7 +107,7 @@ export async function listPast(limit = 100) {
 export async function getAppointmentForAdmin(id: string) {
   const db = getDb();
   const [row] = await db
-    .select({ appointment: appointments, customer: customers, treatmentSlug: treatments.slug })
+    .select({ appointment: appointments, customer: customers, category: treatments.category })
     .from(appointments)
     .innerJoin(customers, eq(appointments.customerId, customers.id))
     .innerJoin(treatments, eq(appointments.treatmentId, treatments.id))
@@ -115,19 +115,13 @@ export async function getAppointmentForAdmin(id: string) {
     .limit(1);
   if (!row) return null;
 
-  const [options, events, releases, history] = await Promise.all([
+  const [options, events, history] = await Promise.all([
     db.select().from(appointmentOptions).where(eq(appointmentOptions.appointmentId, id)),
     db
       .select()
       .from(appointmentEvents)
       .where(eq(appointmentEvents.appointmentId, id))
       .orderBy(asc(appointmentEvents.createdAt)),
-    db
-      .select({ release: extensionReleases, variantLabel: treatmentVariants.label })
-      .from(extensionReleases)
-      .innerJoin(treatmentVariants, eq(extensionReleases.variantId, treatmentVariants.id))
-      .where(eq(extensionReleases.customerId, row.customer.id))
-      .orderBy(desc(extensionReleases.createdAt)),
     db
       .select({ id: appointments.id, startAt: appointments.startAt, status: appointments.status, treatmentName: appointments.treatmentName })
       .from(appointments)
@@ -136,7 +130,7 @@ export async function getAppointmentForAdmin(id: string) {
       .limit(12),
   ]);
 
-  return { ...row, options, events, releases, history: history.filter((item) => item.id !== id) };
+  return { ...row, options, events, history: history.filter((item) => item.id !== id) };
 }
 
 export type ChangeResult =
@@ -181,6 +175,10 @@ export async function changeStatus(
         actor: "admin",
         note,
       });
+      if (target === "confirmed" && current.releaseId) {
+        // De vrijgavelink heeft nu zijn doel bereikt.
+        await tx.update(extensionReleases).set({ usedAt: new Date() }).where(eq(extensionReleases.id, current.releaseId));
+      }
       // Fase 13: bij 'confirmed' hier de bevestigingsmail inplannen.
       return { ok: true } as const;
     });

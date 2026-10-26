@@ -137,6 +137,42 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - invoercontrole met Zod op de server.
 - **Na versturen:** `/reserveren/ontvangen`, met de goedgekeurde tekst en zonder persoonsgegevens in de URL.
 
+## Afsprakenbeheer (Fase 11)
+
+- **Schermen:**
+  - *Vandaag*: open aanvragen (met hoe lang de tijd nog wordt vastgehouden), de agenda van vandaag en morgen;
+  - *Afspraken*: Aanvragen, Komend en Eerder;
+  - een detailpagina per afspraak met klant, behandeling, opties, nail art, opmerking, prijs, notitie voor Jessie, andere afspraken van de klant en een logboek;
+  - *Afspraak toevoegen* voor afspraken die Jessie zelf maakt (telefonisch, in de salon). Die zijn meteen bevestigd. Het e-mailadres van de klant is daarbij optioneel; `customers.email` mag daarom leeg zijn (migratie 0004).
+- **Acties per status** (`src/domain/appointment.ts`, getest):
+  - aanvraag: bevestigen of afwijzen;
+  - verlopen aanvraag waarvan de tijd nog komt: alsnog bevestigen, als de tijd nog vrij is;
+  - bevestigd en nog niet begonnen: verplaatsen of annuleren;
+  - bevestigd en begonnen: geweest, niet gekomen of annuleren;
+  - geweest en niet gekomen kunnen naar elkaar worden gecorrigeerd.
+  - Afwijzen en annuleren staan ingeklapt, zodat ze niet per ongeluk gebeuren. Elke wijziging komt in het logboek.
+- **Plannen door Jessie** (verplaatsen, zelf toevoegen):
+  - de klantregels (minimale aanvraagtijd, weken vooruit) gelden niet;
+  - nooit over een andere afspraak of lopende aanvraag heen;
+  - buiten de openingstijden of over een blokkade alleen met het vinkje "Toch inplannen".
+- **Eén lock voor alles:** online aanvragen, bevestigen, verplaatsen, zelf toevoegen en aanvragen via een vrijgavelink gebruiken dezelfde advisory lock en dezelfde bouwstenen (`src/server/booking/core.ts`). De exclusion constraint blijft het laatste vangnet.
+- **Nog geen berichten aan de klant:** de e-mail volgt in Fase 13. Tot die tijd meldt het beheer bij bevestigen en afwijzen dat Jessie de klant zelf moet inlichten.
+
+## Vrijgave nieuwe plaatsing (extensions)
+
+- Gekozen: een **eenmalige link met token** (eenvoudigste veilige vorm). Geen klantaccount en geen vlag die de openbare flow verandert.
+- **Jessie maakt de vrijgave** bij een extensions-afspraak van de klant (meestal het consult):
+  - lengte en banen, de duur (verplicht, want die staat nog niet in de prijslijst), de prijs (leeg = prijslijst), een optionele aanbetaling en kleurafspraken;
+  - "Link werkt tot en met": standaard ingevuld op 4 weken, per link aan te passen;
+  - de link wordt één keer getoond om te kopiëren. In de database staat alleen de SHA-256-hash van het token.
+- **De klant** opent `/reserveren/plaatsing/<token>`:
+  - ziet wat er is afgesproken en kiest een tijd uit de vrije tijden voor precies die duur, met dezelfde regels als de openbare flow;
+  - de pagina wordt niet geïndexeerd en stuurt geen referrer mee;
+  - het resultaat is een gewone aanvraag (`source = release`) die Jessie bevestigt.
+- **Hoe vaak de link werkt:** zolang er geen lopende aanvraag of bevestigde afspraak aan hangt. Wordt de aanvraag afgewezen of verloopt die, dan kan de klant met dezelfde link een andere tijd kiezen (tot de einddatum). Bij bevestigen wordt `used_at` gezet. Jessie kan een link intrekken.
+- **Aanbetaling:** alleen bedrag en "ontvangen ja/nee". Geen betaalintegratie (masterprompt §30).
+- Basis-URL van de link: `SITE_URL`, of anders het adres waarop het beheer draait.
+
 ## Caching
 
 - `cacheComponents` staat aan. Catalogus, openingstijden en instellingen worden gelezen via `"use cache"` met een tag uit `src/server/cache-tags.ts`.

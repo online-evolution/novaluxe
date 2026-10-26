@@ -25,8 +25,8 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 - [ ] **Vercel-plan:** het project staat in een Hobby-omgeving. Hobby is niet bedoeld voor commercieel gebruik, en cronjobs draaien daar hooguit één keer per dag. Vóór livegang: Pro-plan of externe cron voor de geplande taken (verlopen aanvragen, agenda-sync, opruimen van uploads).
 - [ ] **Mailprovider** kiezen en de credentials instellen.
 - [ ] **Storageprovider** kiezen voor de private uploads. Tot die tijd heeft de reserveringsflow geen veld voor een voorbeeldfoto bij nail art; de klant beschrijft het ontwerp in tekst.
-- [ ] **Vrijgavelink voor een nieuwe extensionsplaatsing** (na het consult): het aanmaken in het beheer en de aanvraagroute met token. Hoort bij het afsprakenbeheer (Fase 11).
-- [ ] **Melding aan Jessie bij een nieuwe aanvraag:** volgt met de e-mail (Fase 13). Tot die tijd ziet ze aanvragen alleen in het beheer (Fase 11).
+- [ ] **Melding aan Jessie bij een nieuwe aanvraag:** volgt met de e-mail (Fase 13). Tot die tijd ziet ze aanvragen alleen in het beheer (Vandaag en Afspraken).
 - [ ] **iCloud:** een test-Apple-ID voor de spike, en daarna een app-specifiek wachtwoord voor de agenda van Jessie.
-- [ ] **Domein** koppelen.
+- [ ] **Domein** koppelen, en daarna `SITE_URL` instellen in Vercel (basis voor vrijgavelinks).
+- [ ] **Klantberichten bij bevestigen, afwijzen, annuleren en verplaatsen:** volgen met de e-mail (Fase 13). Het beheer zegt Jessie nu dat ze de klant zelf moet inlichten.
 - [ ] **Bij livegang:** `robots: noindex` in `src/app/layout.tsx` verwijderen.

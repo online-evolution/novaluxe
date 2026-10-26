@@ -1,9 +1,14 @@
 "use client";
 
-import { startTransition, useActionState, useEffect, useRef } from "react";
+import { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import { actionClass } from "@/components/ui/action";
 
-export type ActionState = { error?: string; success?: string };
+export type ActionState = {
+  error?: string;
+  success?: string;
+  /** Iets om te kopiëren dat maar één keer getoond wordt, zoals een vrijgavelink. */
+  copy?: { label: string; value: string };
+};
 
 type ActionFormProps = {
   action: (previous: ActionState, formData: FormData) => Promise<ActionState>;
@@ -73,6 +78,43 @@ export function ActionForm({
           </p>
         )}
       </div>
+      {state.copy && !pending && <CopyField key={state.copy.value} {...state.copy} />}
     </form>
+  );
+}
+
+function CopyField({ label, value }: { label: string; value: string }) {
+  const [copied, setCopied] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  return (
+    <div className="mt-6 max-w-2xl border border-line-strong bg-ivory/50 p-4">
+      <label htmlFor="kopieer-veld" className="field-label">
+        {label}
+      </label>
+      <div className="mt-2 flex flex-wrap gap-3">
+        <input
+          ref={inputRef}
+          id="kopieer-veld"
+          readOnly
+          value={value}
+          onFocus={(event) => event.currentTarget.select()}
+          className="field-input mt-0 min-w-0 flex-1 font-mono text-small"
+        />
+        <button
+          type="button"
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(value);
+              setCopied(true);
+            } catch {
+              inputRef.current?.select();
+            }
+          }}
+          className={actionClass("quiet")}
+        >
+          {copied ? "Gekopieerd" : "Kopiëren"}
+        </button>
+      </div>
+    </div>
   );
 }

@@ -6,12 +6,14 @@ import { z } from "zod";
 import { ActionForm } from "@/components/admin/action-form";
 import { AdminPageHeader, AdminSection, Loading } from "@/components/admin/admin-page";
 import { StatusText } from "@/components/admin/appointment-list";
+import { ReleaseSection } from "@/components/admin/release-section";
 import { DateField, ForceCheckbox, TextArea, TimeField } from "@/components/admin/fields";
 import { allowedActions, effectiveStatus, statusLabels } from "@/domain/appointment";
 import { formatEuro } from "@/lib/format";
 import { formatLongDate, formatMoment, localDateString, utcToZonedParts } from "@/lib/time";
 import { getAppointmentForAdmin } from "@/server/admin/appointments";
 import { requireAdmin } from "@/server/auth/session";
+import { listReleasesForCustomer, listReleaseVariants } from "@/server/booking/release";
 import { changeStatusAction, rescheduleAction, saveNotesAction } from "../actions";
 
 export const metadata: Metadata = { title: "Afspraak" };
@@ -45,6 +47,10 @@ async function AppointmentDetail({ params, searchParams }: PageProps<"/admin/afs
   if (!data) notFound();
 
   const { appointment, customer, options, events, history } = data;
+  const [releases, releaseVariants] =
+    data.category === "extensions"
+      ? await Promise.all([listReleasesForCustomer(customer.id), listReleaseVariants()])
+      : [[], []];
   const now = new Date();
   const status = effectiveStatus(appointment, now);
   const actions = allowedActions(appointment, now);
@@ -226,6 +232,15 @@ async function AppointmentDetail({ params, searchParams }: PageProps<"/admin/afs
             )}
           </div>
         </AdminSection>
+      )}
+
+      {data.category === "extensions" && releaseVariants.length > 0 && (
+        <ReleaseSection
+          appointmentId={appointment.id}
+          customerName={customer.name}
+          releases={releases}
+          variants={releaseVariants}
+        />
       )}
 
       <AdminSection title="Notitie voor jezelf" intro="Alleen jij ziet dit, de klant niet.">
