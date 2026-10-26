@@ -5,7 +5,7 @@ import { ActionForm } from "@/components/admin/action-form";
 import { AdminPageHeader, AdminSection, Loading } from "@/components/admin/admin-page";
 import { TextField } from "@/components/admin/fields";
 import { PhotoInput } from "@/components/admin/photo-input";
-import { photoShots } from "@/config/photo-shots";
+import { beforeAfterRatio, formatAdvice, photoShots, workRatio } from "@/config/photo-shots";
 import { listGalleryForAdmin, listSitePhotosForAdmin } from "@/server/admin/photos";
 import { requireAdmin } from "@/server/auth/session";
 import type { PhotoFocus } from "@/server/photos";
@@ -56,14 +56,14 @@ async function Editors() {
       <AdminSection
         id="voor-en-na"
         title="Voor en na"
-        intro="Twee foto's van dezelfde klant, het liefst in hetzelfde licht en vanuit dezelfde hoek. Op de homepage schuift de bezoeker tussen voor en na. Plaats alleen foto's waarvoor de klant toestemming heeft gegeven."
+        intro={`Twee foto's van dezelfde klant, het liefst in hetzelfde licht en vanuit dezelfde hoek. Op de homepage schuift de bezoeker tussen voor en na. Formaat: ${formatAdvice(beforeAfterRatio).toLowerCase()}, voor allebei hetzelfde. Plaats alleen foto's waarvoor de klant toestemming heeft gegeven.`}
       >
         <GalleryList items={pairs} empty="Er staat nog geen voor en na op de website." />
         <Fold title="Voor en na toevoegen" open={pairs.length === 0}>
           <ActionForm action={addBeforeAfterAction} submitLabel="Voor en na plaatsen" resetOnSuccess>
             <div className="grid gap-6 sm:grid-cols-2">
-              <PhotoInput name="before" label="Voor" required />
-              <PhotoInput name="after" label="Na" required />
+              <PhotoInput name="before" label="Voor" ratio={beforeAfterRatio} required />
+              <PhotoInput name="after" label="Na" ratio={beforeAfterRatio} required />
               <CommonFields scope="nieuw-paar" />
             </div>
           </ActionForm>
@@ -73,14 +73,14 @@ async function Editors() {
       <AdminSection
         id="werk"
         title="Werk"
-        intro="Losse foto's van je werk. Op de homepage staan de eerste acht, in de volgorde van deze lijst."
+        intro={`Losse foto's van je werk. Op de homepage staan de eerste acht, in de volgorde van deze lijst. Formaat: ${formatAdvice(workRatio).toLowerCase()}.`}
       >
         <GalleryList items={photos} empty="Er staan nog geen foto's van je werk op de website. Tot die tijd staan er lege fotoplekken." />
         <Fold title="Foto toevoegen" open={photos.length === 0}>
           <ActionForm action={addPhotoAction} submitLabel="Foto plaatsen" resetOnSuccess>
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <PhotoInput name="photo" label="Foto" required />
+                <PhotoInput name="photo" label="Foto" ratio={workRatio} required />
               </div>
               <CommonFields scope="nieuwe-foto" />
             </div>
@@ -105,11 +105,19 @@ async function Editors() {
                     {shot.subject}
                   </p>
                   <p className="text-small text-ink-soft">{shot.where}</p>
+                  <p className="text-small text-ink-soft">
+                    Formaat: {formatAdvice(shot.ratio).toLowerCase()}
+                    {current && (
+                      <span className="figures">
+                        {" · "}nu {current.width} × {current.height} px
+                      </span>
+                    )}
+                  </p>
                   <Fold title={current ? "Foto vervangen" : "Foto plaatsen"} small>
                     <ActionForm action={setSitePhotoAction} submitLabel="Plaatsen" resetOnSuccess>
                       <input type="hidden" name="shot" value={shot.code} />
                       <div className="grid gap-6">
-                        <PhotoInput name="photo" label="Foto" required />
+                        <PhotoInput name="photo" label="Foto" ratio={shot.ratio} required />
                         <AltField scope={`plaats-${shot.code}`} value={current?.alt ?? undefined} />
                         <FocusField value={current?.focus} />
                       </div>
@@ -149,7 +157,7 @@ function GalleryList({ items, empty }: { items: GalleryRow[]; empty: string }) {
   if (items.length === 0) return <p className="mb-6 text-small text-ink-soft">{empty}</p>;
   return (
     <ol className="mb-8 border-t border-line-strong">
-      {items.map(({ item, url, beforeUrl }, index) => (
+      {items.map(({ item, url, width, height, beforeUrl, beforeWidth, beforeHeight }, index) => (
         <li key={item.id} className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 border-b border-line py-5">
           <div className="flex gap-1">
             {beforeUrl && <Thumb url={beforeUrl} label="Voor" />}
@@ -160,6 +168,9 @@ function GalleryList({ items, empty }: { items: GalleryRow[]; empty: string }) {
             <p className="text-small text-ink-soft">
               {item.published ? "Op de website" : "Verborgen"}
               {item.category && ` · ${categoryLabels[item.category]}`}
+            </p>
+            <p className="figures text-small text-ink-soft">
+              {beforeUrl ? `Voor ${beforeWidth} × ${beforeHeight} px · na ${width} × ${height} px` : `${width} × ${height} px`}
             </p>
             <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
               {index > 0 && (

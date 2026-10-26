@@ -12,7 +12,15 @@ import { beforeImages, type PhotoFocus } from "@/server/photos";
 
 export async function listSitePhotosForAdmin() {
   return getDb()
-    .select({ shot: sitePhotos.shot, imageId: sitePhotos.imageId, alt: sitePhotos.alt, focus: sitePhotos.focus, url: images.url })
+    .select({
+      shot: sitePhotos.shot,
+      imageId: sitePhotos.imageId,
+      alt: sitePhotos.alt,
+      focus: sitePhotos.focus,
+      url: images.url,
+      width: images.width,
+      height: images.height,
+    })
     .from(sitePhotos)
     .innerJoin(images, eq(sitePhotos.imageId, images.id));
 }
@@ -22,7 +30,11 @@ export async function listGalleryForAdmin() {
     .select({
       item: galleryItems,
       url: images.url,
+      width: images.width,
+      height: images.height,
       beforeUrl: beforeImages.url,
+      beforeWidth: beforeImages.width,
+      beforeHeight: beforeImages.height,
     })
     .from(galleryItems)
     .innerJoin(images, eq(galleryItems.imageId, images.id))
