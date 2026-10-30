@@ -22,6 +22,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 
 - **Homepage (concept Salonkaart, `docs/concepten/salonkaart.html`):**
   - De eerdere concepten vonden we te AI-achtig: abstracte vormen als fotovervanging, dunne lijntjes en genummerde blokken.
+  - De salonfoto (S04) staat liggend en volledig naast de tekst, zonder bijsnijden. Een raam-animatie in de logocirkel is geprobeerd en afgewezen: een liggende foto hoort niet bijgesneden of opgeblazen te worden.
   - Opbouw: opening met groot logo en een liggende foto van de salon (S04) → extensions en nagels met elk één foto → prijskaart met puntlijntjes → aandacht met de salonfoto → Jessie met portret op donker brons → werk → afspraak. Er is geen foto per behandeling nodig, wel een foto per plek.
   - Kleuren: de huisstijl (ivoor, crème, brons, inkt). De variant in kastanje en goud is afgewezen.
   - De homepage staat in de routegroep `(home)`, zonder kopregel, omdat het logo in de opening staat. De andere pagina's staan in `(site)`; beide gebruiken `SiteShell`.
@@ -244,7 +245,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - **Staande foto's eerst:** Jessie levert vooral staand aan. Alle fotoplekken zijn daarom staand (4:5, 3:4 of 2:3) of vierkant; de liggende plekken en de banden van 21:9 zijn omgezet.
 - **Verwerking:**
   - de browser verkleint de foto eerst tot 2000 px (canvas; dat laat ook de metadata achter);
-  - de server controleert met `sharp` of het echt een JPG, PNG of WebP is, zet de foto rechtop, verkleint tot maximaal 2000 px, slaat op als JPG en verwijdert alle metadata (zoals de GPS-locatie);
+  - de server controleert met `sharp` of het echt een JPG, PNG of WebP is, zet de foto rechtop, verkleint tot maximaal 2000 px, slaat op als JPG (kwaliteit 90) en verwijdert alle metadata (zoals de GPS-locatie);
   - een foto met een korte zijde onder 600 px wordt geweigerd;
   - serveracties accepteren maximaal 4 MB (Vercel staat 4,5 MB per verzoek toe).
 - **Opslag** achter een kleine interface (`src/server/storage`):

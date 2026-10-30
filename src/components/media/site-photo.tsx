@@ -15,12 +15,14 @@ export async function SitePhoto({
   className = "",
   sizes = "(min-width: 1024px) 50vw, 100vw",
   priority,
+  quality,
 }: {
   shot: string;
   subject: string;
   className?: string;
   sizes?: string;
   priority?: boolean;
+  quality?: 75 | 90;
 }) {
   const photo = (await getSitePhotos())[shot];
   if (!photo) return <PhotoPlaceholder shot={shot} subject={subject} className={className} />;
@@ -33,6 +35,7 @@ export async function SitePhoto({
         fill
         sizes={sizes}
         priority={priority}
+        quality={quality}
         className="object-cover"
         style={{ objectPosition: focusPosition[photo.focus] }}
       />

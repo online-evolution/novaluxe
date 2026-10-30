@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   cacheComponents: true,
   images: {
+    // 90 voor grote foto's, zoals de salon in de opening.
+    qualities: [75, 90],
     // Foto's uit het beheer staan in Vercel Blob (src/server/storage).
     remotePatterns: [
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com", port: "", pathname: "/fotos/**", search: "" },

@@ -49,7 +49,7 @@ export async function saveImage(
     output = await input
       .rotate()
       .resize({ width: maxEdge, height: maxEdge, fit: "inside", withoutEnlargement: true })
-      .jpeg({ quality: 84, mozjpeg: true })
+      .jpeg({ quality: 90, mozjpeg: true })
       .toBuffer({ resolveWithObject: true });
   } catch {
     return { ok: false, error: "geen-foto" };
