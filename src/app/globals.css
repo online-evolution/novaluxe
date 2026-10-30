@@ -424,3 +424,56 @@ html:has(dialog[open]) {
     }
   }
 }
+
+/*
+ * Foto's in de vorm van de spiegels in de salon: een boog, met een dun gouden
+ * lijntje eromheen zoals de ring in het logo. Bij het in beeld komen zoomt de
+ * foto zacht uit, bij hover zacht in.
+ */
+@layer components {
+  .photo-arch,
+  .photo-arch-wide {
+    outline: 1.5px solid var(--color-gold);
+    outline-offset: 7px;
+  }
+
+  .photo-arch {
+    border-radius: 100vw 100vw 0 0;
+  }
+
+  .photo-arch-wide {
+    border-radius: clamp(6rem, 18vw, 16rem) clamp(6rem, 18vw, 16rem) 0 0;
+  }
+
+  .photo-arch img,
+  .photo-arch-wide img {
+    transition: scale 1200ms var(--ease-soft);
+  }
+
+  @media (hover: hover) {
+    .photo-arch:hover img,
+    .photo-arch-wide:hover img {
+      scale: 1.05;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .photo-arch img,
+      .photo-arch-wide img {
+        animation: photo-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 45%;
+      }
+    }
+  }
+
+  @keyframes photo-in {
+    from {
+      transform: scale(1.16);
+    }
+    to {
+      transform: none;
+    }
+  }
+}

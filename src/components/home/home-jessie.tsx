@@ -8,7 +8,7 @@ export function HomeJessie() {
   return (
     <section
       aria-labelledby="home-jessie"
-      className="grid items-end gap-12 bg-cream px-gutter py-section lg:grid-cols-12 lg:gap-8"
+      className="grid items-center gap-12 bg-cream px-gutter py-section lg:grid-cols-12 lg:gap-8"
     >
       <div className="lg:col-span-8">
         <h2 id="home-jessie" className="text-lede font-semibold">
@@ -28,7 +28,7 @@ export function HomeJessie() {
       <SitePhoto
         shot="J01"
         subject="Portret van Jessie in de salon"
-        className="aspect-[4/5] w-3/4 sm:w-1/2 lg:col-span-4 lg:w-full"
+        className="mx-auto aspect-[4/5] w-3/4 sm:w-1/2 lg:col-span-4 lg:w-full"
         sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 75vw"
       />
     </section>

@@ -76,7 +76,7 @@ export function BeforeAfter({
         data-phase={phase}
         onClick={() => setPhase((current) => (current === "na" ? "voor" : "na"))}
         aria-label={phase === "na" ? `Toon hoe het was: ${alt}` : `Toon het resultaat: ${alt}`}
-        className="group relative block aspect-[4/5] w-full cursor-pointer overflow-hidden bg-ivory focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze-deep"
+        className="photo-arch group relative block aspect-[4/5] w-full cursor-pointer overflow-hidden bg-ivory focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze-deep"
       >
         <Image
           src={before.url}

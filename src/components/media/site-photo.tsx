@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { photoShots } from "@/config/photo-shots";
 import { getSitePhotos } from "@/server/photos";
 import { focusPosition } from "./focus";
 import { PhotoPlaceholder } from "./photo-placeholder";
@@ -7,7 +8,8 @@ import { PhotoPlaceholder } from "./photo-placeholder";
  * Foto op een vaste plek (shotcode uit PHOTO-SHOTLIST.md). Zolang Jessie er in
  * het beheer geen foto voor heeft geplaatst, staat de lege plek er met de code.
  * De plek bepaalt de verhouding (via `className`); de foto vult die en wordt
- * bijgesneden rond het gekozen deel.
+ * bijgesneden rond het gekozen deel. De vorm volgt de spiegels in de salon: een
+ * boog, en een lagere boog voor liggende foto's (.photo-arch in globals.css).
  */
 export async function SitePhoto({
   shot,
@@ -25,10 +27,12 @@ export async function SitePhoto({
   quality?: 75 | 90;
 }) {
   const photo = (await getSitePhotos())[shot];
-  if (!photo) return <PhotoPlaceholder shot={shot} subject={subject} className={className} />;
+  const landscape = photoShots.find((item) => item.code === shot)?.ratio === "3:2";
+  const shape = `${landscape ? "photo-arch-wide" : "photo-arch"} ${className}`;
+  if (!photo) return <PhotoPlaceholder shot={shot} subject={subject} className={shape} />;
 
   return (
-    <figure className={`relative overflow-hidden bg-ivory ${className}`}>
+    <figure className={`relative overflow-hidden bg-ivory ${shape}`}>
       <Image
         src={photo.url}
         alt={photo.alt ?? subject}

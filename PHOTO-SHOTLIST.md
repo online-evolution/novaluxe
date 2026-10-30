@@ -8,6 +8,7 @@ Foto's plaatsen gaat in het beheer onder **Foto's**: per shot-ID bij "Vaste plek
 
 - **Licht:** daglicht of zacht, warm licht, overal dezelfde kleurtemperatuur. Geen flits recht van voren.
 - **Formaten:** staand (4:5 of 3:4) is genoeg; de site is daarop ingericht. Schiet ruim, met lucht rondom het onderwerp, want sommige plekken snijden iets bij.
+- **Vorm:** foto's staan op de site in een boog, zoals de spiegels in de salon. De bovenhoeken vallen dus weg: houd het onderwerp in het midden.
 - **Voor en na:** zelfde licht, zelfde hoek en zelfde afstand, zodat het schuiven het verschil laat zien en niet de camera.
 - **Resolutie:** minimaal 3000 px aan de lange zijde. Lever de originelen aan, niet via WhatsApp of Instagram.
 - **Toestemming:** herkenbare klanten alleen met schriftelijke toestemming (AVG). Voor handen en haar zonder gezicht is ook toestemming netjes.

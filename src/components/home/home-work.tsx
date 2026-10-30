@@ -64,7 +64,7 @@ export async function HomeWork() {
               <PhotoPlaceholder
                 shot="Werk"
                 subject={subject}
-                className={photoRatios[index % photoRatios.length]}
+                className={`photo-arch ${photoRatios[index % photoRatios.length]}`}
               />
             </li>
           ))}
@@ -82,7 +82,7 @@ export async function HomeWork() {
             {shownPhotos.map((photo, index) => (
               <li key={photo.id} className="w-[62vw] shrink-0 snap-start sm:w-[38vw] lg:w-auto">
                 <figure>
-                  <div className={`relative overflow-hidden bg-ivory ${photoRatios[index % photoRatios.length]}`}>
+                  <div className={`photo-arch relative overflow-hidden bg-ivory ${photoRatios[index % photoRatios.length]}`}>
                     <Image
                       src={photo.url}
                       alt={photo.alt ?? photo.caption ?? "Werk van NovaLuxe"}
