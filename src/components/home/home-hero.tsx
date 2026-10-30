@@ -1,51 +1,95 @@
-import { LogoFull } from "@/components/brand/logo";
-import { SitePhoto } from "@/components/media/site-photo";
-import { MainNav } from "@/components/site/main-nav";
-import { BigLink } from "@/components/ui/action";
-import { bookingHref } from "@/config/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { LogoMark } from "@/components/brand/logo";
+import { focusPosition } from "@/components/media/focus";
+import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { bookingHref, mainNavigation } from "@/config/navigation";
 import { site } from "@/config/site";
+import { getSitePhotos } from "@/server/photos";
+
+const subject = "De salon van NovaLuxe";
+const goldPill =
+  "inline-flex items-center rounded-full bg-[#d0a049] font-bold whitespace-nowrap text-ink transition-transform duration-(--duration-quick) hover:-translate-y-0.5";
 
 /**
- * Opening: links het logo met de tekst, rechts de salonfoto (S04). Die is
- * liggend en staat er helemaal op, zonder bijsnijden.
+ * Opening: de salonfoto (S04) schuift langzaam door de ruimte, met een zwevende
+ * glazen menubalk en de kop in het midden. Op mobiel blijft de foto liggend en
+ * staat de tekst eronder.
  */
-export function HomeHero() {
+export async function HomeHero() {
+  const photo = (await getSitePhotos()).S04;
+
   return (
-    <section aria-labelledby="home-titel" className="bg-ivory">
-      <div className="hidden justify-center pt-6 lg:flex">
-        <MainNav />
-      </div>
-      <div className="grid items-center gap-10 px-gutter pt-10 pb-section-tight lg:grid-cols-[5fr_7fr] lg:gap-12 lg:pt-8">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <LogoFull
-            className="w-[60vw] max-w-64 lg:max-w-72"
-            sizes="(min-width: 1024px) 288px, 60vw"
+    <section aria-labelledby="home-titel" className="relative bg-cream lg:h-dvh lg:min-h-[620px] lg:overflow-hidden">
+      <div className="relative aspect-[3/2] overflow-hidden bg-sand lg:absolute lg:inset-0 lg:aspect-auto">
+        {photo ? (
+          <Image
+            src={photo.url}
+            alt={photo.alt ?? subject}
+            fill
+            sizes="120vw"
+            quality={90}
             priority
+            className="hero-pan object-cover"
+            style={{ objectPosition: focusPosition[photo.focus] }}
           />
-          <div>
-            <h1 id="home-titel" className="mx-auto max-w-[13em] text-display-m font-semibold text-balance">
-              Extensions en nagels in {site.area}
-            </h1>
-            <p className="mx-auto mt-4 max-w-measure text-lede">
-              Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij NovaLuxe in Kijkduin neem ik de tijd om
-              te luisteren naar wat jij mooi vindt.
-            </p>
-            <div className="mt-6">
-              <BigLink href={bookingHref}>Maak een afspraak</BigLink>
-            </div>
-            <p className="mt-4 text-small text-ink-soft">
-              Eén klant tegelijk · {site.address.street}, {site.address.city}
-            </p>
-          </div>
+        ) : (
+          <PhotoPlaceholder shot="S04" subject={subject} className="h-full" />
+        )}
+        <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+          <div className="hero-licht" />
         </div>
-        <SitePhoto
-          shot="S04"
-          subject="De salon van NovaLuxe"
-          className="aspect-[3/2] w-full"
-          sizes="(min-width: 1024px) 58vw, 100vw"
-          quality={90}
-          priority
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(38_26_19/0.4),transparent_30%)] lg:bg-[radial-gradient(70%_58%_at_50%_46%,rgb(38_26_19/0.74),rgb(38_26_19/0.46)_60%,rgb(38_26_19/0.2)_100%)]"
         />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 -bottom-px h-[22%] bg-gradient-to-t from-cream to-transparent lg:h-[30%]"
+        />
+      </div>
+
+      <nav
+        aria-label="Hoofdmenu"
+        className="absolute inset-x-gutter top-4 z-10 flex items-center justify-between gap-5 rounded-full border border-cream/30 bg-cream/15 py-2 pr-2.5 pl-3.5 text-cream backdrop-blur-md backdrop-saturate-125"
+      >
+        <span className="flex items-center gap-2.5 font-semibold">
+          <LogoMark className="h-9 w-auto" />
+          {site.name}
+        </span>
+        <ul className="hidden gap-8 font-medium lg:flex">
+          {mainNavigation
+            .filter((item) => item.href !== "/")
+            .map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="hover:underline hover:underline-offset-4">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+        </ul>
+        <Link href={bookingHref} className={`${goldPill} px-5 py-2.5 text-small lg:text-body`}>
+          Afspraak maken ↗
+        </Link>
+      </nav>
+
+      <div className="relative z-10 px-gutter pt-2 pb-10 text-center lg:absolute lg:inset-x-0 lg:top-[48%] lg:-translate-y-1/2 lg:pt-0 lg:pb-0 lg:text-cream">
+        <p className="inline-flex items-center gap-2 rounded-full bg-ink px-3.5 py-1.5 text-small font-semibold text-cream lg:bg-cream/90 lg:text-ink">
+          <span aria-hidden="true" className="size-2 rounded-full bg-[#d0a049]" />
+          Eén klant tegelijk, in {site.area}
+        </p>
+        <h1
+          id="home-titel"
+          className="mx-auto mt-4 max-w-[10.5em] text-display-l font-semibold text-balance lg:text-[clamp(3.5rem,6.6vw,6rem)] lg:[text-shadow:0_2px_34px_rgb(30_20_14/0.5)]"
+        >
+          Extensions en nagels in {site.area}
+        </h1>
+        <p className="mx-auto mt-4 max-w-measure text-lede lg:max-w-none lg:[text-shadow:0_1px_16px_rgb(30_20_14/0.65)]">
+          Bij NovaLuxe neem ik de tijd om te luisteren naar wat jij mooi vindt.
+        </p>
+        <Link href={bookingHref} className={`${goldPill} mt-6 px-8 py-3.5 text-lede`}>
+          Maak een afspraak ↗
+        </Link>
       </div>
     </section>
   );

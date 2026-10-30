@@ -22,8 +22,9 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 
 - **Homepage (concept Salonkaart, `docs/concepten/salonkaart.html`):**
   - De eerdere concepten vonden we te AI-achtig: abstracte vormen als fotovervanging, dunne lijntjes en genummerde blokken.
-  - De salonfoto (S04) staat liggend en volledig naast de tekst, zonder bijsnijden. Een raam-animatie in de logocirkel is geprobeerd en afgewezen: een liggende foto hoort niet bijgesneden of opgeblazen te worden.
-  - Opbouw: opening met groot logo en een liggende foto van de salon (S04) → extensions en nagels met elk één foto → prijskaart met puntlijntjes → aandacht met de salonfoto → Jessie met portret op donker brons → werk → afspraak. Er is geen foto per behandeling nodig, wel een foto per plek.
+  - Opening: de salonfoto (S04) over het hele scherm met een zwevende glazen menubalk, gecentreerde kop en gouden knop; de onderkant vervaagt in de pagina. De foto pant langzaam door de ruimte en licht trekt erover, met CSS-animaties: de foto wordt nooit vervormd. Op mobiel blijft hij liggend (3:2) met de tekst eronder.
+  - Afgewezen voor de opening: een raam in de logocirkel, vloeibaar goud, een donkere avondversie, diepte-effecten en waaiende planten.
+  - Opbouw: opening met de salonfoto (S04) → extensions en nagels met elk één foto → prijskaart met puntlijntjes → aandacht met de salonfoto → Jessie met portret op donker brons → werk → afspraak. Er is geen foto per behandeling nodig, wel een foto per plek.
   - Kleuren: de huisstijl (ivoor, crème, brons, inkt). De variant in kastanje en goud is afgewezen.
   - De homepage staat in de routegroep `(home)`, zonder kopregel, omdat het logo in de opening staat. De andere pagina's staan in `(site)`; beide gebruiken `SiteShell`.
 - **Andere pagina's:** dezelfde vormtaal, via `src/components/page`:

@@ -284,3 +284,49 @@ html:has(dialog[open]) {
     }
   }
 }
+
+/*
+ * Opening van de homepage: de salonfoto is een strak vlak dat langzaam door de
+ * ruimte schuift (niets vervormt), met zacht licht dat erover trekt.
+ */
+@layer components {
+  .hero-pan {
+    animation: hero-pan 46s ease-in-out infinite alternate;
+  }
+
+  .hero-licht {
+    position: absolute;
+    inset: -25%;
+    background:
+      radial-gradient(38% 46% at 30% 40%, rgb(255 244 222 / 0.5), transparent 70%),
+      radial-gradient(34% 42% at 72% 62%, rgb(255 236 205 / 0.4), transparent 70%),
+      radial-gradient(30% 38% at 54% 22%, rgb(51 44 37 / 0.28), transparent 70%);
+    mix-blend-mode: soft-light;
+    animation: hero-licht 34s ease-in-out infinite alternate;
+  }
+
+  @keyframes hero-pan {
+    from {
+      transform: scale(1.16) translateX(5.6%);
+    }
+    to {
+      transform: scale(1.16) translateX(-5.6%);
+    }
+  }
+
+  @keyframes hero-licht {
+    from {
+      transform: translateX(-12%);
+    }
+    to {
+      transform: translateX(12%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-pan,
+    .hero-licht {
+      animation: none;
+    }
+  }
+}
