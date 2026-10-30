@@ -1,20 +1,15 @@
 import type { PriceRow, SetRefillRow } from "@/domain/pricing";
+import { DottedRow } from "@/components/page/dotted-row";
 import { formatEuro } from "@/lib/format";
 
 const price = (cents: number | null) => (cents === null ? "—" : formatEuro(cents));
 
-/** Eenvoudige lijst: behandeling links, prijs rechts. */
+/** Eenvoudige lijst: behandeling links, prijs rechts, zoals op de prijskaart. */
 export function PriceList({ rows, caption }: { rows: PriceRow[]; caption?: string }) {
   return (
-    <dl aria-label={caption} className="border-t border-line-strong">
+    <dl aria-label={caption}>
       {rows.map((row) => (
-        <div
-          key={row.label}
-          className="flex items-baseline justify-between gap-6 border-b border-line py-3"
-        >
-          <dt>{row.label}</dt>
-          <dd className="figures shrink-0">{price(row.priceCents)}</dd>
-        </div>
+        <DottedRow key={row.label} label={row.label} value={price(row.priceCents)} />
       ))}
     </dl>
   );
@@ -31,7 +26,7 @@ export function SetRefillTable({ rows, caption }: { rows: SetRefillRow[]; captio
       <table className="w-full">
         <caption className="sr-only">{caption}</caption>
         <thead>
-          <tr className="border-b border-line-strong">
+          <tr>
             <th scope="col" className="label py-3 text-left text-ink-soft">
               Afwerking
             </th>
@@ -45,12 +40,12 @@ export function SetRefillTable({ rows, caption }: { rows: SetRefillRow[]; captio
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.label} className="border-b border-line">
-              <th scope="row" className="py-3 pr-3 text-left font-normal">
+            <tr key={row.label} className="border-b-2 border-dotted border-sand">
+              <th scope="row" className="py-3 pr-3 text-left font-medium">
                 {row.label}
               </th>
-              <td className="figures py-3 text-right">{price(row.newSetCents)}</td>
-              <td className="figures py-3 pl-4 text-right">{price(row.refillCents)}</td>
+              <td className="figures py-3 text-right font-semibold">{price(row.newSetCents)}</td>
+              <td className="figures py-3 pl-4 text-right font-semibold">{price(row.refillCents)}</td>
             </tr>
           ))}
         </tbody>

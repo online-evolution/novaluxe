@@ -14,7 +14,7 @@ export async function SiteFooter() {
   const [hours, year] = await Promise.all([getWeeklyHours(), getCurrentYear()]);
 
   return (
-    <footer className="mt-section bg-ivory px-gutter pt-section-tight pb-10">
+    <footer className="bg-ivory px-gutter pt-section-tight pb-10">
       <LogoFull className="mb-14 w-48 lg:w-60" />
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-6">

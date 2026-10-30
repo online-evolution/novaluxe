@@ -75,7 +75,7 @@ async function Editors() {
         title="Werk"
         intro={`Losse foto's van je werk. Op de homepage staan de eerste acht, in de volgorde van deze lijst. Zonder foto's vervalt dit blok. Formaat: ${formatAdvice(workRatio).toLowerCase()}.`}
       >
-        <GalleryList items={photos} empty="Er staan nog geen foto's van je werk op de website. Tot die tijd staan er lege fotoplekken." />
+        <GalleryList items={photos} empty="Er staan nog geen foto's van je werk op de website." />
         <Fold title="Foto toevoegen" open={photos.length === 0}>
           <ActionForm action={addPhotoAction} submitLabel="Foto plaatsen" resetOnSuccess>
             <div className="grid gap-6 sm:grid-cols-2">
@@ -91,7 +91,7 @@ async function Editors() {
       <AdminSection
         id="plekken"
         title="Vaste plekken op de website"
-        intro="Elke plek heeft een code uit de fotolijst. Zolang er geen foto staat, ziet de bezoeker een lege fotoplek met wat er moet komen."
+        intro="Elke plek heeft een code uit de fotolijst. Zolang er geen foto staat, blijft de plek weg; de pagina klopt ook zonder."
       >
         <ul className="border-t border-line-strong">
           {photoShots.map((shot) => {

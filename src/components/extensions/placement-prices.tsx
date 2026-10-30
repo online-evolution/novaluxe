@@ -44,10 +44,10 @@ export function PlacementPrices({ matrix }: { matrix: PriceMatrix }) {
           {matrix.rows.map((row) => (
             <div
               key={row.weftRows}
-              className="flex items-baseline justify-between gap-6 border-b border-line py-3"
+              className="flex items-baseline justify-between gap-6 border-b-2 border-dotted border-sand py-3"
             >
               <dt>{row.label}</dt>
-              <dd className="figures text-display-s font-medium leading-none">
+              <dd className="figures text-display-s font-semibold leading-none">
                 {formatPrice(row.prices[selectedIndex])}
               </dd>
             </div>
@@ -59,7 +59,7 @@ export function PlacementPrices({ matrix }: { matrix: PriceMatrix }) {
       <table className="hidden w-full lg:table">
         <caption className="sr-only">Prijzen nieuwe plaatsing per lengte en aantal banen</caption>
         <thead>
-          <tr className="border-b border-line-strong">
+          <tr>
             <th scope="col" className="label py-3 text-left text-ink-soft">
               Aantal banen
             </th>
@@ -72,12 +72,12 @@ export function PlacementPrices({ matrix }: { matrix: PriceMatrix }) {
         </thead>
         <tbody>
           {matrix.rows.map((row) => (
-            <tr key={row.weftRows} className="border-b border-line">
-              <th scope="row" className="py-4 text-left font-normal">
+            <tr key={row.weftRows} className="border-b-2 border-dotted border-sand">
+              <th scope="row" className="py-4 text-left font-medium">
                 {row.label}
               </th>
               {row.prices.map((cents, index) => (
-                <td key={matrix.lengths[index]} className="figures py-4 text-right text-lede">
+                <td key={matrix.lengths[index]} className="figures py-4 text-right text-lede font-semibold">
                   {formatPrice(cents)}
                 </td>
               ))}

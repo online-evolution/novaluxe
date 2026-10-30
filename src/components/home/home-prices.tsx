@@ -1,8 +1,9 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { BigLink } from "@/components/ui/action";
+import { bookingHref } from "@/config/navigation";
 import type { CatalogTreatment } from "@/domain/catalog";
 import { formatEuro } from "@/lib/format";
-import { HomeButton } from "./home-button";
 
 /** "Gratis", "€ 30" of "vanaf € 50"; `null` als er nog geen prijs bekend is. */
 function priceText(treatment: CatalogTreatment | undefined): string | null {
@@ -95,7 +96,7 @@ export function HomePrices({ catalog }: { catalog: CatalogTreatment[] }) {
         />
       </div>
       <div className="mt-12">
-        <HomeButton />
+        <BigLink href={bookingHref}>Maak een afspraak</BigLink>
       </div>
     </section>
   );

@@ -2,23 +2,26 @@ import { LogoFull } from "@/components/brand/logo";
 import { BeforeAfter } from "@/components/media/before-after";
 import { SitePhoto } from "@/components/media/site-photo";
 import { MainNav } from "@/components/site/main-nav";
+import { BigLink } from "@/components/ui/action";
+import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
-import { getGallery } from "@/server/photos";
-import { HomeButton } from "./home-button";
+import { getGallery, getSitePhotos } from "@/server/photos";
 
 const photoSizes = "(min-width: 1024px) 42vw, 100vw";
 
 /**
  * Opening: het logo groot en gecentreerd, met daarnaast over de volle hoogte
  * één foto. Dat is het eerste voor en na (de transformatie), of anders de
- * vaste foto W01. Meer foto's zijn voor deze pagina niet nodig.
+ * vaste foto W01. Is er geen van beide, dan staat de tekst alleen. Meer foto's
+ * zijn voor deze pagina niet nodig.
  */
 export async function HomeHero() {
-  const { pairs } = await getGallery();
+  const [{ pairs }, photos] = await Promise.all([getGallery(), getSitePhotos()]);
   const pair = pairs[0];
+  const hasPhoto = Boolean(pair ?? photos.W01);
 
   return (
-    <section aria-labelledby="home-titel" className="grid bg-ivory lg:min-h-dvh lg:grid-cols-[7fr_5fr]">
+    <section aria-labelledby="home-titel" className={`grid bg-ivory lg:min-h-dvh ${hasPhoto ? "lg:grid-cols-[7fr_5fr]" : ""}`}>
       <div className="flex flex-col items-center gap-8 px-gutter pt-10 pb-12 text-center lg:justify-between lg:py-6">
         <div className="hidden lg:block">
           <MainNav />
@@ -37,7 +40,7 @@ export async function HomeHero() {
             te luisteren naar wat jij mooi vindt.
           </p>
           <div className="mt-8">
-            <HomeButton />
+            <BigLink href={bookingHref}>Maak een afspraak</BigLink>
           </div>
           <p className="mt-5 text-small text-ink-soft">
             Eén klant tegelijk · {site.address.street}, {site.address.city}

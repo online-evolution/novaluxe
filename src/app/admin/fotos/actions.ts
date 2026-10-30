@@ -64,7 +64,7 @@ export async function clearSitePhotoAction(_previous: ActionState, formData: For
   if (!shot.success) return { error: reload };
   const previous = await clearSitePhoto(shot.data);
   if (previous) await removeImages([previous]);
-  return done("Verwijderd. Op die plek staat weer de lege fotoplek.");
+  return done("Verwijderd.");
 }
 
 // ---------- Werk en voor en na ----------

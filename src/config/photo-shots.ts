@@ -18,7 +18,7 @@ export type PhotoShot = {
 };
 
 export const photoShots: PhotoShot[] = [
-  { code: "W01", subject: "Handen van Jessie aan het werk aan nagels", where: "Homepage, bovenaan, zolang er geen voor en na is", ratio: "4:5" },
+  { code: "W01", subject: "Handen van Jessie aan het werk aan nagels", where: "Homepage, bovenaan, als er geen voor en na is", ratio: "4:5" },
   { code: "J01", subject: "Portret van Jessie in de salon", where: "Homepage, naast de tekst van Jessie (optioneel)", ratio: "4:5" },
   { code: "E01", subject: "Extensions van achteren, lang haar met een natuurlijke val", where: "Extensions, bovenaan", ratio: "3:4" },
   { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Over ons", ratio: "3:4" },

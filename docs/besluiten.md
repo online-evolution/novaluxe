@@ -25,7 +25,12 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - De pagina is compleet met één foto: opening met groot logo en de transformatie → prijskaart met puntlijntjes → Jessies eigen woorden op donker brons → afspraak. Meer foto's zijn een bonus; er is geen foto per behandeling nodig.
   - Kleuren: de huisstijl (ivoor, crème, brons, inkt). De variant in kastanje en goud is afgewezen.
   - De homepage staat in de routegroep `(home)`, zonder kopregel, omdat het logo in de opening staat. De andere pagina's staan in `(site)`; beide gebruiken `SiteShell`.
-  - Het Werk-blok verschijnt alleen als er meer werk is dan het eerste voor-en-na. Er staan geen lege fotoplekken meer op de homepage.
+  - Het Werk-blok verschijnt alleen als er meer werk is dan het eerste voor-en-na.
+- **Andere pagina's:** dezelfde vormtaal, via `src/components/page`:
+  - opening gecentreerd op ivoor (`PageOpening`), blokken in crème, ivoor of één keer brons (`PageSection`), afsluiter gecentreerd (`PageClosing`);
+  - prijzen en openingstijden met puntlijntjes (`DottedRow`);
+  - koppen semibold; geen genummerde secties, geen labels boven koppen en geen dunne lijnen.
+- **Foto's zijn overal optioneel:** een plek zonder foto blijft weg (`SitePhoto` geeft dan niets). Er zijn geen placeholders meer; geen enkele pagina heeft een foto per behandeling nodig.
 
 ## Bron van waarheid
 
@@ -235,7 +240,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - **Beheer → Foto's**, in drie delen:
   - *Voor en na*: twee foto's per paar, op de homepage als transformatie (het eerste paar in de opening, daarna maximaal drie bij Werk). Het resultaat golft van boven naar beneden over het voor, met een zachte golvende rand die zijwaarts meedeint en een lichtstreep. Daarna veert het resultaat zacht op zijn plek en flonkeren even drie ✦-sterretjes uit het logo. Dat speelt één keer vanzelf af als de foto in beeld komt. Tikken speelt het terug en weer vooruit. Met "minder beweging" ingesteld start niets vanzelf en is het een rustige overgang. (Een schuifregelaar en drie statische varianten zijn afgewezen.)
   - *Werk*: losse foto's; op de homepage staan de eerste acht, in Jessies volgorde (zonder foto's vervalt het blok);
-  - *Vaste plekken*: één foto per shotcode uit `PHOTO-SHOTLIST.md` (`src/config/photo-shots.ts`). Zonder foto toont de site de placeholder.
+  - *Vaste plekken*: één foto per shotcode uit `PHOTO-SHOTLIST.md` (`src/config/photo-shots.ts`). Zonder foto blijft de plek weg.
   - Per foto een optioneel onderschrift, een beschrijving (alt-tekst) en welk deel zichtbaar moet blijven bij bijsnijden (boven, midden, onder).
 - **Staande foto's eerst:** Jessie levert vooral staand aan. Alle fotoplekken zijn daarom staand (4:5, 3:4 of 2:3) of vierkant; de liggende plekken en de banden van 21:9 zijn omgezet.
 - **Verwerking:**

@@ -5,13 +5,14 @@ import { site } from "@/config/site";
 import { MainNav } from "./main-nav";
 
 /**
- * Rustige kopregel zonder balk of achtergrondvlak, met het monogram van het logo.
+ * Kopregel met het monogram van het logo, op hetzelfde ivoor als de opening van
+ * de pagina.
  * Op mobiel staat daarnaast alleen de plaats; navigatie en afspraakknop zitten in
  * de balk onderin.
  */
 export function SiteHeader() {
   return (
-    <header className="flex items-center justify-between gap-8 px-gutter pt-5 pb-3 lg:pt-6">
+    <header className="flex items-center justify-between gap-8 bg-ivory px-gutter pt-5 pb-3 lg:pt-6">
       <LogoMark className="h-11 w-auto lg:h-14" />
 
       <p className="label text-ink-soft lg:hidden">

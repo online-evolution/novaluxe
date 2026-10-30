@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { HomeButton } from "./home-button";
+import { BigLink } from "@/components/ui/action";
+import { bookingHref } from "@/config/navigation";
 
 /**
  * Afsluiter vóór de footer. Maakt duidelijk dat Jessie eerst bevestigt, zonder
@@ -7,7 +8,7 @@ import { HomeButton } from "./home-button";
  */
 export function HomeBooking() {
   return (
-    <section aria-labelledby="home-afspraak" className="bg-cream px-gutter pt-section text-center">
+    <section aria-labelledby="home-afspraak" className="bg-cream px-gutter py-section text-center">
       <h2 id="home-afspraak" className="mx-auto max-w-[14em] text-display-m font-semibold text-balance">
         Klaar voor je volgende afspraak
       </h2>
@@ -16,7 +17,7 @@ export function HomeBooking() {
         beschikbare datum en tijd.
       </p>
       <div className="mt-8">
-        <HomeButton />
+        <BigLink href={bookingHref}>Maak een afspraak</BigLink>
       </div>
       <p className="mx-auto mt-5 max-w-measure text-small text-ink-soft">
         Zodra Jessie je aanvraag bevestigt, ontvang je automatisch een e-mail.

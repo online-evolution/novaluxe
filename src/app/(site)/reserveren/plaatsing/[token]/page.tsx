@@ -17,10 +17,9 @@ export const metadata: Metadata = {
 
 export default function ReleasePage({ params }: PageProps<"/reserveren/plaatsing/[token]">) {
   return (
-    <div className="px-gutter pt-section-tight">
+    <div className="px-gutter py-section-tight">
       <div className="mx-auto max-w-3xl">
-        <p className="label text-bronze-deep">Afspraak aanvragen</p>
-        <Suspense fallback={<p className="mt-6 text-ink-soft">Even laden…</p>}>
+        <Suspense fallback={<p className="text-ink-soft">Even laden…</p>}>
           <Release params={params} />
         </Suspense>
       </div>
@@ -36,7 +35,7 @@ async function Release({ params }: Pick<PageProps<"/reserveren/plaatsing/[token]
   if (!release) {
     return (
       <>
-        <h1 className="mt-4 text-display-l font-medium text-balance">Deze link werkt niet (meer)</h1>
+        <h1 className="text-display-l font-semibold text-balance">Deze link werkt niet (meer)</h1>
         <p className="mt-6 max-w-measure text-lede">
           Misschien is hij verlopen, of heb je al een tijd aangevraagd. Bel of app Jessie op{" "}
           <a href={site.phone.href} className="figures underline decoration-bronze underline-offset-4">
@@ -53,14 +52,14 @@ async function Release({ params }: Pick<PageProps<"/reserveren/plaatsing/[token]
 
   return (
     <>
-      <h1 className="mt-4 text-display-l font-medium text-balance">
+      <h1 className="text-display-l font-semibold text-balance">
         Hoi {release.firstName}, plan je nieuwe extensions
       </h1>
       <p className="mt-6 max-w-measure text-lede text-ink-soft">
         Dit hebben we bij het consult afgesproken. Kies hieronder een moment dat jou uitkomt.
       </p>
 
-      <dl className="mt-10 border-t border-line-strong">
+      <dl className="mt-10">
         <Row label="Behandeling">
           {release.treatmentName}, {release.variantLabel}
         </Row>
@@ -80,7 +79,7 @@ async function Release({ params }: Pick<PageProps<"/reserveren/plaatsing/[token]
         <Row label="Link geldig">tot en met {formatLongDate(lastDay)}</Row>
       </dl>
 
-      <h2 className="mt-14 text-lede font-medium">Kies een datum en tijd</h2>
+      <h2 className="mt-14 text-display-s font-semibold">Kies een datum en tijd</h2>
       <ReleaseBooking token={token} days={days} phone={site.phone} />
     </>
   );
@@ -88,7 +87,7 @@ async function Release({ params }: Pick<PageProps<"/reserveren/plaatsing/[token]
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-line py-3 sm:grid-cols-[9rem_1fr]">
+    <div className="grid grid-cols-[7rem_1fr] gap-4 border-b-2 border-dotted border-sand py-3 sm:grid-cols-[9rem_1fr]">
       <dt className="text-small text-ink-soft">{label}</dt>
       <dd className="min-w-0">{children}</dd>
     </div>
