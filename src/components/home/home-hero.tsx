@@ -76,7 +76,7 @@ export async function HomeHero() {
       <div className="relative z-10 px-gutter pt-2 pb-10 text-center lg:absolute lg:inset-x-0 lg:top-[48%] lg:-translate-y-1/2 lg:pt-0 lg:pb-0 lg:text-cream">
         <p className="inline-flex items-center gap-2 rounded-full bg-ink px-3.5 py-1.5 text-small font-semibold text-cream lg:bg-cream/90 lg:text-ink">
           <span aria-hidden="true" className="size-2 rounded-full bg-[#d0a049]" />
-          Eén klant tegelijk, in {site.area}
+          Eén klant tegelijk · {site.address.street}, {site.address.city}
         </p>
         <h1
           id="home-titel"
@@ -84,10 +84,15 @@ export async function HomeHero() {
         >
           Extensions en nagels in {site.area}
         </h1>
-        <p className="mx-auto mt-4 max-w-measure text-lede lg:max-w-none lg:[text-shadow:0_1px_16px_rgb(30_20_14/0.65)]">
-          Bij NovaLuxe neem ik de tijd om te luisteren naar wat jij mooi vindt.
+        <p className="mx-auto mt-4 max-w-[38em] text-lede lg:[text-shadow:0_1px_16px_rgb(30_20_14/0.65)]">
+          Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij NovaLuxe in Kijkduin neem ik de tijd om te
+          luisteren naar wat jij mooi vindt.
         </p>
-        <Link href={bookingHref} className={`${goldPill} mt-6 px-8 py-3.5 text-lede`}>
+        <p className="mx-auto mt-3 max-w-[38em] lg:[text-shadow:0_1px_16px_rgb(30_20_14/0.65)]">
+          Je krijgt eerlijk advies en mijn volledige aandacht. Neem plaats, voel je op je gemak en geniet van een moment
+          voor jezelf.
+        </p>
+        <Link href={bookingHref} className={`${goldPill} mt-5 px-8 py-3.5 text-lede`}>
           Maak een afspraak ↗
         </Link>
       </div>
