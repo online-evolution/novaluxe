@@ -22,6 +22,9 @@ export const site = {
     handle: "@bynovaluxe",
     href: "https://www.instagram.com/bynovaluxe/",
   },
+  facebook: {
+    href: "https://www.facebook.com/profile.php?id=61564718295250",
+  },
   kvk: "93396007",
   maker: {
     name: "The Online Evolution",

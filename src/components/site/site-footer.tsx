@@ -24,6 +24,18 @@ function Icon({ children, className = "" }: { children: React.ReactNode; classNa
   );
 }
 
+function SocialLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      aria-label={label}
+      className="grid size-11 place-items-center rounded-full border border-sand/40 text-ivory transition-colors duration-(--duration-quick) hover:border-gold hover:text-gold"
+    >
+      <Icon>{children}</Icon>
+    </a>
+  );
+}
+
 /** Donkere afsluiter van elke pagina: merk, pagina's en contact in kolommen. */
 export async function SiteFooter() {
   const [hours, year] = await Promise.all([getWeeklyHours(), getCurrentYear()]);
@@ -41,17 +53,14 @@ export async function SiteFooter() {
               <BigLink href={bookingHref} size="md">
                 Afspraak maken
               </BigLink>
-              <a
-                href={site.instagram.href}
-                aria-label={`${site.name} op Instagram (${site.instagram.handle})`}
-                className="grid size-11 place-items-center rounded-full border border-sand/40 text-ivory transition-colors duration-(--duration-quick) hover:border-gold hover:text-gold"
-              >
-                <Icon>
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M17.5 6.5h.01" />
-                </Icon>
-              </a>
+              <SocialLink href={site.instagram.href} label={`${site.name} op Instagram (${site.instagram.handle})`}>
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <path d="M17.5 6.5h.01" />
+              </SocialLink>
+              <SocialLink href={site.facebook.href} label={`${site.name} op Facebook`}>
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </SocialLink>
             </div>
           </div>
 
@@ -109,6 +118,13 @@ export async function SiteFooter() {
                   </dl>
                 </div>
               </li>
+              <li className="flex gap-3">
+                <Icon className="mt-1 text-gold">
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </Icon>
+                <p className="figures text-ivory">KvK {site.kvk}</p>
+              </li>
             </ul>
           </div>
         </div>
@@ -116,7 +132,7 @@ export async function SiteFooter() {
         {/* TODO(content): links naar privacyverklaring en algemene voorwaarden zodra die er zijn. */}
         <div className="figures mt-section-tight flex flex-col gap-2 border-t border-sand/20 pt-6 text-small lg:flex-row lg:gap-8">
           <p>
-            © {year} {site.name}. Alle rechten voorbehouden. KvK {site.kvk}
+            © {year} {site.name}. Alle rechten voorbehouden.
           </p>
           <p>
             Website door{" "}
