@@ -33,8 +33,8 @@ export async function HomeWork() {
         <h2 id="home-werk" className="text-display-m font-semibold">
           Werk
         </h2>
-        <BigAnchor href={site.instagram.href} size="md">
-          Bekijk Instagram
+        <BigAnchor href={site.instagram.href} size="md" target="_blank" rel="noopener noreferrer">
+          Bekijk Instagram <span className="sr-only">(opent in een nieuw venster)</span>
         </BigAnchor>
       </div>
 

@@ -35,7 +35,7 @@ export default async function ContactPage() {
           je wensen en denk met je mee.
         </p>
         <h2 className="sr-only">Contactgegevens</h2>
-        <ul className="mt-10 flex flex-wrap justify-center gap-x-16 gap-y-6">
+        <ul className="mt-10 flex flex-wrap justify-center gap-x-10 gap-y-6">
           <li>
             <p className="font-medium">Bel NovaLuxe</p>
             <a
@@ -49,9 +49,22 @@ export default async function ContactPage() {
             <p className="font-medium">Bekijk Instagram</p>
             <a
               href={site.instagram.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-1 inline-block text-display-m font-semibold decoration-bronze underline-offset-8 hover:underline"
             >
-              {site.instagram.handle}
+              {site.instagram.handle} <span className="sr-only">(opent in een nieuw venster)</span>
+            </a>
+          </li>
+          <li>
+            <p className="font-medium">Bekijk Facebook</p>
+            <a
+              href={site.facebook.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 inline-block text-display-m font-semibold decoration-bronze underline-offset-8 hover:underline"
+            >
+              {site.name} <span className="sr-only">(opent in een nieuw venster)</span>
             </a>
           </li>
         </ul>

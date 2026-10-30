@@ -28,7 +28,9 @@ function SocialLink({ href, label, children }: { href: string; label: string; ch
   return (
     <a
       href={href}
-      aria-label={label}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${label}, opent in een nieuw venster`}
       className="grid size-11 place-items-center rounded-full border border-sand/40 text-ivory transition-colors duration-(--duration-quick) hover:border-gold hover:text-gold"
     >
       <Icon>{children}</Icon>
@@ -36,15 +38,15 @@ function SocialLink({ href, label, children }: { href: string; label: string; ch
   );
 }
 
-/** Donkere afsluiter van elke pagina: merk, pagina's en contact in kolommen. */
+/** Donkere afsluiter van elke pagina: merk, pagina's, contact en openingstijden in kolommen. */
 export async function SiteFooter() {
   const [hours, year] = await Promise.all([getWeeklyHours(), getCurrentYear()]);
 
   return (
     <footer className="bg-ink px-gutter pt-section-tight pb-8 text-sand [&_:focus-visible]:outline-gold">
       <div className="mx-auto max-w-[76rem]">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-6">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          <div className="sm:col-span-2 lg:col-span-4">
             <LogoFull className="w-44 lg:w-52" sizes="208px" />
             <p className="mt-6 max-w-[28rem]">
               Bij {site.name} in {site.area} neem ik de tijd om te luisteren naar wat jij mooi vindt.
@@ -79,7 +81,7 @@ export async function SiteFooter() {
             </ul>
           </nav>
 
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-3">
             <h2 className="label text-gold">Contact</h2>
             <ul className="mt-5 grid gap-4">
               <li className="flex gap-3">
@@ -103,20 +105,15 @@ export async function SiteFooter() {
               </li>
               <li className="flex gap-3">
                 <Icon className="mt-1 text-gold">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </Icon>
-                <div>
-                  <h3 className="sr-only">Openingstijden</h3>
-                  <dl className="figures grid grid-cols-[auto_1fr] gap-x-6 text-ivory">
-                    {summariseWeeklyHours(hours).map((line) => (
-                      <div key={line.days} className="contents">
-                        <dt>{line.days}</dt>
-                        <dd>{line.hours}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
+                <a
+                  href={site.email.href}
+                  className="min-w-0 text-ivory [overflow-wrap:anywhere] transition-colors duration-(--duration-quick) hover:text-gold"
+                >
+                  {site.email.display}
+                </a>
               </li>
               <li className="flex gap-3">
                 <Icon className="mt-1 text-gold">
@@ -126,6 +123,18 @@ export async function SiteFooter() {
                 <p className="figures text-ivory">KvK {site.kvk}</p>
               </li>
             </ul>
+          </div>
+
+          <div className="lg:col-span-3">
+            <h2 className="label text-gold">Openingstijden</h2>
+            <dl className="figures mt-5 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-ivory">
+              {summariseWeeklyHours(hours).map((line) => (
+                <div key={line.days} className="contents">
+                  <dt>{line.days}</dt>
+                  <dd>{line.hours}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
 

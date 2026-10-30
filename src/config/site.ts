@@ -18,6 +18,10 @@ export const site = {
     display: "06 13867266",
     href: "tel:+31613867266",
   },
+  email: {
+    display: "nailssbyjessiee@gmail.com",
+    href: "mailto:nailssbyjessiee@gmail.com",
+  },
   instagram: {
     handle: "@bynovaluxe",
     href: "https://www.instagram.com/bynovaluxe/",

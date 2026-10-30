@@ -125,8 +125,11 @@ function Menu({ pathname }: { pathname: string | null }) {
               <a href={site.phone.href} className="figures text-ink">
                 {site.phone.display}
               </a>
-              <a href={site.instagram.href} className="text-ink">
-                {site.instagram.handle}
+              <a href={site.instagram.href} target="_blank" rel="noopener noreferrer" className="text-ink">
+                {site.instagram.handle} <span className="sr-only">(opent in een nieuw venster)</span>
+              </a>
+              <a href={site.facebook.href} target="_blank" rel="noopener noreferrer" className="text-ink">
+                Facebook <span className="sr-only">(opent in een nieuw venster)</span>
               </a>
             </p>
           </div>
