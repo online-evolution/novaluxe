@@ -16,7 +16,7 @@ export async function HomeHero() {
   const photo = (await getSitePhotos()).S04;
 
   return (
-    <section aria-labelledby="home-titel" className="relative bg-cream lg:h-[calc(100dvh-7.1rem)] lg:min-h-[600px] lg:overflow-hidden">
+    <section aria-labelledby="home-titel" className="relative bg-ivory lg:h-[calc(100dvh-7.1rem)] lg:min-h-[600px] lg:overflow-hidden">
       <div className="relative aspect-[3/2] overflow-hidden bg-sand lg:absolute lg:inset-0 lg:aspect-auto">
         {photo ? (
           <Image
@@ -41,11 +41,11 @@ export async function HomeHero() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 -bottom-px h-[22%] bg-gradient-to-t from-cream to-transparent lg:h-[26%] lg:from-bronze-deep"
+          className="absolute inset-x-0 -bottom-px h-[22%] bg-gradient-to-t from-ivory to-transparent lg:h-[26%] lg:from-cream"
         />
       </div>
 
-      {/* Op desktop loopt de foto over in het bronzen blok eronder, op mobiel in de tekst. */}
+      {/* Op desktop loopt de foto over in het crème blok eronder, op mobiel in de tekst. */}
       <div className="relative z-10 px-gutter pt-4 pb-10 text-center lg:absolute lg:inset-x-0 lg:top-[48%] lg:-translate-y-1/2 lg:pt-0 lg:pb-0 lg:text-cream">
         <h1
           id="home-titel"

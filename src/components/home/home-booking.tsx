@@ -8,7 +8,7 @@ import { bookingHref } from "@/config/navigation";
  */
 export function HomeBooking() {
   return (
-    <section aria-labelledby="home-afspraak" className="bg-cream px-gutter py-section text-center">
+    <section aria-labelledby="home-afspraak" className="bg-bronze-deep px-gutter py-section text-center text-cream">
       <h2 id="home-afspraak" className="mx-auto max-w-[14em] text-display-m font-semibold text-balance">
         Klaar voor je volgende afspraak
       </h2>
@@ -19,12 +19,12 @@ export function HomeBooking() {
       <div className="mt-8">
         <BigLink href={bookingHref}>Maak een afspraak</BigLink>
       </div>
-      <p className="mx-auto mt-5 max-w-measure text-small text-ink-soft">
+      <p className="mx-auto mt-5 max-w-measure text-small">
         Zodra Jessie je aanvraag bevestigt, ontvang je automatisch een e-mail.
       </p>
       <Link
         href="/reserveren?behandeling=gratis-consult"
-        className="mt-4 inline-block font-semibold underline underline-offset-4 hover:text-bronze-deep"
+        className="mt-4 inline-block font-semibold underline underline-offset-4 hover:text-ivory"
       >
         Plan je gratis consult
       </Link>

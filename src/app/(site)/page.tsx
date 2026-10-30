@@ -7,8 +7,8 @@ import { HomeWork } from "@/components/home/home-work";
 
 /*
  * Homepage: opening → Jessie → extensions en nagels → aandacht → werk →
- * afspraak → colofon. De achtergronden wisselen elkaar af: brons, ivoor, crème,
- * ivoor, crème en dan de ivoren footer. Houd dat kloppend als de volgorde
+ * afspraak → colofon. De achtergronden wisselen elkaar af: crème, ivoor, crème,
+ * ivoor, brons en dan de ivoren footer. Houd dat kloppend als de volgorde
  * verandert. Teksten uit docs/bron.
  */
 export default function HomePage() {

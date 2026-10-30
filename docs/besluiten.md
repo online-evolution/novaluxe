@@ -22,8 +22,8 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - De eerdere concepten vonden we te AI-achtig: abstracte vormen als fotovervanging, dunne lijntjes en genummerde blokken.
   - Opening: de salonfoto (S04) direct onder de kopregel, schermvullend, met gecentreerde kop en gouden knop; de onderkant vervaagt in de pagina. De foto pant langzaam door de ruimte en licht trekt erover, met CSS-animaties: de foto wordt nooit vervormd. Op mobiel blijft hij liggend (3:2) met de tekst eronder.
   - Afgewezen voor de opening: een raam in de logocirkel, vloeibaar goud, een donkere avondversie, diepte-effecten en waaiende planten.
-  - Opbouw: opening met de salonfoto (S04) → Jessie met portret op donker brons → extensions en nagels met elk één foto → aandacht met een liggende salonfoto (S01) → werk → afspraak. De prijzen staan alleen op Extensions en Nagels.
-  - De achtergronden wisselen af (brons, ivoor, crème, ivoor, crème, ivoren footer). Controleer dat als de volgorde verandert.
+  - Opbouw: opening met de salonfoto (S04) → Jessie met portret → extensions en nagels met elk één foto → aandacht met een liggende salonfoto (S01) → werk → afspraak op brons. De prijzen staan alleen op Extensions en Nagels.
+  - De achtergronden wisselen af (crème, ivoor, crème, ivoor, brons, ivoren footer). Controleer dat als de volgorde verandert.
   - Kleuren: de huisstijl (ivoor, crème, brons, inkt). De variant in kastanje en goud is afgewezen.
 - **Andere pagina's:** dezelfde vormtaal, via `src/components/page`:
   - opening gecentreerd op ivoor (`PageOpening`), blokken in crème, ivoor of één keer brons (`PageSection`), afsluiter gecentreerd (`PageClosing`);

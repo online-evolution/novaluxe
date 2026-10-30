@@ -2,14 +2,13 @@ import Link from "next/link";
 import { SitePhoto } from "@/components/media/site-photo";
 
 /**
- * Jessie in haar eigen woorden, naast haar portret, op het enige krachtige
- * kleurvlak van de pagina.
+ * Jessie in haar eigen woorden, naast haar portret.
  */
 export function HomeJessie() {
   return (
     <section
       aria-labelledby="home-jessie"
-      className="grid items-end gap-12 bg-bronze-deep px-gutter py-section text-cream lg:grid-cols-12 lg:gap-8"
+      className="grid items-end gap-12 bg-cream px-gutter py-section lg:grid-cols-12 lg:gap-8"
     >
       <div className="lg:col-span-8">
         <h2 id="home-jessie" className="text-lede font-semibold">
@@ -22,7 +21,7 @@ export function HomeJessie() {
           Wat begon met nagels zetten in een klein kamertje thuis, groeide uit tot mijn eigen salon in Kijkduin. Hier
           komen mijn liefde voor nagels en mijn ervaring met haar en extensions samen.
         </p>
-        <Link href="/over-ons" className="mt-5 inline-block font-semibold underline underline-offset-4">
+        <Link href="/over-ons" className="mt-5 inline-block font-semibold underline underline-offset-4 hover:text-bronze-deep">
           Lees mijn verhaal
         </Link>
       </div>
