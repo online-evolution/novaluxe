@@ -19,6 +19,10 @@ export function actionClass(variant: ActionVariant = "primary"): string {
   return `${base} ${variants[variant]}`;
 }
 
+/** Gouden pilknop in de kopregel en de opening van de homepage. */
+export const goldPillClass =
+  "inline-flex items-center rounded-full bg-gold font-bold whitespace-nowrap text-ink transition-transform duration-(--duration-quick) hover:-translate-y-0.5";
+
 type ActionLinkProps<T extends string> = {
   href: Route<T>;
   variant?: ActionVariant;

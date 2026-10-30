@@ -16,8 +16,8 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - **Footer:** een colofon met adres en contact groot, zonder kolommenraster.
 - **Logo:**
   - het origineel staat in `docs/bron/logo/novaluxe.svg` (getraceerd, ±440 KB); de site toont daarvan gerenderde PNG's uit `public/brand/`;
-  - in de kopregel en het beheer staat alleen het monogram, omdat "NOVA LUXE" klein onleesbaar wordt;
-  - het volledige logo staat bovenaan de footer;
+  - in de kopregel staat het volledige logo, minimaal 128 px breed, omdat de naam zichtbaar moet zijn; in het beheer staat het monogram;
+  - het volledige logo staat ook bovenaan de footer;
   - favicon (`src/app/icon.png`) en app-icoon (`src/app/apple-icon.png`) zijn uit het monogram gemaakt.
 
 - **Homepage (concept Salonkaart, `docs/concepten/salonkaart.html`):**

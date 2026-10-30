@@ -2,20 +2,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/config/site";
 import fullLogo from "../../../public/brand/novaluxe-logo.png";
-import monogram from "../../../public/brand/novaluxe-monogram.png";
 
 /*
  * Het NovaLuxe-logo (bron: docs/bron/logo/novaluxe.svg). Het origineel is een
  * zware, getraceerde SVG; we tonen gerenderde afgeleiden die Next.js per
- * schermgrootte optimaliseert. Klein: het monogram (de letters "NOVA LUXE"
- * worden onleesbaar onder ±120 px breedte). Groot: het volledige logo.
+ * schermgrootte optimaliseert. Onder ±120 px breedte worden de letters
+ * "NOVA LUXE" onleesbaar; toon het volledige logo dus niet kleiner.
  */
 
-/** Monogram als link naar home, voor de kopregel. */
-export function LogoMark({ className = "h-11 w-auto" }: { className?: string }) {
+/** Volledig logo als link naar home, voor de kopregel. */
+export function LogoLink({ className = "w-36" }: { className?: string }) {
   return (
-    <Link href="/" className="inline-block">
-      <Image src={monogram} alt={`${site.name}, naar de homepage`} priority className={className} sizes="96px" />
+    <Link href="/" className="block shrink-0">
+      <Image
+        src={fullLogo}
+        alt={`${site.name}, naar de homepage`}
+        priority
+        className={`h-auto ${className}`}
+        sizes="144px"
+      />
     </Link>
   );
 }

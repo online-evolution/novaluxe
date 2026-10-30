@@ -24,7 +24,7 @@ function CurrentNav() {
 function NavList({ pathname }: { pathname: string | null }) {
   return (
     <nav aria-label="Hoofdmenu">
-      <ul className="flex items-baseline gap-8">
+      <ul className="flex items-center gap-8">
         {mainNavigation.map((item) => {
           const current = pathname !== null && isCurrent(pathname, item.href);
           return (
@@ -32,10 +32,10 @@ function NavList({ pathname }: { pathname: string | null }) {
               <Link
                 href={item.href}
                 aria-current={current ? "page" : undefined}
-                className={`text-small underline-offset-[6px] transition-colors duration-(--duration-quick) ${
+                className={`font-medium underline-offset-[6px] transition-colors duration-(--duration-quick) ${
                   current
                     ? "text-ink underline decoration-bronze"
-                    : "text-ink-soft hover:text-ink"
+                    : "hover:text-bronze-deep"
                 }`}
               >
                 {item.label}
