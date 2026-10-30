@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SitePhoto } from "@/components/media/site-photo";
+import { scriptFont } from "@/lib/fonts";
 
 /**
  * Kennismaking met Jessie: tekst en een quote in haar eigen woorden, naast haar
@@ -17,7 +18,9 @@ export function HomeJessie() {
             Wat begon met nagels zetten in een klein kamertje thuis, groeide uit tot mijn eigen salon in Kijkduin. Hier
             komen mijn liefde voor nagels en mijn ervaring met haar en extensions samen.
           </p>
-          <blockquote className="mt-8 max-w-[30em] border-l-2 border-gold pl-5 text-[clamp(1.3rem,1.1rem+0.8vw,1.75rem)] leading-snug font-medium text-pretty">
+          <blockquote
+            className={`${scriptFont.className} mt-8 max-w-[30em] border-l-2 border-gold pl-5 text-[clamp(1.85rem,1.5rem+1.3vw,2.5rem)] leading-tight text-pretty`}
+          >
             Het mooiste moment is voor mij wanneer je in de spiegel kijkt en blij wordt van wat je ziet.
           </blockquote>
           <Link href="/over-ons" className="mt-8 inline-block font-semibold underline underline-offset-4 hover:text-bronze-deep">
