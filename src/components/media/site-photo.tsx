@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { getSitePhotos } from "@/server/photos";
 import { focusPosition } from "./focus";
+import { PhotoPlaceholder } from "./photo-placeholder";
 
 /**
  * Foto op een vaste plek (shotcode uit PHOTO-SHOTLIST.md). Zolang Jessie er in
- * het beheer geen foto voor heeft geplaatst, staat er niets: elke pagina klopt
- * ook zonder deze foto. De plek bepaalt de verhouding (via `className`); de
- * foto vult die en wordt bijgesneden rond het gekozen deel.
+ * het beheer geen foto voor heeft geplaatst, staat de lege plek er met de code.
+ * De plek bepaalt de verhouding (via `className`); de foto vult die en wordt
+ * bijgesneden rond het gekozen deel.
  */
 export async function SitePhoto({
   shot,
@@ -22,7 +23,7 @@ export async function SitePhoto({
   priority?: boolean;
 }) {
   const photo = (await getSitePhotos())[shot];
-  if (!photo) return null;
+  if (!photo) return <PhotoPlaceholder shot={shot} subject={subject} className={className} />;
 
   return (
     <figure className={`relative overflow-hidden bg-ivory ${className}`}>

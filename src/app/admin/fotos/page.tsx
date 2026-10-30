@@ -73,7 +73,7 @@ async function Editors() {
       <AdminSection
         id="werk"
         title="Werk"
-        intro={`Losse foto's van je werk. Op de homepage staan de eerste acht, in de volgorde van deze lijst. Zonder foto's vervalt dit blok. Formaat: ${formatAdvice(workRatio).toLowerCase()}.`}
+        intro={`Losse foto's van je werk. Op de homepage staan de eerste acht, in de volgorde van deze lijst. Formaat: ${formatAdvice(workRatio).toLowerCase()}.`}
       >
         <GalleryList items={photos} empty="Er staan nog geen foto's van je werk op de website." />
         <Fold title="Foto toevoegen" open={photos.length === 0}>
@@ -91,7 +91,7 @@ async function Editors() {
       <AdminSection
         id="plekken"
         title="Vaste plekken op de website"
-        intro="Elke plek heeft een code uit de fotolijst. Zolang er geen foto staat, blijft de plek weg; de pagina klopt ook zonder."
+        intro="Elke plek heeft een code uit de fotolijst. Zolang er geen foto staat, ziet de bezoeker een lege plek met deze code."
       >
         <ul className="border-t border-line-strong">
           {photoShots.map((shot) => {

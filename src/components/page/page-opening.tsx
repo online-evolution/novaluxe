@@ -1,11 +1,10 @@
 import { SitePhoto } from "@/components/media/site-photo";
-import { getSitePhotos } from "@/server/photos";
 
 /**
  * Opening van een pagina: gecentreerd op ivoor, zoals de homepage. Met een
- * foto staat die er over de volle hoogte naast; zonder foto staat de tekst alleen.
+ * `shot` staat de foto er over de volle hoogte naast.
  */
-export async function PageOpening({
+export function PageOpening({
   id,
   title,
   shot,
@@ -18,7 +17,7 @@ export async function PageOpening({
   subject?: string;
   children: React.ReactNode;
 }) {
-  const hasPhoto = Boolean(shot && (await getSitePhotos())[shot]);
+  const hasPhoto = Boolean(shot);
 
   return (
     <section aria-labelledby={id} className={`grid bg-ivory ${hasPhoto ? "lg:grid-cols-[7fr_5fr]" : ""}`}>

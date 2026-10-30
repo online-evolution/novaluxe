@@ -59,7 +59,7 @@ export default async function ContactPage() {
       </PageOpening>
 
       <PageSection labelledBy="salon-titel" shot="S03" subject="De entree van de salon">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid gap-12">
           <div>
             <SectionTitle id="salon-titel">Je vindt de salon in {site.area}</SectionTitle>
             <address className="mt-6 text-display-s font-medium not-italic">

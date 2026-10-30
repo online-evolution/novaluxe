@@ -68,7 +68,7 @@ export function HomePrices({ catalog }: { catalog: CatalogTreatment[] }) {
   const nailArt = catalog.flatMap((item) => item.options).find((option) => option.kind === "nail_art");
 
   return (
-    <section aria-labelledby="home-prijzen" className="bg-cream px-gutter py-section-tight">
+    <section aria-labelledby="home-prijzen" className="bg-ivory px-gutter py-section-tight">
       <h2 id="home-prijzen" className="text-display-l font-semibold">
         De prijskaart
       </h2>

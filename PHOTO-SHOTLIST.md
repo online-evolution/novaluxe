@@ -1,6 +1,6 @@
 # Fotografie-shotlist NovaLuxe
 
-De site wordt gedragen door fotografie. Fotoplekken op de site gebruiken de shot-ID's hieronder (bijvoorbeeld `W01`); een plek zonder foto blijft weg. Er komen geen stock- of AI-beelden van "klanten".
+De site wordt gedragen door fotografie. Fotoplekken op de site gebruiken de shot-ID's hieronder (bijvoorbeeld `W01`); een plek zonder foto staat als lege plek op de site. Er komen geen stock- of AI-beelden van "klanten".
 
 Foto's plaatsen gaat in het beheer onder **Foto's**: per shot-ID bij "Vaste plekken", en werk en voor en na als verzameling. Alle plekken op de site zijn staand of vierkant.
 

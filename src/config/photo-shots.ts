@@ -18,10 +18,11 @@ export type PhotoShot = {
 };
 
 export const photoShots: PhotoShot[] = [
-  { code: "W01", subject: "Handen van Jessie aan het werk aan nagels", where: "Homepage, bovenaan, als er geen voor en na is", ratio: "4:5" },
-  { code: "J01", subject: "Portret van Jessie in de salon", where: "Homepage, naast de tekst van Jessie (optioneel)", ratio: "4:5" },
-  { code: "E01", subject: "Extensions van achteren, lang haar met een natuurlijke val", where: "Extensions, bovenaan", ratio: "3:4" },
-  { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Over ons", ratio: "3:4" },
+  { code: "W01", subject: "Handen van Jessie aan het werk aan nagels", where: "Homepage, bovenaan (het eerste voor en na gaat voor)", ratio: "4:5" },
+  { code: "J01", subject: "Portret van Jessie in de salon", where: "Homepage, bij Jessie", ratio: "4:5" },
+  { code: "E01", subject: "Extensions van achteren, lang haar met een natuurlijke val", where: "Homepage (extensions) en Extensions, bovenaan", ratio: "4:5" },
+  { code: "N03", subject: "BIAB naturel of French op de eigen nagel", where: "Homepage, nagels", ratio: "4:5" },
+  { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Homepage (alle aandacht) en Over ons", ratio: "4:5" },
   { code: "E02", subject: "Haar in een staart, bevestigingen niet zichtbaar", where: "Extensions, invisible techniek", ratio: "4:5" },
   { code: "J03", subject: "Jessie in gesprek met een klant (klant onherkenbaar)", where: "Extensions, gratis consult", ratio: "4:5" },
   { code: "M05", subject: "Borstel, satijnen kussensloop of bonnet", where: "Extensions, verzorging thuis", ratio: "1:1" },

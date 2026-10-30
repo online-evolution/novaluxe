@@ -1,24 +1,31 @@
 import Image from "next/image";
 import { BeforeAfter } from "@/components/media/before-after";
 import { focusPosition } from "@/components/media/focus";
+import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
 import { site } from "@/config/site";
 import { getGallery } from "@/server/photos";
 
 /** Jessie fotografeert vooral staand: afwisselend staande verhoudingen, op één onderlijn. */
 const photoRatios = ["aspect-[3/4]", "aspect-[4/5]", "aspect-[2/3]", "aspect-[4/5]"];
 
+const placeholderFrames = [
+  "Gellak in een mooie kleur",
+  "Extensions in een staart",
+  "Nail art met details",
+  "Overgang naar de eigen kleur",
+];
+
 const maxPairs = 3;
 const maxPhotos = 8;
 
 /**
- * Meer werk: de volgende voor-en-na-paren (het eerste staat in de opening) en
- * losse foto's. Is er nog niet meer, dan is dit blok er gewoon niet.
+ * Werk: de volgende voor-en-na-paren (het eerste staat in de opening) en losse
+ * foto's. Zolang er nog geen werkfoto's zijn, staan hier de lege plekken.
  */
 export async function HomeWork() {
   const { photos, pairs } = await getGallery();
   const shownPairs = pairs.slice(1, 1 + maxPairs);
   const shownPhotos = photos.slice(0, maxPhotos);
-  if (shownPairs.length === 0 && shownPhotos.length === 0) return null;
 
   return (
     <section aria-labelledby="home-werk" className="bg-cream py-section-tight">
@@ -51,7 +58,19 @@ export async function HomeWork() {
         </ul>
       )}
 
-      {shownPhotos.length > 0 && (
+      {shownPhotos.length === 0 ? (
+        <ol className="mt-8 grid grid-cols-2 items-end gap-4 px-gutter lg:grid-cols-4 lg:gap-6">
+          {placeholderFrames.map((subject, index) => (
+            <li key={subject}>
+              <PhotoPlaceholder
+                shot="Werk"
+                subject={subject}
+                className={photoRatios[index % photoRatios.length]}
+              />
+            </li>
+          ))}
+        </ol>
+      ) : (
         <div
           role="region"
           aria-label="Werk, horizontaal te scrollen"

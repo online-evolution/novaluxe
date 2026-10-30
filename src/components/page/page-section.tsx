@@ -1,5 +1,4 @@
 import { SitePhoto } from "@/components/media/site-photo";
-import { getSitePhotos } from "@/server/photos";
 
 const tones = {
   cream: "bg-cream text-ink",
@@ -9,9 +8,9 @@ const tones = {
 
 /**
  * Blok op een pagina, in een van de huisstijlkleuren. Met een `shot` staat de
- * foto naast de tekst als die er is; zonder foto loopt de tekst gewoon door.
+ * foto naast de tekst.
  */
-export async function PageSection({
+export function PageSection({
   id,
   labelledBy,
   tone = "cream",
@@ -26,7 +25,7 @@ export async function PageSection({
   subject?: string;
   children: React.ReactNode;
 }) {
-  const hasPhoto = Boolean(shot && (await getSitePhotos())[shot]);
+  const hasPhoto = Boolean(shot);
 
   return (
     <section
