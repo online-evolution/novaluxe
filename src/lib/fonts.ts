@@ -13,7 +13,6 @@ export const familjen = Familjen_Grotesk({
 
 export const bodoni = Bodoni_Moda({
   subsets: ["latin"],
-  style: ["normal", "italic"],
   axes: ["opsz"],
   variable: "--font-bodoni",
   display: "swap",

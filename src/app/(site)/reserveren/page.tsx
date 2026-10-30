@@ -21,7 +21,7 @@ export default async function BookingPage() {
   return (
     <div>
       <header className="bg-ivory px-gutter pt-10 pb-section-tight text-center">
-        <h1 className="mx-auto max-w-[14em] text-display-l font-semibold text-balance">Plan jouw afspraak bij <em>Jessie</em></h1>
+        <h1 className="mx-auto max-w-[14em] text-display-l font-semibold text-balance">Plan jouw afspraak bij Jessie</h1>
         <p className="mx-auto mt-6 max-w-measure text-lede">
           Leuk dat je een afspraak wilt maken. Kies hieronder nagels of extensions, selecteer je
           behandeling en zoek een datum en tijd die jou uitkomen. Ik zie je graag in de salon!

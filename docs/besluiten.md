@@ -5,7 +5,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 ## Merk en layout
 
 - **Geschreven letter:** Allura, alleen voor de quote van Jessie op de homepage.
-- **Letters:** Bodoni Moda (gewicht 500–600) voor de grote koppen, Familjen Grotesk voor tekst, navigatie en knoppen. Belangrijke woorden in een kop mogen subtiel cursief, zoals *Jessie*. Prijzen, adressen en telefoonnummers blijven grotesk.
+- **Letters:** Bodoni Moda (gewicht 500–600) voor de grote koppen, Familjen Grotesk voor tekst, navigatie en knoppen. Koppen staan rechtop, zonder cursieve woorden. Prijzen, adressen en telefoonnummers blijven grotesk.
 - **Kopregel:** sticky op alle pagina's, op ivoor, met het volledige logo. Op desktop het menu en de afspraakknop; op mobiel een afspraakknop en een menuknop.
 - **Mobiel menu:** opent van onderaf als genummerde inhoudsopgave, met het native `<dialog>`-element. Op `/reserveren` vervalt de afspraakknop.
 - **Knoppen:** één gouden pilknop in goudfolie (`.gold-button`), voor elke actie op de site; geen tekstlinks als actie. Tekstlinks blijven alleen in lopende tekst, de sprongen binnen een pagina en voor de maandkeuze in de kalender. Bij hover verschuift de glans, trekt een lichtstreep door de knop en vliegt de pijl eruit om terug te komen.

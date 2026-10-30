@@ -30,11 +30,7 @@ export default function AboutPage() {
     <>
       <PageOpening
         id="verhaal-titel"
-        title={
-          <>
-            Het verhaal van <em>Jessie</em>
-          </>
-        }
+        title="Het verhaal van Jessie"
         shot="J04"
         subject="Portret van Jessie van dichtbij"
       >
