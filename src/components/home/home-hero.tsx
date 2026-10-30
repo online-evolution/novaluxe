@@ -54,7 +54,9 @@ export async function HomeHero() {
         className="absolute inset-x-gutter top-4 z-10 flex items-center justify-between gap-5 rounded-full border border-cream/30 bg-cream/15 py-2 pr-2.5 pl-3.5 text-cream backdrop-blur-md backdrop-saturate-125"
       >
         <span className="flex items-center gap-2.5 font-semibold">
-          <LogoMark className="h-9 w-auto" />
+          <span className="flex size-11 items-center justify-center rounded-full bg-cream">
+            <LogoMark className="h-8 w-auto" />
+          </span>
           {site.name}
         </span>
         <ul className="hidden gap-8 font-medium lg:flex">
@@ -74,13 +76,9 @@ export async function HomeHero() {
       </nav>
 
       <div className="relative z-10 px-gutter pt-2 pb-10 text-center lg:absolute lg:inset-x-0 lg:top-[48%] lg:-translate-y-1/2 lg:pt-0 lg:pb-0 lg:text-cream">
-        <p className="inline-flex items-center gap-2 rounded-full bg-ink px-3.5 py-1.5 text-small font-semibold text-cream lg:bg-cream/90 lg:text-ink">
-          <span aria-hidden="true" className="size-2 rounded-full bg-[#d0a049]" />
-          Eén klant tegelijk · {site.address.street}, {site.address.city}
-        </p>
         <h1
           id="home-titel"
-          className="mx-auto mt-4 max-w-[10.5em] text-display-l font-semibold text-balance lg:text-[clamp(3.5rem,6.6vw,6rem)] lg:[text-shadow:0_2px_34px_rgb(30_20_14/0.5)]"
+          className="mx-auto max-w-[10.5em] text-display-l font-semibold text-balance lg:text-[clamp(3.5rem,6.6vw,6rem)] lg:[text-shadow:0_2px_34px_rgb(30_20_14/0.5)]"
         >
           Extensions en nagels in {site.area}
         </h1>
@@ -88,11 +86,7 @@ export async function HomeHero() {
           Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij NovaLuxe in Kijkduin neem ik de tijd om te
           luisteren naar wat jij mooi vindt.
         </p>
-        <p className="mx-auto mt-3 max-w-[38em] lg:[text-shadow:0_1px_16px_rgb(30_20_14/0.65)]">
-          Je krijgt eerlijk advies en mijn volledige aandacht. Neem plaats, voel je op je gemak en geniet van een moment
-          voor jezelf.
-        </p>
-        <Link href={bookingHref} className={`${goldPill} mt-5 px-8 py-3.5 text-lede`}>
+        <Link href={bookingHref} className={`${goldPill} mt-6 px-8 py-3.5 text-lede`}>
           Maak een afspraak ↗
         </Link>
       </div>
