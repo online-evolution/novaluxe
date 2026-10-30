@@ -4,7 +4,9 @@ import { PageSection, SectionTitle } from "@/components/page/page-section";
 export function HomeAttention() {
   return (
     <PageSection labelledBy="home-aandacht" shot="S01" subject="De behandelplek, leeg, met daglicht" landscape contained>
-      <SectionTitle id="home-aandacht">Alle aandacht voor jou</SectionTitle>
+      <SectionTitle id="home-aandacht">
+        Alle aandacht voor <em>jou</em>
+      </SectionTitle>
       <p className="mt-8 max-w-measure text-lede">
         Tijdens jouw afspraak ben ik er helemaal voor jou. Ik behandel één klant tegelijk, zodat we rustig je wensen
         kunnen bespreken en kunnen bijpraten.

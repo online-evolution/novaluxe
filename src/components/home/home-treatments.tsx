@@ -14,7 +14,7 @@ function Treatment({
   children,
 }: {
   id: string;
-  title: string;
+  title: React.ReactNode;
   shot: string;
   subject: string;
   href: Route;
@@ -43,7 +43,11 @@ export function HomeTreatments() {
       <div className="mx-auto grid max-w-5xl gap-12 sm:grid-cols-2 lg:gap-16">
         <Treatment
           id="home-extensions"
-          title="Haar dat bij jou past"
+          title={
+            <>
+              Haar dat bij <em>jou</em> past
+            </>
+          }
           shot="E01"
           subject="Extensions: resultaat van achteren, natuurlijke val"
           href="/extensions"
@@ -55,7 +59,11 @@ export function HomeTreatments() {
         </Treatment>
         <Treatment
           id="home-nagels"
-          title="Jouw nagels in jouw stijl"
+          title={
+            <>
+              Jouw nagels in <em>jouw stijl</em>
+            </>
+          }
           shot="N03"
           subject="BIAB naturel of French op de eigen nagel"
           href="/nagels"

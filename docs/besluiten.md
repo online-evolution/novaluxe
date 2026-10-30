@@ -4,11 +4,8 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 
 ## Merk en layout
 
-- **Huisletter: Familjen Grotesk**, voor koppen én tekst. Er is geen serif. Gekozen na twee specimenrondes:
-  - de serif+sans-paren voelden te AI-achtig;
-  - Schibsted Grotesk en Archivo (smal) vielen ook af.
 - **Geschreven letter:** Allura, alleen voor de quote van Jessie op de homepage.
-- **Opmaak zonder AI-trucs:** geen cursief accentwoord, geen labels in kapitalen met letterspatiëring, geen glassmorphism.
+- **Letters:** Bodoni Moda (gewicht 500–600) voor de grote koppen, Familjen Grotesk voor tekst, navigatie en knoppen. Belangrijke woorden in een kop mogen subtiel cursief, zoals *Jessie*. Prijzen, adressen en telefoonnummers blijven grotesk.
 - **Kopregel:** sticky op alle pagina's, op ivoor, met het volledige logo. Op desktop het menu en de afspraakknop; op mobiel een afspraakknop en een menuknop.
 - **Mobiel menu:** opent van onderaf als genummerde inhoudsopgave, met het native `<dialog>`-element. Op `/reserveren` vervalt de afspraakknop.
 - **Knoppen:** één gouden pilknop in goudfolie (`.gold-button`), voor elke actie op de site; geen tekstlinks als actie. Tekstlinks blijven alleen in lopende tekst, de sprongen binnen een pagina en voor de maandkeuze in de kalender. Bij hover verschuift de glans, trekt een lichtstreep door de knop en vliegt de pijl eruit om terug te komen.

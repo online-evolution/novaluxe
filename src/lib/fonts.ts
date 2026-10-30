@@ -1,13 +1,21 @@
-import { Allura, Familjen_Grotesk } from "next/font/google";
+import { Allura, Bodoni_Moda, Familjen_Grotesk } from "next/font/google";
 
 /*
- * Huisletter: Familjen Grotesk, voor koppen én tekst (gekozen na de
- * typografiereview van Fase 1, zie docs/besluiten.md).
+ * Familjen Grotesk voor tekst, navigatie en knoppen; Bodoni Moda voor de grote
+ * koppen (zie docs/besluiten.md).
  */
 export const familjen = Familjen_Grotesk({
   subsets: ["latin"],
   style: ["normal", "italic"],
   variable: "--font-familjen",
+  display: "swap",
+});
+
+export const bodoni = Bodoni_Moda({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-bodoni",
   display: "swap",
 });
 

@@ -12,7 +12,7 @@ export function HomeJessie() {
       <div className="mx-auto grid max-w-[76rem] items-center gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-7">
           <h2 id="home-jessie" className="text-display-m font-semibold text-balance">
-            Maak kennis met Jessie
+            Maak kennis met <em>Jessie</em>
           </h2>
           <p className="mt-6 max-w-measure text-lede">
             Wat begon met nagels zetten in een klein kamertje thuis, groeide uit tot mijn eigen salon in Kijkduin. Hier

@@ -12,7 +12,7 @@ export function PageOpening({
   children,
 }: {
   id: string;
-  title: string;
+  title: React.ReactNode;
   shot?: string;
   subject?: string;
   children: React.ReactNode;

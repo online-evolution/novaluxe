@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { site } from "@/config/site";
-import { familjen } from "@/lib/fonts";
+import { bodoni, familjen } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,10 +21,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="nl"
-      className={familjen.variable}
+      className={`${familjen.variable} ${bodoni.variable}`}
       style={
         {
-          "--nl-font-display": "var(--font-familjen)",
+          "--nl-font-display": "var(--font-bodoni)",
           "--nl-font-body": "var(--font-familjen)",
         } as React.CSSProperties
       }

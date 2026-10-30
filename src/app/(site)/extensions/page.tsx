@@ -129,7 +129,7 @@ export default async function ExtensionsPage() {
         <h2 id="advies-titel" className="text-lede font-semibold">
           Eerlijk advies over jouw haar
         </h2>
-        <p className="mt-5 max-w-[19em] text-display-m font-medium text-pretty">
+        <p className="statement mt-5 max-w-[19em] text-display-m font-medium text-pretty">
           Ik wil dat je blij bent met je extensions én dat je eigen haar in goede conditie blijft.
         </p>
         <p className="mt-8 max-w-measure text-lede">

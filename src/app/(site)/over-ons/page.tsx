@@ -30,7 +30,11 @@ export default function AboutPage() {
     <>
       <PageOpening
         id="verhaal-titel"
-        title="Het verhaal van Jessie"
+        title={
+          <>
+            Het verhaal van <em>Jessie</em>
+          </>
+        }
         shot="J04"
         subject="Portret van Jessie van dichtbij"
       >
@@ -74,7 +78,7 @@ export default function AboutPage() {
         <h2 id="spiegel-titel" className="text-lede font-semibold">
           Het moment voor de spiegel
         </h2>
-        <p className="mt-5 max-w-[19em] text-display-m font-medium text-pretty">
+        <p className="statement mt-5 max-w-[19em] text-display-m font-medium text-pretty">
           Het mooiste moment is voor mij wanneer je in de spiegel kijkt en blij wordt van wat je ziet. Die glimlach, of
           net wat meer zelfvertrouwen als je de deur uitgaat: daar doe ik het voor.
         </p>

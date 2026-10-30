@@ -477,3 +477,19 @@ html:has(dialog[open]) {
     }
   }
 }
+
+/*
+ * Grote koppen in Bodoni Moda; de rest blijft Familjen Grotesk. Buiten een
+ * @layer, zodat dit voorgaat op de letterafstand van de text-display-utilities:
+ * een Bodoni heeft minder krappe spatiëring nodig dan de grotesk.
+ */
+:is(h1, h2, h3)[class*="text-display"],
+.statement {
+  font-family: var(--nl-font-display), "Times New Roman", serif;
+  letter-spacing: -0.01em;
+  /* Lagere optische maat: stevigere haarlijnen, anders vallen ze weg, zeker op een foto. */
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 20;
+  /* Lange woorden, zoals "omhoogplaatsen", passen anders niet op een smal scherm. */
+  overflow-wrap: anywhere;
+}
