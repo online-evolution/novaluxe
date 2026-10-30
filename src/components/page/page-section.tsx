@@ -17,6 +17,7 @@ export function PageSection({
   shot,
   subject = "",
   landscape = false,
+  contained = false,
   children,
 }: {
   id?: string;
@@ -26,27 +27,29 @@ export function PageSection({
   subject?: string;
   /** Liggende foto (3:2): die krijgt meer breedte dan de tekst. */
   landscape?: boolean;
+  /** Niet over de volle breedte, maar gecentreerd zoals de kennismaking op de homepage. */
+  contained?: boolean;
   children: React.ReactNode;
 }) {
   const hasPhoto = Boolean(shot);
 
   return (
-    <section
-      id={id}
-      aria-labelledby={labelledBy}
-      className={`scroll-mt-8 px-gutter py-section-tight ${tones[tone]} ${
-        hasPhoto ? `grid items-center gap-12 lg:gap-16 ${landscape ? "lg:grid-cols-[2fr_3fr]" : "lg:grid-cols-2"}` : ""
-      }`}
-    >
-      <div>{children}</div>
-      {shot && (
-        <SitePhoto
-          shot={shot}
-          subject={subject}
-          className={`w-full ${landscape ? "aspect-[3/2]" : "aspect-[4/5]"}`}
-          sizes={landscape ? "(min-width: 1024px) 56vw, 100vw" : "(min-width: 1024px) 46vw, 100vw"}
-        />
-      )}
+    <section id={id} aria-labelledby={labelledBy} className={`scroll-mt-8 px-gutter py-section-tight ${tones[tone]}`}>
+      <div
+        className={`${contained ? "mx-auto max-w-[76rem]" : ""} ${
+          hasPhoto ? `grid items-center gap-12 lg:gap-16 ${landscape ? "lg:grid-cols-[2fr_3fr]" : "lg:grid-cols-2"}` : ""
+        }`}
+      >
+        <div>{children}</div>
+        {shot && (
+          <SitePhoto
+            shot={shot}
+            subject={subject}
+            className={`w-full ${landscape ? "aspect-[3/2]" : "aspect-[4/5]"}`}
+            sizes={landscape ? "(min-width: 1024px) 56vw, 100vw" : "(min-width: 1024px) 46vw, 100vw"}
+          />
+        )}
+      </div>
     </section>
   );
 }
