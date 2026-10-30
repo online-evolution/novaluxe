@@ -1,15 +1,14 @@
-import { HomeAttention } from "@/components/home/home-attention";
 import { HomeBooking } from "@/components/home/home-booking";
 import { HomeHero } from "@/components/home/home-hero";
 import { HomeJessie } from "@/components/home/home-jessie";
-import { HomeTreatments } from "@/components/home/home-treatments";
+import { HomePrices } from "@/components/home/home-prices";
 import { HomeWork } from "@/components/home/home-work";
 import { getCatalog } from "@/server/catalog";
 
 /*
- * Homepage als één verhaal: opening → twee hoofdstukken (haar, nagels) →
- * rustpunt (aandacht) → Jessie → werk → afspraak → colofon (footer).
- * Teksten uit docs/bron; prijzen uit de database.
+ * Homepage: opening met logo en één foto → prijskaart → Jessie → meer werk
+ * (alleen als dat er is) → afspraak → colofon. Compleet met één foto; extra
+ * foto's zijn een bonus. Teksten uit docs/bron; prijzen uit de database.
  */
 export default async function HomePage() {
   const catalog = await getCatalog();
@@ -17,8 +16,7 @@ export default async function HomePage() {
   return (
     <>
       <HomeHero />
-      <HomeTreatments catalog={catalog} />
-      <HomeAttention />
+      <HomePrices catalog={catalog} />
       <HomeJessie />
       <HomeWork />
       <HomeBooking />

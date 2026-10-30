@@ -15,7 +15,6 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 
 ## Merk en beeld
 
-- [ ] **Kleuren afstemmen op het logo:** het logo is helder goud (rond #F9C45C/#C2811F), de site gebruikt gedempt brons (#9a7854). Voorstel volgt; niets aangepast zonder akkoord.
 - [ ] **Prijslijst-afbeelding** aanleveren, voor het kalibreren van de kleuren.
 - [ ] **Foto's plaatsen** in het beheer onder Foto's: werk, voor en na, en de vaste plekken (shotcodes). Alleen met toestemming van herkenbare klanten.
 - [ ] **Nieuwe fotografie** van Jessie en de salon (gepland deze week). Zie `PHOTO-SHOTLIST.md`.

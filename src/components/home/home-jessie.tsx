@@ -1,36 +1,42 @@
+import Link from "next/link";
 import { SitePhoto } from "@/components/media/site-photo";
-import { ActionLink } from "@/components/ui/action";
+import { getSitePhotos } from "@/server/photos";
 
 /**
- * Kennismaking: de kop over de volle breedte, het portret smal in het midden
- * en de tekst ernaast onderaan — bewust geen tekst-links/foto-rechts-blok.
+ * Jessie in haar eigen woorden, op het enige krachtige kleurvlak van de
+ * pagina. Een portret (J01) is een bonus: zonder foto blijft dit compleet.
  */
-export function HomeJessie() {
+export async function HomeJessie() {
+  const hasPortrait = Boolean((await getSitePhotos()).J01);
+
   return (
-    <section aria-labelledby="home-jessie" className="mt-section px-gutter">
-      <h2 id="home-jessie" className="text-display-l font-medium text-balance">
-        Maak kennis met Jessie
-      </h2>
-      <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
+    <section
+      aria-labelledby="home-jessie"
+      className="grid items-end gap-12 bg-bronze-deep px-gutter py-section text-cream lg:grid-cols-12 lg:gap-8"
+    >
+      <div className={hasPortrait ? "lg:col-span-8" : "lg:col-span-12"}>
+        <h2 id="home-jessie" className="sr-only">
+          Maak kennis met Jessie
+        </h2>
+        <blockquote className="max-w-[19em] text-display-m font-medium text-pretty">
+          Het mooiste moment is voor mij wanneer je in de spiegel kijkt en blij wordt van wat je ziet.
+        </blockquote>
+        <p className="mt-8 max-w-measure text-lede">
+          Wat begon met nagels zetten in een klein kamertje thuis, groeide uit tot mijn eigen salon in Kijkduin. Hier
+          komen mijn liefde voor nagels en mijn ervaring met haar en extensions samen.
+        </p>
+        <Link href="/over-ons" className="mt-5 inline-block font-semibold underline underline-offset-4">
+          Lees mijn verhaal
+        </Link>
+      </div>
+      {hasPortrait && (
         <SitePhoto
           shot="J01"
           subject="Portret van Jessie in de salon"
-          className="reveal aspect-[4/5] w-[78%] sm:w-1/2 lg:col-span-4 lg:col-start-4 lg:w-full"
+          className="aspect-[4/5] w-3/4 sm:w-1/2 lg:col-span-4 lg:w-full"
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 75vw"
         />
-        <div className="lg:col-span-4 lg:col-start-9">
-          <p className="max-w-measure text-ink-soft">
-            Wat begon met nagels zetten in een klein kamertje thuis, groeide uit tot
-            mijn eigen salon in Kijkduin. Hier komen mijn liefde voor nagels en mijn
-            ervaring met haar en extensions samen. Het leukste aan mijn werk blijft
-            jouw reactie als je het resultaat ziet en blij de deur uitgaat.
-          </p>
-          <div className="mt-8">
-            <ActionLink variant="quiet" href="/over-ons">
-              Lees mijn verhaal
-            </ActionLink>
-          </div>
-        </div>
-      </div>
+      )}
     </section>
   );
 }

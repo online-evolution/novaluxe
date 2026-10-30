@@ -1,47 +1,72 @@
+import { LogoFull } from "@/components/brand/logo";
+import { BeforeAfter } from "@/components/media/before-after";
 import { SitePhoto } from "@/components/media/site-photo";
-import { ActionLink } from "@/components/ui/action";
-import { bookingHref } from "@/config/navigation";
+import { MainNav } from "@/components/site/main-nav";
 import { site } from "@/config/site";
+import { getGallery } from "@/server/photos";
+import { HomeButton } from "./home-button";
+
+const photoSizes = "(min-width: 1024px) 42vw, 100vw";
 
 /**
- * Opening: de grote kop springt in, de staande foto staat op mobiel tegen de
- * rechterrand en op desktop rechts naast de tekst. Tekst en knop staan onderaan naast het beeld.
+ * Opening: het logo groot en gecentreerd, met daarnaast over de volle hoogte
+ * één foto. Dat is het eerste voor en na (de transformatie), of anders de
+ * vaste foto W01. Meer foto's zijn voor deze pagina niet nodig.
  */
-export function HomeHero() {
-  return (
-    <section aria-labelledby="home-titel" className="pt-section-tight">
-      <h1 id="home-titel" className="px-gutter text-display-xl font-medium">
-        <span className="block text-balance">Extensions en nagels</span>{" "}
-        <span className="block md:pl-[18%]">in Kijkduin</span>
-      </h1>
+export async function HomeHero() {
+  const { pairs } = await getGallery();
+  const pair = pairs[0];
 
-      <div className="mt-10 grid gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-8">
-        <div className="order-2 px-gutter lg:order-1 lg:col-span-5 lg:self-end lg:pr-0">
-          <p className="max-w-measure text-lede">
-            Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij
-            NovaLuxe in Kijkduin neem ik de tijd om te luisteren naar wat jij mooi
-            vindt.
+  return (
+    <section aria-labelledby="home-titel" className="grid bg-ivory lg:min-h-dvh lg:grid-cols-[7fr_5fr]">
+      <div className="flex flex-col items-center gap-8 px-gutter pt-10 pb-12 text-center lg:justify-between lg:py-6">
+        <div className="hidden lg:block">
+          <MainNav />
+        </div>
+        <LogoFull
+          className="w-[68vw] max-w-72 lg:w-[24vw] lg:max-w-80"
+          sizes="(min-width: 1024px) 320px, 68vw"
+          priority
+        />
+        <div>
+          <h1 id="home-titel" className="mx-auto max-w-[13em] text-display-m font-semibold text-balance">
+            Extensions en nagels in {site.area}
+          </h1>
+          <p className="mx-auto mt-5 max-w-measure text-lede">
+            Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij NovaLuxe in Kijkduin neem ik de tijd om
+            te luisteren naar wat jij mooi vindt.
           </p>
-          <p className="mt-5 max-w-measure text-ink-soft">
-            Je krijgt eerlijk advies en mijn volledige aandacht. Neem plaats, voel je
-            op je gemak en geniet van een moment voor jezelf.
-          </p>
-          <div className="mt-10">
-            <ActionLink href={bookingHref}>Maak een afspraak</ActionLink>
+          <div className="mt-8">
+            <HomeButton />
           </div>
-          <p className="label mt-10 text-ink-soft">
+          <p className="mt-5 text-small text-ink-soft">
             Eén klant tegelijk · {site.address.street}, {site.address.city}
           </p>
         </div>
+      </div>
 
+      {pair ? (
+        <BeforeAfter
+          before={pair.before}
+          after={pair}
+          alt={pair.alt ?? pair.caption ?? "Resultaat bij NovaLuxe"}
+          caption={pair.caption}
+          focus={pair.focus}
+          sizes={photoSizes}
+          className="lg:h-full"
+          frameClassName="aspect-[4/5] lg:aspect-auto lg:h-full"
+          showHint={false}
+          priority
+        />
+      ) : (
         <SitePhoto
           shot="W01"
           subject="Detail: handen van Jessie aan het werk"
-          className="order-1 aspect-[4/5] w-[88%] justify-self-end sm:w-2/3 lg:order-2 lg:col-span-5 lg:col-start-8 lg:w-full"
-          sizes="(min-width: 1024px) 40vw, (min-width: 640px) 66vw, 88vw"
+          className="aspect-[4/5] lg:aspect-auto lg:h-full"
+          sizes={photoSizes}
           priority
         />
-      </div>
+      )}
     </section>
   );
 }

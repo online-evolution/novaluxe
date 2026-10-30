@@ -21,6 +21,14 @@ export function LogoMark({ className = "h-11 w-auto" }: { className?: string }) 
 }
 
 /** Volledig logo, bijvoorbeeld in de footer. */
-export function LogoFull({ className = "w-56" }: { className?: string }) {
-  return <Image src={fullLogo} alt={site.name} className={`h-auto ${className}`} sizes="(min-width: 1024px) 280px, 224px" />;
+export function LogoFull({
+  className = "w-56",
+  sizes = "(min-width: 1024px) 280px, 224px",
+  priority,
+}: {
+  className?: string;
+  sizes?: string;
+  priority?: boolean;
+}) {
+  return <Image src={fullLogo} alt={site.name} className={`h-auto ${className}`} sizes={sizes} priority={priority} />;
 }

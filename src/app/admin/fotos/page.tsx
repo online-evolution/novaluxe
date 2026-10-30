@@ -56,7 +56,7 @@ async function Editors() {
       <AdminSection
         id="voor-en-na"
         title="Voor en na"
-        intro={`Twee foto's van dezelfde klant, het liefst in hetzelfde licht en vanuit dezelfde hoek. Op de homepage schuift de bezoeker tussen voor en na. Formaat: ${formatAdvice(beforeAfterRatio).toLowerCase()}, voor allebei hetzelfde. Plaats alleen foto's waarvoor de klant toestemming heeft gegeven.`}
+        intro={`Twee foto's van dezelfde klant, het liefst in hetzelfde licht en vanuit dezelfde hoek. Het eerste paar staat als transformatie bovenaan de homepage, de volgende twee bij Werk. Formaat: ${formatAdvice(beforeAfterRatio).toLowerCase()}, voor allebei hetzelfde. Plaats alleen foto's waarvoor de klant toestemming heeft gegeven.`}
       >
         <GalleryList items={pairs} empty="Er staat nog geen voor en na op de website." />
         <Fold title="Voor en na toevoegen" open={pairs.length === 0}>
@@ -73,7 +73,7 @@ async function Editors() {
       <AdminSection
         id="werk"
         title="Werk"
-        intro={`Losse foto's van je werk. Op de homepage staan de eerste acht, in de volgorde van deze lijst. Formaat: ${formatAdvice(workRatio).toLowerCase()}.`}
+        intro={`Losse foto's van je werk. Op de homepage staan de eerste acht, in de volgorde van deze lijst. Zonder foto's vervalt dit blok. Formaat: ${formatAdvice(workRatio).toLowerCase()}.`}
       >
         <GalleryList items={photos} empty="Er staan nog geen foto's van je werk op de website. Tot die tijd staan er lege fotoplekken." />
         <Fold title="Foto toevoegen" open={photos.length === 0}>

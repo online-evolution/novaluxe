@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NovaLuxe · Concept Salonkaart</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/*
+ * Concept Salonkaart: de opbouw van Kastanje in de kleuren van de huisstijl
+ * (src/styles/tokens.css). De pagina heeft één foto nodig; elke extra foto is
+ * een bonus.
+ */
+:root {
+  --ivory: #f6e9de;
+  --cream: #fffdfc;
+  --sand: #c5b5a8;
+  --bronze: #9a7854;
+  --bronze-deep: #7a5c3e;
+  --ink: #332c25;
+  --ink-soft: #5e544a;
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--cream); color: var(--ink); font-family: "Familjen Grotesk", system-ui, sans-serif; font-size: 18px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+
+/* Opening: logo, belofte en één foto die verandert */
+.opening { display: grid; grid-template-columns: 1fr; background: var(--ivory); color: var(--ink); }
+.kant { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px 20px 40px; }
+.menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; font-size: 15px; font-weight: 500; }
+.menu a { text-decoration: none; }
+.logo { width: min(68vw, 300px); margin-top: 32px; }
+h1 { font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3.6rem); font-weight: 600; line-height: 1.04; letter-spacing: -0.025em; margin: 26px auto 0; max-width: 13em; text-wrap: balance; }
+.intro { margin: 18px auto 0; max-width: 30em; }
+.knop { display: inline-block; margin-top: 26px; padding: 17px 34px; background: var(--ink); color: var(--cream); font-weight: 700; font-size: 18px; text-decoration: none; transition: transform .25s ease; }
+.knop:hover { background: var(--bronze-deep); transform: translateY(-2px); }
+.plek { margin-top: 16px; font-size: 15px; opacity: .8; }
+
+.foto { position: relative; display: block; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; border: 0; padding: 0; background: var(--sand); cursor: pointer; }
+.foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+
+@property --reveal { syntax: "<percentage>"; inherits: false; initial-value: -20%; }
+@property --wave { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+.na {
+  position: absolute; inset: 0;
+  --reveal: -20%; --wave: 0%;
+  transition: --reveal 2200ms cubic-bezier(.45,0,.2,1), --wave 2200ms cubic-bezier(.3,0,.3,1);
+  --edge: calc(var(--reveal) - 14%);
+  mask-image: linear-gradient(to bottom, #000 var(--edge), transparent var(--edge)), url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20200%2040%27%20preserveAspectRatio%3D%27none%27%3E%3Cfilter%20id%3D%27z%27%20x%3D%27-50%25%27%20y%3D%27-50%25%27%20width%3D%27200%25%27%20height%3D%27200%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%272.2%27%2F%3E%3C%2Ffilter%3E%3Cpath%20filter%3D%27url(%23z)%27%20d%3D%27M-100%20-10H300V22C283%2034%20267%2034%20250%2022S217%2010%20200%2022%20167%2034%20150%2022%20117%2010%20100%2022%2067%2034%2050%2022%2017%2010%200%2022-33%2034-50%2022-83%2010-100%2022Z%27%2F%3E%3C%2Fsvg%3E");
+  mask-size: 100% 100%, 50% 16%;
+  mask-repeat: no-repeat, repeat-x;
+  mask-position: 0 0, var(--wave) calc(var(--edge) / .84);
+}
+.foto[data-fase="na"] .na { --reveal: 120%; --wave: 200%; }
+.woord { position: absolute; left: 0; bottom: 0; padding: 10px 16px; background: var(--cream); color: var(--ink); font-weight: 600; font-size: 16px; }
+
+/* De prijskaart: geen foto's nodig, de kaart is het beeld */
+.kaart { background: var(--cream); color: var(--ink); padding: 64px 20px 72px; }
+.kaart h2 { font-size: clamp(3.2rem, 1.6rem + 8vw, 8.5rem); font-weight: 600; line-height: .95; letter-spacing: -0.035em; }
+.kolommen { display: grid; gap: 52px; margin-top: 44px; }
+.kolommen h3 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; }
+.kolommen p { margin-top: 6px; }
+.regels { list-style: none; padding: 0; margin-top: 18px; }
+.regels li { display: flex; align-items: baseline; gap: 8px; padding: 7px 0; font-size: 19px; font-weight: 500; }
+.regels li::before { content: ""; order: 1; flex: 1; border-bottom: 2px dotted var(--sand); transform: translateY(-4px); }
+.regels span:last-child { order: 2; font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.kaart .knop { margin-top: 44px; }
+
+/* Jessie: haar eigen woorden, op de koperkleur van 'voor' */
+.jessie { background: var(--bronze-deep); color: var(--cream); padding: 72px 20px; }
+.jessie blockquote { font-size: clamp(2rem, 1.3rem + 3.6vw, 4.6rem); font-weight: 500; line-height: 1.06; letter-spacing: -0.025em; max-width: 19em; text-wrap: pretty; }
+.jessie p { margin-top: 26px; max-width: 34em; }
+.jessie a { display: inline-block; margin-top: 18px; font-weight: 600; }
+
+/* Afspraak en contact */
+.slot { background: var(--ivory); text-align: center; padding: 72px 20px 110px; }
+.slot img { width: 110px; }
+.slot h2 { font-size: clamp(2.4rem, 1.6rem + 4.6vw, 5.6rem); font-weight: 600; line-height: 1; letter-spacing: -0.03em; margin-top: 22px; }
+.slot .knop { margin-top: 30px; }
+.gegevens { display: grid; gap: 22px; margin-top: 48px; font-size: 17px; }
+.gegevens strong { display: block; color: var(--bronze-deep); font-weight: 600; }
+
+@media (min-width: 1000px) {
+  .opening { grid-template-columns: 7fr 5fr; min-height: 100vh; }
+  .kant { padding: 22px 40px 40px; justify-content: space-between; }
+  .logo { width: min(26vw, 340px); margin-top: 0; }
+  .foto { aspect-ratio: auto; height: 100%; min-height: 100vh; }
+  .kaart { padding: 96px 48px 100px; }
+  .kolommen { grid-template-columns: 1fr 1fr; gap: 88px; margin-top: 64px; }
+  .jessie { padding: 120px 48px; }
+  .slot { padding: 110px 48px; }
+  .gegevens { grid-template-columns: repeat(3, 1fr); max-width: 980px; margin-inline: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .na { transition: opacity .4s ease; mask-image: none; opacity: 0; }
+  .foto[data-fase="na"] .na { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<section class="opening">
+  <div class="kant">
+    <nav class="menu" aria-label="Hoofdmenu">
+      <a href="#kaart">Extensions</a><a href="#kaart">Nagels</a><a href="#jessie">Over Jessie</a><a href="#contact">Contact</a>
+    </nav>
+    <img class="logo" src="/brand/novaluxe-logo.png" alt="NovaLuxe">
+    <div>
+      <h1>Extensions en nagels in Kijkduin</h1>
+      <p class="intro">Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij NovaLuxe neem ik de tijd om te luisteren naar wat jij mooi vindt.</p>
+      <a class="knop" href="#contact">Maak een afspraak</a>
+      <p class="plek">Eén klant tegelijk · Wijndaelerduin 25, Den Haag</p>
+    </div>
+  </div>
+  <button class="foto" type="button" data-fase="voor" aria-label="Bekijk de transformatie van deze extensions">
+    <img src="https://ebgo5kzodsvpfuzl.public.blob.vercel-storage.com/fotos/be76d9a6-f39d-4b49-9a30-a3b445422aca.jpg" alt="">
+    <span class="na"><img src="https://ebgo5kzodsvpfuzl.public.blob.vercel-storage.com/fotos/a2de565c-0f51-4cfc-b55e-74f378141182.jpg" alt=""></span>
+    <span class="woord">Voor</span>
+  </button>
+</section>
+
+<section class="kaart" id="kaart">
+  <h2>De prijskaart</h2>
+  <div class="kolommen">
+    <div>
+      <h3>Extensions</h3>
+      <p>Je begint altijd met een gratis consult.</p>
+      <ul class="regels">
+        <li><span>Gratis consult</span><span>Gratis</span></li>
+        <li><span>Nieuwe plaatsing</span><span>vanaf € 255,50</span></li>
+        <li><span>Omhoogplaatsen</span><span>vanaf € 40</span></li>
+      </ul>
+      <p>Knippen, blenden en styling zijn inbegrepen.</p>
+    </div>
+    <div>
+      <h3>Nagels</h3>
+      <p>Nail art kun je bijboeken voor € 1 per nagel.</p>
+      <ul class="regels">
+        <li><span>Manicure naturel</span><span>€ 30</span></li>
+        <li><span>Manicure met gellak</span><span>€ 40</span></li>
+        <li><span>Manicure met rubber base</span><span>€ 45</span></li>
+        <li><span>BIAB</span><span>vanaf € 50</span></li>
+        <li><span>Acryl</span><span>vanaf € 60</span></li>
+      </ul>
+    </div>
+  </div>
+  <a class="knop" href="#contact">Maak een afspraak</a>
+</section>
+
+<section class="jessie" id="jessie">
+  <blockquote>Het mooiste moment is voor mij wanneer je in de spiegel kijkt en blij wordt van wat je ziet.</blockquote>
+  <p>Wat begon met nagels zetten in een klein kamertje thuis, groeide uit tot mijn eigen salon in Kijkduin. Hier komen mijn liefde voor nagels en mijn ervaring met haar en extensions samen.</p>
+  <a href="#">Lees mijn verhaal</a>
+</section>
+
+<section class="slot" id="contact">
+  <img src="/brand/novaluxe-monogram.png" alt="">
+  <h2>Tot snel in de salon</h2>
+  <a class="knop" href="#">Maak een afspraak</a>
+  <div class="gegevens">
+    <p><strong>Adres</strong>Wijndaelerduin 25<br>2554 BX Den Haag</p>
+    <p><strong>Openingstijden</strong>Ma–wo, vr 09:00–18:00<br>Do 09:00–20:00 · Za 09:00–14:00</p>
+    <p><strong>Bel of volg</strong>06 13867266<br>@bynovaluxe</p>
+  </div>
+</section>
+
+<script>
+  const foto = document.querySelector(".foto");
+  const woord = foto.querySelector(".woord");
+  const zet = (fase) => { foto.dataset.fase = fase; setTimeout(() => (woord.textContent = fase === "na" ? "Na" : "Voor"), 1100); };
+  foto.addEventListener("click", () => zet(foto.dataset.fase === "na" ? "voor" : "na"));
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setTimeout(() => zet("na"), 900);
+</script>
+</body>
+</html>
