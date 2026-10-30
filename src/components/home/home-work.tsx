@@ -19,12 +19,11 @@ const maxPairs = 3;
 const maxPhotos = 8;
 
 /**
- * Werk: de volgende voor-en-na-paren (het eerste staat in de opening) en losse
- * foto's. Zolang er nog geen werkfoto's zijn, staan hier de lege plekken.
+ * Werk: voor-en-na-paren als transformatie, daarna losse foto's. Zolang er nog geen werkfoto's zijn, staan hier de lege plekken.
  */
 export async function HomeWork() {
   const { photos, pairs } = await getGallery();
-  const shownPairs = pairs.slice(1, 1 + maxPairs);
+  const shownPairs = pairs.slice(0, maxPairs);
   const shownPhotos = photos.slice(0, maxPhotos);
 
   return (

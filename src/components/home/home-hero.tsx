@@ -1,23 +1,16 @@
 import { LogoFull } from "@/components/brand/logo";
-import { BeforeAfter } from "@/components/media/before-after";
 import { SitePhoto } from "@/components/media/site-photo";
 import { MainNav } from "@/components/site/main-nav";
 import { BigLink } from "@/components/ui/action";
 import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
-import { getGallery } from "@/server/photos";
 
 const photoSizes = "(min-width: 1024px) 42vw, 100vw";
 
 /**
- * Opening: het logo groot en gecentreerd, met daarnaast over de volle hoogte
- * één foto. Dat is het eerste voor en na (de transformatie), of anders de
- * vaste foto W01.
+ * Opening: het logo groot en gecentreerd, met de foto van de salon (S04).
  */
-export async function HomeHero() {
-  const { pairs } = await getGallery();
-  const pair = pairs[0];
-
+export function HomeHero() {
   return (
     <section aria-labelledby="home-titel" className="grid bg-ivory lg:min-h-dvh lg:grid-cols-[7fr_5fr]">
       <div className="flex flex-col items-center gap-8 px-gutter pt-10 pb-12 text-center lg:justify-between lg:py-6">
@@ -46,28 +39,13 @@ export async function HomeHero() {
         </div>
       </div>
 
-      {pair ? (
-        <BeforeAfter
-          before={pair.before}
-          after={pair}
-          alt={pair.alt ?? pair.caption ?? "Resultaat bij NovaLuxe"}
-          caption={pair.caption}
-          focus={pair.focus}
-          sizes={photoSizes}
-          className="lg:h-full"
-          frameClassName="aspect-[4/5] lg:aspect-auto lg:h-full"
-          showHint={false}
-          priority
-        />
-      ) : (
-        <SitePhoto
-          shot="W01"
-          subject="Detail: handen van Jessie aan het werk"
-          className="aspect-[4/5] lg:aspect-auto lg:h-full"
-          sizes={photoSizes}
-          priority
-        />
-      )}
+      <SitePhoto
+        shot="S04"
+        subject="De salon in één beeld"
+        className="aspect-[3/2] lg:aspect-auto lg:h-full"
+        sizes={photoSizes}
+        priority
+      />
     </section>
   );
 }

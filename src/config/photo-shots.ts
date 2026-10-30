@@ -6,7 +6,7 @@
  */
 
 /** Verhouding breedte:hoogte. Houd gelijk aan de aspect-klasse van de plek op de site. */
-export type PhotoRatio = "4:5" | "3:4" | "2:3" | "1:1";
+export type PhotoRatio = "4:5" | "3:4" | "2:3" | "1:1" | "3:2";
 
 export type PhotoShot = {
   code: string;
@@ -18,7 +18,7 @@ export type PhotoShot = {
 };
 
 export const photoShots: PhotoShot[] = [
-  { code: "W01", subject: "Handen van Jessie aan het werk aan nagels", where: "Homepage, bovenaan (het eerste voor en na gaat voor)", ratio: "4:5" },
+  { code: "S04", subject: "De salon in één beeld", where: "Homepage, bovenaan", ratio: "3:2" },
   { code: "J01", subject: "Portret van Jessie in de salon", where: "Homepage, bij Jessie", ratio: "4:5" },
   { code: "E01", subject: "Extensions van achteren, lang haar met een natuurlijke val", where: "Homepage (extensions) en Extensions, bovenaan", ratio: "4:5" },
   { code: "N03", subject: "BIAB naturel of French op de eigen nagel", where: "Homepage, nagels", ratio: "4:5" },
@@ -47,6 +47,8 @@ export const beforeAfterRatio: PhotoRatio = "4:5";
  * ±600 px breed, op een scherm met dubbele pixeldichtheid dus 1200 px.
  */
 export const minPhotoWidth = 1200;
+/** Een liggende foto staat groot in beeld en moet dus breder zijn. */
+const minLandscapeWidth = 2000;
 
 export function ratioParts(ratio: PhotoRatio): [number, number] {
   const [width, height] = ratio.split(":").map(Number) as [number, number];
@@ -56,6 +58,7 @@ export function ratioParts(ratio: PhotoRatio): [number, number] {
 /** Advies in woorden, bijv. "Staand 4:5, minimaal 1200 × 1500 px". */
 export function formatAdvice(ratio: PhotoRatio): string {
   const [width, height] = ratioParts(ratio);
-  const shape = width === height ? "Vierkant" : "Staand";
-  return `${shape} ${ratio}, minimaal ${minPhotoWidth} × ${Math.round((minPhotoWidth * height) / width)} px`;
+  const shape = width === height ? "Vierkant" : width > height ? "Liggend" : "Staand";
+  const minWidth = width > height ? minLandscapeWidth : minPhotoWidth;
+  return `${shape} ${ratio}, minimaal ${minWidth} × ${Math.round((minWidth * height) / width)} px`;
 }

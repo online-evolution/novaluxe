@@ -48,6 +48,9 @@ export function PhotoInput({
     if (ratioWidth < ratioHeight && preview.width > preview.height * 1.05) {
       warnings.push("Deze foto is liggend. Op deze plek wordt hij flink bijgesneden; een staande foto past beter.");
     }
+    if (ratioWidth > ratioHeight && preview.height > preview.width * 1.05) {
+      warnings.push("Deze foto is staand. Op deze plek wordt hij flink bijgesneden; een liggende foto past beter.");
+    }
     if (Math.min(preview.width, preview.height) < minPhotoWidth) {
       warnings.push("Deze foto is aan de kleine kant en kan op grote schermen wat zacht ogen.");
     }

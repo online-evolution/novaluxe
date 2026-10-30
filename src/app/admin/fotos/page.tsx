@@ -56,7 +56,7 @@ async function Editors() {
       <AdminSection
         id="voor-en-na"
         title="Voor en na"
-        intro={`Twee foto's van dezelfde klant, het liefst in hetzelfde licht en vanuit dezelfde hoek. Het eerste paar staat als transformatie bovenaan de homepage, de volgende twee bij Werk. Formaat: ${formatAdvice(beforeAfterRatio).toLowerCase()}, voor allebei hetzelfde. Plaats alleen foto's waarvoor de klant toestemming heeft gegeven.`}
+        intro={`Twee foto's van dezelfde klant, het liefst in hetzelfde licht en vanuit dezelfde hoek. Op de homepage staan de eerste drie als transformatie bij Werk. Formaat: ${formatAdvice(beforeAfterRatio).toLowerCase()}, voor allebei hetzelfde. Plaats alleen foto's waarvoor de klant toestemming heeft gegeven.`}
       >
         <GalleryList items={pairs} empty="Er staat nog geen voor en na op de website." />
         <Fold title="Voor en na toevoegen" open={pairs.length === 0}>

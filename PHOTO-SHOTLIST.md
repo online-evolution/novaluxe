@@ -60,6 +60,7 @@ Foto's plaatsen gaat in het beheer onder **Foto's**: per shot-ID bij "Vaste plek
 |---|---|---|
 | S01 | De behandelplek of de stoel, leeg, met daglicht (één klant tegelijk) | Homepage, over ons |
 | S02 | Sfeerdetail van het interieur: textiel, spiegel, licht | Overgangen tussen hoofdstukken |
+| S04 | De hele salon in één liggend beeld (3:2), met daglicht | Homepage, bovenaan |
 | S03 | De entree van de salon, zonder huisnummer of herkenbare straatdetails, tenzij gewenst | Contact |
 | M01 | Genius Wefts op tafel, uitgelegd en mooi gelegd | Extensions, uitleg banen |
 | M02 | Ringetjes en het gereedschap voor extensions | Invisible techniek |

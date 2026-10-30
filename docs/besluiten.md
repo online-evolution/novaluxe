@@ -22,7 +22,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 
 - **Homepage (concept Salonkaart, `docs/concepten/salonkaart.html`):**
   - De eerdere concepten vonden we te AI-achtig: abstracte vormen als fotovervanging, dunne lijntjes en genummerde blokken.
-  - Opbouw: opening met groot logo en de transformatie → extensions en nagels met elk één foto → prijskaart met puntlijntjes → aandacht met de salonfoto → Jessie met portret op donker brons → werk → afspraak. Er is geen foto per behandeling nodig, wel een foto per plek.
+  - Opbouw: opening met groot logo en een liggende foto van de salon (S04) → extensions en nagels met elk één foto → prijskaart met puntlijntjes → aandacht met de salonfoto → Jessie met portret op donker brons → werk → afspraak. Er is geen foto per behandeling nodig, wel een foto per plek.
   - Kleuren: de huisstijl (ivoor, crème, brons, inkt). De variant in kastanje en goud is afgewezen.
   - De homepage staat in de routegroep `(home)`, zonder kopregel, omdat het logo in de opening staat. De andere pagina's staan in `(site)`; beide gebruiken `SiteShell`.
 - **Andere pagina's:** dezelfde vormtaal, via `src/components/page`:
@@ -237,7 +237,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 ## Foto's op de website
 
 - **Beheer → Foto's**, in drie delen:
-  - *Voor en na*: twee foto's per paar, op de homepage als transformatie (het eerste paar in de opening, daarna maximaal drie bij Werk). Het resultaat golft van boven naar beneden over het voor, met een zachte golvende rand die zijwaarts meedeint en een lichtstreep. Daarna veert het resultaat zacht op zijn plek en flonkeren even drie ✦-sterretjes uit het logo. Dat speelt één keer vanzelf af als de foto in beeld komt. Tikken speelt het terug en weer vooruit. Met "minder beweging" ingesteld start niets vanzelf en is het een rustige overgang. (Een schuifregelaar en drie statische varianten zijn afgewezen.)
+  - *Voor en na*: twee foto's per paar, op de homepage als transformatie (maximaal drie, bij Werk). Het resultaat golft van boven naar beneden over het voor, met een zachte golvende rand die zijwaarts meedeint en een lichtstreep. Daarna veert het resultaat zacht op zijn plek en flonkeren even drie ✦-sterretjes uit het logo. Dat speelt één keer vanzelf af als de foto in beeld komt. Tikken speelt het terug en weer vooruit. Met "minder beweging" ingesteld start niets vanzelf en is het een rustige overgang. (Een schuifregelaar en drie statische varianten zijn afgewezen.)
   - *Werk*: losse foto's; op de homepage staan de eerste acht, in Jessies volgorde (zonder foto's staan er lege plekken);
   - *Vaste plekken*: één foto per shotcode uit `PHOTO-SHOTLIST.md` (`src/config/photo-shots.ts`). Zonder foto staat er een lege plek met de code.
   - Per foto een optioneel onderschrift, een beschrijving (alt-tekst) en welk deel zichtbaar moet blijven bij bijsnijden (boven, midden, onder).

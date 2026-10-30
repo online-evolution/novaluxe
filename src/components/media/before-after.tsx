@@ -34,10 +34,6 @@ export function BeforeAfter({
   caption,
   focus,
   sizes,
-  className = "",
-  frameClassName = "aspect-[4/5]",
-  showHint = true,
-  priority,
 }: {
   before: Photo;
   after: Photo;
@@ -45,12 +41,6 @@ export function BeforeAfter({
   caption: string | null;
   focus: PhotoFocus;
   sizes: string;
-  className?: string;
-  /** Maat van het beeld; standaard staand 4:5. */
-  frameClassName?: string;
-  /** Regel onder de foto met onderschrift en uitleg. */
-  showHint?: boolean;
-  priority?: boolean;
 }) {
   const [phase, setPhase] = useState<Phase>("voor");
   const ref = useRef<HTMLButtonElement>(null);
@@ -79,21 +69,20 @@ export function BeforeAfter({
   const reveal = { "--reveal": revealFor[phase], "--wave": waveFor[phase] } as React.CSSProperties;
 
   return (
-    <figure className={className}>
+    <figure>
       <button
         ref={ref}
         type="button"
         data-phase={phase}
         onClick={() => setPhase((current) => (current === "na" ? "voor" : "na"))}
         aria-label={phase === "na" ? `Toon hoe het was: ${alt}` : `Toon het resultaat: ${alt}`}
-        className={`group relative block w-full cursor-pointer overflow-hidden bg-ivory focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze-deep ${frameClassName}`}
+        className="group relative block aspect-[4/5] w-full cursor-pointer overflow-hidden bg-ivory focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze-deep"
       >
         <Image
           src={before.url}
           alt=""
           fill
           sizes={sizes}
-          priority={priority}
           className="object-cover transition-transform duration-[2200ms] ease-calm group-data-[phase=na]:scale-[1.04]"
           style={{ objectPosition }}
         />
@@ -130,14 +119,12 @@ export function BeforeAfter({
           <span className={`transition-opacity duration-500 ${phase === "na" ? "opacity-100" : "opacity-40"}`}>Na</span>
         </span>
       </button>
-      {showHint && (
-        <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-small">
-          <span>{caption}</span>
-          <span className="text-ink-soft" aria-live="polite">
-            {phase === "na" ? "Tik op de foto om terug te kijken" : "Tik op de foto voor het resultaat"}
-          </span>
-        </figcaption>
-      )}
+      <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-small">
+        <span>{caption}</span>
+        <span className="text-ink-soft" aria-live="polite">
+          {phase === "na" ? "Tik op de foto om terug te kijken" : "Tik op de foto voor het resultaat"}
+        </span>
+      </figcaption>
     </figure>
   );
 }
