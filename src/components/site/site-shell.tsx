@@ -1,7 +1,7 @@
 import { MobileBar } from "./mobile-bar";
 import { SiteFooter } from "./site-footer";
 
-/** Gedeelde omlijsting van de site. De homepage heeft het logo in de opening en dus geen kopregel. */
+/** Gedeelde omlijsting van de site. */
 export function SiteShell({ header, children }: { header?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-0">
