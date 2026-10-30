@@ -27,7 +27,7 @@ export async function HomeWork() {
   const shownPhotos = photos.slice(0, maxPhotos);
 
   return (
-    <section aria-labelledby="home-werk" className="bg-cream py-section-tight">
+    <section aria-labelledby="home-werk" className="bg-ivory py-section-tight">
       <div className="flex items-baseline justify-between gap-6 px-gutter">
         <h2 id="home-werk" className="text-display-m font-semibold">
           Werk

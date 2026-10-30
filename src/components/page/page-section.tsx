@@ -16,6 +16,7 @@ export function PageSection({
   tone = "cream",
   shot,
   subject = "",
+  landscape = false,
   children,
 }: {
   id?: string;
@@ -23,6 +24,8 @@ export function PageSection({
   tone?: keyof typeof tones;
   shot?: string;
   subject?: string;
+  /** Liggende foto (3:2): die krijgt meer breedte dan de tekst. */
+  landscape?: boolean;
   children: React.ReactNode;
 }) {
   const hasPhoto = Boolean(shot);
@@ -32,7 +35,7 @@ export function PageSection({
       id={id}
       aria-labelledby={labelledBy}
       className={`scroll-mt-8 px-gutter py-section-tight ${tones[tone]} ${
-        hasPhoto ? "grid items-center gap-12 lg:grid-cols-2 lg:gap-16" : ""
+        hasPhoto ? `grid items-center gap-12 lg:gap-16 ${landscape ? "lg:grid-cols-[2fr_3fr]" : "lg:grid-cols-2"}` : ""
       }`}
     >
       <div>{children}</div>
@@ -40,8 +43,8 @@ export function PageSection({
         <SitePhoto
           shot={shot}
           subject={subject}
-          className="aspect-[4/5] w-full"
-          sizes="(min-width: 1024px) 46vw, 100vw"
+          className={`w-full ${landscape ? "aspect-[3/2]" : "aspect-[4/5]"}`}
+          sizes={landscape ? "(min-width: 1024px) 56vw, 100vw" : "(min-width: 1024px) 46vw, 100vw"}
         />
       )}
     </section>

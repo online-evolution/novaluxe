@@ -80,7 +80,7 @@ export default function AboutPage() {
         </p>
       </PageSection>
 
-      <PageSection labelledBy="salon-titel" tone="ivory" shot="S01" subject="De behandelplek, leeg, met daglicht">
+      <PageSection labelledBy="salon-titel" tone="ivory" shot="S01" subject="De behandelplek, leeg, met daglicht" landscape>
         <SectionTitle id="salon-titel">Een salon waar je jezelf kunt zijn</SectionTitle>
         <p className="mt-8 max-w-measure">
           Ik run NovaLuxe zelf en help altijd één klant tegelijk. Tijdens jouw afspraak heb je dus mijn volledige aandacht.

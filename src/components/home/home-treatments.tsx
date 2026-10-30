@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import { SitePhoto } from "@/components/media/site-photo";
 
-const photoSizes = "(min-width: 1024px) 46vw, 100vw";
+const photoSizes = "(min-width: 1024px) 464px, (min-width: 640px) 46vw, 100vw";
 
 function Treatment({
   id,
@@ -24,11 +24,11 @@ function Treatment({
   return (
     <article aria-labelledby={id}>
       <SitePhoto shot={shot} subject={subject} className="aspect-[4/5] w-full" sizes={photoSizes} />
-      <h2 id={id} className="mt-8 text-display-m font-semibold text-balance">
+      <h2 id={id} className="mt-6 text-display-s font-semibold text-balance">
         {title}
       </h2>
-      <p className="mt-5 max-w-measure text-lede">{children}</p>
-      <Link href={href} className="mt-5 inline-block font-semibold underline underline-offset-4 hover:text-bronze-deep">
+      <p className="mt-4 max-w-measure">{children}</p>
+      <Link href={href} className="mt-4 inline-block font-semibold underline underline-offset-4 hover:text-bronze-deep">
         {linkLabel}
       </Link>
     </article>
@@ -38,31 +38,33 @@ function Treatment({
 /** Extensions en nagels naast elkaar, elk met één foto. */
 export function HomeTreatments() {
   return (
-    <section aria-label="Behandelingen" className="grid gap-16 bg-cream px-gutter py-section-tight lg:grid-cols-2">
-      <Treatment
-        id="home-extensions"
-        title="Haar dat bij jou past"
-        shot="E01"
-        subject="Extensions: resultaat van achteren, natuurlijke val"
-        href="/extensions"
-        linkLabel="Ontdek extensions"
-      >
-        Droom je van langer haar of mis je wat volume? Met extensions stem ik de lengte, kleur en hoeveelheid haar af op
-        jouw wensen en je natuurlijke haar. Ik werk voornamelijk met ultradunne Genius Wefts, geplaatst met een invisible
-        techniek. We beginnen altijd met een gratis consult om te kijken wat bij jou past.
-      </Treatment>
-      <Treatment
-        id="home-nagels"
-        title="Jouw nagels in jouw stijl"
-        shot="N03"
-        subject="BIAB naturel of French op de eigen nagel"
-        href="/nagels"
-        linkLabel="Bekijk de nagelbehandelingen"
-      >
-        Een verzorgde naturel look, een mooie kleur of een set met opvallende nail art. Bij NovaLuxe kun je terecht voor
-        manicures, gellak, BIAB en acryl. Samen kiezen we een behandeling, vorm en afwerking die passen bij jouw nagels en
-        de uitstraling die je zoekt.
-      </Treatment>
+    <section aria-label="Behandelingen" className="bg-ivory px-gutter py-section-tight">
+      <div className="mx-auto grid max-w-5xl gap-12 sm:grid-cols-2 lg:gap-16">
+        <Treatment
+          id="home-extensions"
+          title="Haar dat bij jou past"
+          shot="E01"
+          subject="Extensions: resultaat van achteren, natuurlijke val"
+          href="/extensions"
+          linkLabel="Ontdek extensions"
+        >
+          Droom je van langer haar of mis je wat volume? Met extensions stem ik de lengte, kleur en hoeveelheid haar af op
+          jouw wensen en je natuurlijke haar. Ik werk voornamelijk met ultradunne Genius Wefts, geplaatst met een invisible
+          techniek. We beginnen altijd met een gratis consult om te kijken wat bij jou past.
+        </Treatment>
+        <Treatment
+          id="home-nagels"
+          title="Jouw nagels in jouw stijl"
+          shot="N03"
+          subject="BIAB naturel of French op de eigen nagel"
+          href="/nagels"
+          linkLabel="Bekijk de nagelbehandelingen"
+        >
+          Een verzorgde naturel look, een mooie kleur of een set met opvallende nail art. Bij NovaLuxe kun je terecht voor
+          manicures, gellak, BIAB en acryl. Samen kiezen we een behandeling, vorm en afwerking die passen bij jouw nagels en
+          de uitstraling die je zoekt.
+        </Treatment>
+      </div>
     </section>
   );
 }
