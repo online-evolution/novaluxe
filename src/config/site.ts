@@ -23,6 +23,10 @@ export const site = {
     href: "https://www.instagram.com/bynovaluxe/",
   },
   kvk: "93396007",
+  maker: {
+    name: "The Online Evolution",
+    href: "https://www.online-evolution.nl",
+  },
   timeZone: "Europe/Amsterdam",
   locale: "nl-NL",
 } as const;

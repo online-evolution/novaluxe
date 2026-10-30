@@ -22,9 +22,10 @@ function Treatment({
   children: React.ReactNode;
 }) {
   return (
-    <article aria-labelledby={id} className="flex flex-col">
+    <article aria-labelledby={id} className="@container flex flex-col">
       <SitePhoto shot={shot} subject={subject} className="aspect-[4/5] w-full" sizes={photoSizes} />
-      <h2 id={id} className="mt-6 text-display-s font-semibold text-balance">
+      {/* Meeschalend met de kolom: de langste titel past zo op één regel. */}
+      <h2 id={id} className="mt-6 text-display-s font-semibold [font-size:min(8.7cqi,2.75rem)]!">
         {title}
       </h2>
       <p className="mt-4 mb-6 max-w-measure">{children}</p>

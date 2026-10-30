@@ -9,7 +9,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - **Kopregel:** sticky op alle pagina's, op ivoor, met het volledige logo. Op desktop het menu en de afspraakknop; op mobiel een afspraakknop en een menuknop.
 - **Mobiel menu:** opent van onderaf als genummerde inhoudsopgave, met het native `<dialog>`-element. Op `/reserveren` vervalt de afspraakknop.
 - **Knoppen:** één gouden pilknop in goudfolie (`.gold-button`), voor elke actie op de site; geen tekstlinks als actie. Tekstlinks blijven alleen in lopende tekst, de sprongen binnen een pagina en voor de maandkeuze in de kalender. Bij hover verschuift de glans, trekt een lichtstreep door de knop en vliegt de pijl eruit om terug te komen.
-- **Footer:** een colofon met adres en contact groot, zonder kolommenraster.
+- **Footer:** donker (inkt), met kolommen voor merk, pagina's en contact, en onderaan "Website door The Online Evolution". Dezelfde opzet als de andere sites van The Online Evolution.
 - **Logo:**
   - het origineel staat in `docs/bron/logo/novaluxe.svg` (getraceerd, ±440 KB); de site toont daarvan gerenderde PNG's uit `public/brand/`;
   - in de kopregel staat het volledige logo, minimaal 128 px breed, omdat de naam zichtbaar moet zijn; in het beheer staat het monogram;
@@ -21,7 +21,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - Opening: de salonfoto (S04) direct onder de kopregel, schermvullend, met gecentreerde kop en gouden knop; de onderkant vervaagt in de pagina. De foto pant langzaam door de ruimte en licht trekt erover, met CSS-animaties: de foto wordt nooit vervormd. Op mobiel blijft hij liggend (3:2) met de tekst eronder.
   - Afgewezen voor de opening: een raam in de logocirkel, vloeibaar goud, een donkere avondversie, diepte-effecten en waaiende planten.
   - Opbouw: opening met de salonfoto (S04) → Jessie met portret → extensions en nagels met elk één foto → aandacht met een liggende salonfoto (S01) → werk → afspraak op brons. De prijzen staan alleen op Extensions en Nagels.
-  - De achtergronden wisselen af (crème, ivoor, crème, ivoor, brons, ivoren footer). Controleer dat als de volgorde verandert.
+  - De achtergronden wisselen af (crème, ivoor, crème, ivoor, brons, donkere footer). Controleer dat als de volgorde verandert.
   - Kleuren: de huisstijl (ivoor, crème, brons, inkt). De variant in kastanje en goud is afgewezen.
 - **Andere pagina's:** dezelfde vormtaal, via `src/components/page`:
   - opening gecentreerd op ivoor (`PageOpening`), blokken in crème, ivoor of één keer brons (`PageSection`), afsluiter gecentreerd (`PageClosing`);
