@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { SitePhoto } from "@/components/media/site-photo";
+import { BigLink } from "@/components/ui/action";
 import { scriptFont } from "@/lib/fonts";
 
 /**
@@ -9,7 +9,7 @@ import { scriptFont } from "@/lib/fonts";
 export function HomeJessie() {
   return (
     <section aria-labelledby="home-jessie" className="bg-cream px-gutter py-section-tight">
-      <div className="mx-auto grid max-w-5xl items-center gap-12 lg:grid-cols-12 lg:gap-12">
+      <div className="mx-auto grid max-w-[76rem] items-center gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-7">
           <h2 id="home-jessie" className="text-display-m font-semibold text-balance">
             Maak kennis met Jessie
@@ -23,15 +23,15 @@ export function HomeJessie() {
           >
             Het mooiste moment is voor mij wanneer je in de spiegel kijkt en blij wordt van wat je ziet.
           </blockquote>
-          <Link href="/over-ons" className="mt-8 inline-block font-semibold underline underline-offset-4 hover:text-bronze-deep">
+          <BigLink href="/over-ons" size="md" className="mt-8">
             Lees mijn verhaal
-          </Link>
+          </BigLink>
         </div>
         <SitePhoto
           shot="J01"
           subject="Portret van Jessie in de salon"
           className="mx-auto aspect-[4/5] w-3/4 sm:w-1/2 lg:col-span-5 lg:w-full"
-          sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 75vw"
+          sizes="(min-width: 1024px) 460px, (min-width: 640px) 50vw, 75vw"
         />
       </div>
     </section>
