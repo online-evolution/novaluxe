@@ -235,7 +235,7 @@ export function BookingFlow({
           Stap {stepIndex + 1} van {steps.length}
         </span>
         {stepIndex > 0 && (
-          <button type="button" onClick={back} className="font-medium underline underline-offset-4">
+          <button type="button" onClick={back} className="gold-button px-4 py-2.5 text-small">
             Vorige stap
           </button>
         )}
@@ -701,7 +701,7 @@ function MomentStep(props: {
           Probeer het opnieuw, of bel{" "}
           <a href={props.phone.href} className="figures underline">{props.phone.display}</a>.
         </p>
-        <button type="button" onClick={props.onRetry} className={`${actionClass("quiet")} mt-4`}>
+        <button type="button" onClick={props.onRetry} className={`${actionClass("primary")} mt-4`}>
           Opnieuw proberen
         </button>
       </div>

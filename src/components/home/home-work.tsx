@@ -2,6 +2,7 @@ import Image from "next/image";
 import { BeforeAfter } from "@/components/media/before-after";
 import { focusPosition } from "@/components/media/focus";
 import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
+import { BigAnchor } from "@/components/ui/action";
 import { site } from "@/config/site";
 import { getGallery } from "@/server/photos";
 
@@ -28,16 +29,13 @@ export async function HomeWork() {
 
   return (
     <section aria-labelledby="home-werk" className="bg-ivory py-section-tight">
-      <div className="flex items-baseline justify-between gap-6 px-gutter">
+      <div className="flex flex-wrap items-center justify-between gap-4 px-gutter">
         <h2 id="home-werk" className="text-display-m font-semibold">
           Werk
         </h2>
-        <a
-          href={site.instagram.href}
-          className="border-b border-line-strong pb-1 text-small font-medium hover:border-ink"
-        >
-          Bekijk Instagram <span className="text-ink-soft">{site.instagram.handle}</span>
-        </a>
+        <BigAnchor href={site.instagram.href} size="md">
+          Bekijk Instagram
+        </BigAnchor>
       </div>
 
       {shownPairs.length > 0 && (

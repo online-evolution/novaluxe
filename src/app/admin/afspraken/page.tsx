@@ -37,7 +37,7 @@ export default function AppointmentsPage({ searchParams }: PageProps<"/admin/afs
           title="Afspraken"
           intro="Nieuwe aanvragen, je komende afspraken en wat er eerder was. Tik op een afspraak voor de details."
         />
-        <Link href="/admin/afspraken/nieuw" className={actionClass("quiet")}>
+        <Link href="/admin/afspraken/nieuw" className={actionClass("primary")}>
           Afspraak toevoegen
         </Link>
       </div>

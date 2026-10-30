@@ -39,7 +39,7 @@ async function Dashboard() {
           <h1 className="text-display-m font-medium">Vandaag</h1>
           <p className="mt-3 text-lede text-ink-soft first-letter:uppercase">{formatLongDate(today)}</p>
         </div>
-        <Link href="/admin/afspraken/nieuw" className={actionClass("quiet")}>
+        <Link href="/admin/afspraken/nieuw" className={actionClass("primary")}>
           Afspraak toevoegen
         </Link>
       </header>
@@ -62,7 +62,7 @@ async function Dashboard() {
       </AdminSection>
 
       <p className="mt-14 text-small">
-        <Link href="/admin/afspraken?weergave=komend" className="underline underline-offset-4 hover:text-bronze-deep">
+        <Link href="/admin/afspraken?weergave=komend" className={actionClass("primary")}>
           Alle komende afspraken
         </Link>
       </p>

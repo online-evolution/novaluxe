@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ActionLink } from "@/components/ui/action";
+import { BigLink } from "@/components/ui/action";
 import { site } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -29,9 +29,7 @@ export default function RequestReceivedPage() {
           .
         </p>
         <div className="mt-10">
-          <ActionLink variant="quiet" href="/">
-            Terug naar de homepage
-          </ActionLink>
+          <BigLink href="/">Terug naar de homepage</BigLink>
         </div>
       </div>
     </div>

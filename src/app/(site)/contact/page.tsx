@@ -2,7 +2,7 @@ import type { Metadata, Route } from "next";
 import { DottedRow } from "@/components/page/dotted-row";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle } from "@/components/page/page-section";
-import { BigLink } from "@/components/ui/action";
+import { BigAnchor, BigLink } from "@/components/ui/action";
 import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
 import { formatRanges, weekdayRows } from "@/domain/hours";
@@ -69,14 +69,9 @@ export default async function ContactPage() {
               <br />
               {site.address.postalCode} {site.address.city}
             </address>
-            <a
-              href={routeHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-block font-semibold underline underline-offset-4 hover:text-bronze-deep"
-            >
+            <BigAnchor href={routeHref} size="md" target="_blank" rel="noopener noreferrer" className="mt-6">
               Plan je route <span className="sr-only">(opent in een nieuw venster)</span>
-            </a>
+            </BigAnchor>
           </div>
 
           <div>

@@ -1,6 +1,6 @@
-import Link from "next/link";
 import type { Route } from "next";
 import { SitePhoto } from "@/components/media/site-photo";
+import { BigLink } from "@/components/ui/action";
 
 const photoSizes = "(min-width: 1024px) 464px, (min-width: 640px) 46vw, 100vw";
 
@@ -22,15 +22,16 @@ function Treatment({
   children: React.ReactNode;
 }) {
   return (
-    <article aria-labelledby={id}>
+    <article aria-labelledby={id} className="flex flex-col">
       <SitePhoto shot={shot} subject={subject} className="aspect-[4/5] w-full" sizes={photoSizes} />
       <h2 id={id} className="mt-6 text-display-s font-semibold text-balance">
         {title}
       </h2>
-      <p className="mt-4 max-w-measure">{children}</p>
-      <Link href={href} className="mt-4 inline-block font-semibold underline underline-offset-4 hover:text-bronze-deep">
+      <p className="mt-4 mb-6 max-w-measure">{children}</p>
+      {/* mt-auto: de knoppen staan op één lijn, ook bij ongelijke tekst. */}
+      <BigLink href={href} size="md" className="mt-auto self-start">
         {linkLabel}
-      </Link>
+      </BigLink>
     </article>
   );
 }

@@ -18,24 +18,6 @@ export function actionClass(variant: ActionVariant = "primary"): string {
   return variant === "primary" ? "gold-button px-7 py-3.5" : `${base} ${variants[variant]}`;
 }
 
-type ActionLinkProps<T extends string> = {
-  href: Route<T>;
-  variant?: ActionVariant;
-  children: React.ReactNode;
-};
-
-export function ActionLink<T extends string>({
-  href,
-  variant = "primary",
-  children,
-}: ActionLinkProps<T>) {
-  return (
-    <Link href={href} className={actionClass(variant)}>
-      {children}
-    </Link>
-  );
-}
-
 const bigLinkSizes = {
   sm: "px-4 py-2.5 text-small",
   md: "px-6 py-3",
@@ -62,11 +44,36 @@ export function BigLink<T extends string>({
   return (
     <Link href={href} onClick={onClick} className={`gold-button ${bigLinkSizes[size]} ${className}`}>
       {children}
-      {arrow && (
-        <span aria-hidden="true" className="gold-arrow">
-          <span>↗</span>
-        </span>
-      )}
+      {arrow && <GoldArrow />}
     </Link>
+  );
+}
+
+/** Dezelfde knop voor een link naar buiten de site (kaart, Instagram). */
+export function BigAnchor({
+  href,
+  size = "lg",
+  className = "",
+  children,
+  ...rest
+}: {
+  href: string;
+  size?: keyof typeof bigLinkSizes;
+  className?: string;
+  children: React.ReactNode;
+} & Pick<ComponentProps<"a">, "target" | "rel">) {
+  return (
+    <a href={href} className={`gold-button ${bigLinkSizes[size]} ${className}`} {...rest}>
+      {children}
+      <GoldArrow />
+    </a>
+  );
+}
+
+function GoldArrow() {
+  return (
+    <span aria-hidden="true" className="gold-arrow">
+      <span>↗</span>
+    </span>
   );
 }

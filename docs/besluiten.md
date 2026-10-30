@@ -11,7 +11,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - **Opmaak zonder AI-trucs:** geen cursief accentwoord, geen labels in kapitalen met letterspatiëring, geen glassmorphism.
 - **Kopregel:** sticky op alle pagina's, op ivoor, met het volledige logo. Op desktop het menu en de afspraakknop; op mobiel een afspraakknop en een menuknop.
 - **Mobiel menu:** opent van onderaf als genummerde inhoudsopgave, met het native `<dialog>`-element. Op `/reserveren` vervalt de afspraakknop.
-- **Knoppen:** één gouden pilknop in goudfolie (`.gold-button`). Bij hover verschuift de glans, trekt een lichtstreep door de knop en vliegt de pijl eruit om terug te komen.
+- **Knoppen:** één gouden pilknop in goudfolie (`.gold-button`), voor elke actie op de site; geen tekstlinks als actie. Tekstlinks blijven alleen in lopende tekst, de sprongen binnen een pagina en voor de maandkeuze in de kalender. Bij hover verschuift de glans, trekt een lichtstreep door de knop en vliegt de pijl eruit om terug te komen.
 - **Footer:** een colofon met adres en contact groot, zonder kolommenraster.
 - **Logo:**
   - het origineel staat in `docs/bron/logo/novaluxe.svg` (getraceerd, ±440 KB); de site toont daarvan gerenderde PNG's uit `public/brand/`;
