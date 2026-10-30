@@ -1,8 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { focusPosition } from "@/components/media/focus";
 import { PhotoPlaceholder } from "@/components/media/photo-placeholder";
-import { goldPillClass } from "@/components/ui/action";
+import { BigLink } from "@/components/ui/action";
 import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
 import { getSitePhotos } from "@/server/photos";
@@ -17,7 +16,7 @@ export async function HomeHero() {
   const photo = (await getSitePhotos()).S04;
 
   return (
-    <section aria-labelledby="home-titel" className="relative bg-cream lg:h-[calc(100dvh-7rem)] lg:min-h-[600px] lg:overflow-hidden">
+    <section aria-labelledby="home-titel" className="relative bg-cream lg:h-[calc(100dvh-7.1rem)] lg:min-h-[600px] lg:overflow-hidden">
       <div className="relative aspect-[3/2] overflow-hidden bg-sand lg:absolute lg:inset-0 lg:aspect-auto">
         {photo ? (
           <Image
@@ -57,9 +56,9 @@ export async function HomeHero() {
           Wil je voller haar, extra lengte of een mooie nieuwe set nagels? Bij NovaLuxe in Kijkduin neem ik de tijd om te
           luisteren naar wat jij mooi vindt.
         </p>
-        <Link href={bookingHref} className={`${goldPillClass} mt-6 px-8 py-3.5 text-lede`}>
-          Maak een afspraak ↗
-        </Link>
+        <BigLink href={bookingHref} className="mt-6">
+          Maak een afspraak
+        </BigLink>
       </div>
     </section>
   );

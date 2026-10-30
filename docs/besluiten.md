@@ -8,11 +8,9 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - de serif+sans-paren voelden te AI-achtig;
   - Schibsted Grotesk en Archivo (smal) vielen ook af.
 - **Opmaak zonder AI-trucs:** geen cursief accentwoord, geen labels in kapitalen met letterspatiëring, geen glassmorphism.
-- **Mobiele navigatie:**
-  - een vaste balk onderin met "Menu" en "Afspraak maken";
-  - het menu opent van onderaf als genummerde inhoudsopgave, met het native `<dialog>`-element;
-  - op `/reserveren` vervalt de afspraakknop in de balk.
-- **Desktopheader:** zonder achtergrondvlak en niet sticky.
+- **Kopregel:** sticky op alle pagina's, op ivoor, met het volledige logo. Op desktop het menu en de afspraakknop; op mobiel een afspraakknop en een menuknop.
+- **Mobiel menu:** opent van onderaf als genummerde inhoudsopgave, met het native `<dialog>`-element. Op `/reserveren` vervalt de afspraakknop.
+- **Knoppen:** één gouden pilknop in goudfolie (`.gold-button`). Bij hover verschuift de glans, trekt een lichtstreep door de knop en vliegt de pijl eruit om terug te komen.
 - **Footer:** een colofon met adres en contact groot, zonder kolommenraster.
 - **Logo:**
   - het origineel staat in `docs/bron/logo/novaluxe.svg` (getraceerd, ±440 KB); de site toont daarvan gerenderde PNG's uit `public/brand/`;

@@ -175,7 +175,8 @@ export function BookingFlow({
     if (!heading) return;
     heading.focus({ preventScroll: true });
     const top = heading.getBoundingClientRect().top;
-    if (top < 0 || top > window.innerHeight * 0.6) heading.scrollIntoView({ block: "start" });
+    // 120: de vaste kopregel bedekt de bovenkant van het scherm.
+    if (top < 120 || top > window.innerHeight * 0.6) heading.scrollIntoView({ block: "start" });
   }, [step]);
 
   const update = (patch: Partial<Choice>) => setChoice((current) => ({ ...current, ...patch }));

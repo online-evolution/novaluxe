@@ -3,30 +3,30 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useRef, useState } from "react";
+import { BigLink } from "@/components/ui/action";
 import { bookingHref, isCurrent, mainNavigation } from "@/config/navigation";
 import { site } from "@/config/site";
-import { actionClass } from "@/components/ui/action";
 
 /**
- * Mobiele navigatie: een vaste balk onderin (binnen bereik van de duim) en een
- * menu dat van onderaf opent als genummerde inhoudsopgave. Gebruikt het
+ * Mobiele navigatie in de kopregel: afspraakknop en menuknop. Het menu opent van
+ * onderaf als genummerde inhoudsopgave, binnen bereik van de duim. Gebruikt het
  * native <dialog>-element voor focusbeheer, Escape en de achtergrond.
  */
-export function MobileBar() {
+export function MobileMenu() {
   // Onder een route met een onbekende parameter (zoals een vrijgavelink) is het
-  // pad pas bij het verzoek bekend; tot dan de balk zonder actieve pagina.
+  // pad pas bij het verzoek bekend; tot dan zonder actieve pagina.
   return (
-    <Suspense fallback={<Bar pathname={null} />}>
-      <CurrentBar />
+    <Suspense fallback={<Menu pathname={null} />}>
+      <CurrentMenu />
     </Suspense>
   );
 }
 
-function CurrentBar() {
-  return <Bar pathname={usePathname()} />;
+function CurrentMenu() {
+  return <Menu pathname={usePathname()} />;
 }
 
-function Bar({ pathname }: { pathname: string | null }) {
+function Menu({ pathname }: { pathname: string | null }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const onBookingPage = pathname !== null && isCurrent(pathname, bookingHref);
@@ -41,31 +41,25 @@ function Bar({ pathname }: { pathname: string | null }) {
   }
 
   return (
-    <>
-      <div
-        className={`fixed inset-x-0 bottom-0 z-40 grid border-t border-line bg-cream pb-[env(safe-area-inset-bottom)] lg:hidden ${
-          onBookingPage ? "grid-cols-1" : "grid-cols-2"
-        }`}
+    <div className="flex items-center gap-2 lg:hidden">
+      {!onBookingPage && (
+        <BigLink href={bookingHref} size="sm" arrow={false}>
+          Afspraak
+        </BigLink>
+      )}
+      <button
+        type="button"
+        onClick={openMenu}
+        aria-label="Menu openen"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls="mobiel-menu"
+        className="flex size-11 items-center justify-center rounded-full bg-ink text-cream"
       >
-        <button
-          type="button"
-          onClick={openMenu}
-          aria-haspopup="dialog"
-          aria-expanded={open}
-          aria-controls="mobiel-menu"
-          className="flex h-14 items-center px-gutter text-small font-medium"
-        >
-          Menu
-        </button>
-        {!onBookingPage && (
-          <Link
-            href={bookingHref}
-            className="flex h-14 items-center justify-center bg-ink px-4 text-small font-medium text-cream transition-colors duration-(--duration-quick) active:bg-bronze-deep"
-          >
-            Afspraak maken
-          </Link>
-        )}
-      </div>
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M4 8h16M4 16h16" strokeLinecap="round" />
+        </svg>
+      </button>
 
       <dialog
         id="mobiel-menu"
@@ -138,16 +132,12 @@ function Bar({ pathname }: { pathname: string | null }) {
           </div>
 
           {!onBookingPage && (
-            <Link
-              href={bookingHref}
-              onClick={closeMenu}
-              className={`${actionClass("primary")} mt-8 w-full justify-center`}
-            >
+            <BigLink href={bookingHref} onClick={closeMenu} className="mt-8 w-full">
               Afspraak maken
-            </Link>
+            </BigLink>
           )}
         </div>
       </dialog>
-    </>
+    </div>
   );
 }

@@ -1,27 +1,22 @@
 import Link from "next/link";
 import type { Route } from "next";
+import type { ComponentProps } from "react";
 
 type ActionVariant = "primary" | "quiet";
 
 const base =
   "group inline-flex items-baseline gap-3 label transition-colors duration-(--duration-quick) ease-soft";
 
-const variants: Record<ActionVariant, string> = {
-  // Eén volle knop per scherm: de afspraak.
-  primary:
-    "bg-ink px-6 py-4 text-cream hover:bg-bronze-deep focus-visible:bg-bronze-deep",
+const variants: Record<Exclude<ActionVariant, "primary">, string> = {
   // Tekstactie met een lijn die bij hover doortrekt.
   quiet:
     "border-b border-line-strong pb-1.5 text-ink hover:border-ink focus-visible:border-ink",
 };
 
 export function actionClass(variant: ActionVariant = "primary"): string {
-  return `${base} ${variants[variant]}`;
+  // Volle knop: goudfolie, zie .gold-button in globals.css.
+  return variant === "primary" ? "gold-button px-7 py-3.5" : `${base} ${variants[variant]}`;
 }
-
-/** Gouden pilknop in de kopregel en de opening van de homepage. */
-export const goldPillClass =
-  "inline-flex items-center rounded-full bg-gold font-bold whitespace-nowrap text-ink transition-transform duration-(--duration-quick) hover:-translate-y-0.5";
 
 type ActionLinkProps<T extends string> = {
   href: Route<T>;
@@ -41,25 +36,37 @@ export function ActionLink<T extends string>({
   );
 }
 
-type BigLinkProps<T extends string> = {
-  href: Route<T>;
-  /** Licht op een donker vlak. */
-  tone?: "ink" | "cream";
-  children: React.ReactNode;
+const bigLinkSizes = {
+  sm: "px-4 py-2.5 text-small",
+  md: "px-6 py-3",
+  lg: "px-5 py-3.5 text-lede sm:px-8",
 };
 
-/** De grote knop van de openbare pagina's. */
-export function BigLink<T extends string>({ href, tone = "ink", children }: BigLinkProps<T>) {
+type BigLinkProps<T extends string> = {
+  href: Route<T>;
+  size?: keyof typeof bigLinkSizes;
+  arrow?: boolean;
+  className?: string;
+  children: React.ReactNode;
+} & Pick<ComponentProps<"a">, "onClick">;
+
+/** De gouden knop van de openbare pagina's. De pijl vliegt eruit bij hover. */
+export function BigLink<T extends string>({
+  href,
+  size = "lg",
+  arrow = true,
+  className = "",
+  onClick,
+  children,
+}: BigLinkProps<T>) {
   return (
-    <Link
-      href={href}
-      className={`inline-block px-9 py-4 text-lede font-semibold transition-colors duration-(--duration-quick) ${
-        tone === "ink"
-          ? "bg-ink text-cream hover:bg-bronze-deep focus-visible:bg-bronze-deep"
-          : "bg-cream text-ink hover:bg-ivory focus-visible:bg-ivory"
-      }`}
-    >
+    <Link href={href} onClick={onClick} className={`gold-button ${bigLinkSizes[size]} ${className}`}>
       {children}
+      {arrow && (
+        <span aria-hidden="true" className="gold-arrow">
+          <span>↗</span>
+        </span>
+      )}
     </Link>
   );
 }

@@ -2,6 +2,11 @@
 @import "../styles/tokens.css";
 
 @layer base {
+  /* Ankerlinks mogen niet onder de vaste kopregel vallen. */
+  html {
+    scroll-padding-top: 7.5rem;
+  }
+
   :root {
     color-scheme: light;
   }
@@ -327,6 +332,95 @@ html:has(dialog[open]) {
     .hero-pan,
     .hero-licht {
       animation: none;
+    }
+  }
+}
+
+/*
+ * De gouden knop: goudfolie zoals het logo. Bij hover verschuift de glans over
+ * het folie, trekt er een lichtstreep doorheen en vliegt de pijl eruit om aan
+ * de andere kant terug te komen.
+ */
+@layer components {
+  .gold-button {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    overflow: hidden;
+    border-radius: var(--radius-full);
+    background-color: var(--color-gold);
+    background-image: linear-gradient(105deg, #c4923e 0%, #e9c378 28%, #d0a049 52%, #f0d296 74%, #c4923e 100%);
+    background-size: 240% 100%;
+    background-position: 0% 0;
+    color: var(--color-ink);
+    font-weight: 700;
+    white-space: nowrap;
+    transition:
+      background-position 900ms var(--ease-soft),
+      transform 350ms var(--ease-soft),
+      box-shadow 350ms var(--ease-soft);
+  }
+
+  .gold-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 35%, rgb(255 250 232 / 0.85) 50%, transparent 65%);
+    transform: translateX(-110%);
+  }
+
+  .gold-button:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  .gold-button:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  .gold-arrow {
+    display: inline-block;
+    overflow: hidden;
+    height: 1.2em;
+    width: 1em;
+    line-height: 1.2;
+  }
+
+  .gold-arrow > span {
+    display: block;
+    text-shadow: -1.3em 1.3em 0 currentColor;
+    transition: transform 500ms var(--ease-soft);
+  }
+
+  @media (hover: hover) {
+    .gold-button:hover:not(:disabled) {
+      background-position: 100% 0;
+      box-shadow: 0 14px 30px -12px rgb(160 112 40 / 0.75);
+      transform: translateY(-2px);
+    }
+
+    .gold-button:hover:not(:disabled)::before {
+      transform: translateX(110%);
+      transition: transform 800ms var(--ease-soft);
+    }
+
+    .gold-button:hover .gold-arrow > span {
+      transform: translate(1.3em, -1.3em);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gold-button,
+    .gold-arrow > span {
+      transition: none;
+    }
+
+    .gold-button::before {
+      display: none;
     }
   }
 }

@@ -1,29 +1,25 @@
-import Link from "next/link";
 import { LogoLink } from "@/components/brand/logo";
-import { goldPillClass } from "@/components/ui/action";
+import { BigLink } from "@/components/ui/action";
 import { bookingHref } from "@/config/navigation";
-import { site } from "@/config/site";
 import { MainNav } from "./main-nav";
+import { MobileMenu } from "./mobile-menu";
 
 /**
  * Kopregel met het volledige logo, op hetzelfde ivoor als de opening van de pagina.
- * Op mobiel staat daarnaast alleen de plaats; navigatie en afspraakknop zitten in
- * de balk onderin.
+ * Blijft bovenaan staan tijdens het scrollen.
  */
 export function SiteHeader() {
   return (
-    <header className="flex items-center justify-between gap-8 bg-ivory px-gutter py-2">
-      <LogoLink className="w-32 lg:w-36" />
+    <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-line bg-ivory px-gutter py-1.5 lg:py-2">
+      <LogoLink className="w-[7.5rem] lg:w-36" />
 
-      <p className="label text-ink-soft lg:hidden">
-        {site.area} · {site.address.city}
-      </p>
+      <MobileMenu />
 
       <div className="hidden items-center gap-10 lg:flex">
         <MainNav />
-        <Link href={bookingHref} className={`${goldPillClass} px-6 py-3`}>
+        <BigLink href={bookingHref} size="md">
           Afspraak maken
-        </Link>
+        </BigLink>
       </div>
     </header>
   );

@@ -113,7 +113,7 @@ export default async function ContactPage() {
             we over wat jij graag zou willen. Je krijgt eerlijk advies en weet meteen wat het kost.
           </p>
           <div className="mt-8">
-            <BigLink href={consultHref} tone="cream">
+            <BigLink href={consultHref}>
               Plan je gratis consult
             </BigLink>
           </div>
@@ -125,7 +125,7 @@ export default async function ContactPage() {
             een beschikbare datum en tijd.
           </p>
           <div className="mt-8">
-            <BigLink href={bookingHref} tone="cream">
+            <BigLink href={bookingHref}>
               Naar reserveren
             </BigLink>
           </div>
