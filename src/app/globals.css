@@ -493,3 +493,25 @@ html:has(dialog[open]) {
   /* Lange woorden, zoals "omhoogplaatsen", passen anders niet op een smal scherm. */
   overflow-wrap: anywhere;
 }
+
+/*
+ * De salonfoto in de afsluiter van de homepage: zwart-wit in het brons
+ * opgelost (luminosity), zodat hij sfeer geeft zonder de tekst te storen.
+ * Zoomt zacht uit terwijl het blok in beeld schuift.
+ */
+@layer components {
+  .cta-foto {
+    opacity: 0.3;
+    mix-blend-mode: luminosity;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .cta-foto {
+        animation: photo-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 60%;
+      }
+    }
+  }
+}
