@@ -5,8 +5,7 @@ import { bookingHref } from "@/config/navigation";
 import { getSitePhotos } from "@/server/photos";
 
 /**
- * Afsluiter vóór de footer. Maakt duidelijk dat Jessie eerst bevestigt, zonder
- * een afspraak als direct definitief te presenteren. De tekst staat in een boog
+ * Afsluiter vóór de footer. De tekst staat in een boog
  * zoals de spiegels in de salon; daarin schuift de salonfoto van de opening
  * (S04) in brons door de ruimte, zodat de pagina eindigt waar hij begon.
  */
@@ -38,13 +37,9 @@ export async function HomeBooking() {
           Weet je al waarvoor je wilt komen? Via de reserveringspagina kies je jouw nagel- of extensionsbehandeling en
           een beschikbare datum en tijd.
         </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <BigLink href={bookingHref}>Maak een afspraak</BigLink>
-          <BigLink href="/reserveren?behandeling=gratis-consult">Plan je gratis consult</BigLink>
-        </div>
-        <p className="mx-auto mt-5 max-w-measure text-small">
-          Zodra Jessie je aanvraag bevestigt, ontvang je automatisch een e-mail.
-        </p>
+        <BigLink href={bookingHref} className="mt-8">
+          Maak een afspraak
+        </BigLink>
       </div>
     </section>
   );
