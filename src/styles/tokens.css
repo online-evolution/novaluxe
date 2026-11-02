@@ -95,4 +95,6 @@
   --duration-calm: 600ms;
   --duration-slow: 1100ms;
   --border-hair: 1px;
+  /* Goudfolie van de knoppen, ook voor andere gouden accenten. */
+  --gold-foil: linear-gradient(105deg, #c4923e 0%, #e9c378 28%, #d0a049 52%, #f0d296 74%, #c4923e 100%);
 }

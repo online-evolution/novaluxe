@@ -29,10 +29,15 @@ export async function HomeWork() {
 
   return (
     <section aria-labelledby="home-werk" className="bg-ivory py-section-tight">
-      <div className="flex flex-wrap items-center justify-between gap-4 px-gutter">
-        <h2 id="home-werk" className="text-display-m font-semibold">
-          Werk
-        </h2>
+      <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-6 px-gutter">
+        <div>
+          <h2 id="home-werk" className="text-display-m font-semibold">
+            Mijn werk
+          </h2>
+          <p className="mt-4 max-w-measure text-lede">
+            Een greep uit de extensions en nagels die ik in de salon heb gemaakt. Meer zie je op Instagram.
+          </p>
+        </div>
         <BigAnchor href={site.instagram.href} size="md" target="_blank" rel="noopener noreferrer">
           Bekijk Instagram <span className="sr-only">(opent in een nieuw venster)</span>
         </BigAnchor>

@@ -127,7 +127,7 @@ export function BeforeAfter({
         >
           <span
             aria-hidden="true"
-            className={`absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-ink transition-transform duration-500 ease-soft ${
+            className={`absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-gold bg-(image:--gold-foil) transition-transform duration-500 ease-soft ${
               phase === "na" ? "translate-x-full" : ""
             }`}
           />
@@ -137,9 +137,7 @@ export function BeforeAfter({
               type="button"
               aria-pressed={phase === option}
               onClick={() => choose(option)}
-              className={`relative min-w-16 rounded-full px-4 py-2 transition-colors duration-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-deep ${
-                phase === option ? "text-cream" : "text-ink"
-              }`}
+              className="relative min-w-16 rounded-full px-4 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-deep"
             >
               {option === "voor" ? "Voor" : "Na"}
             </button>
