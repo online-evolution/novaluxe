@@ -25,8 +25,9 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Goud: zichtbaar op elke achtergrond (ivoor was onzichtbaar op de ivoren blokken). */
   ::selection {
-    background-color: var(--color-ivory);
+    background-color: var(--color-gold);
     color: var(--color-ink);
   }
 
