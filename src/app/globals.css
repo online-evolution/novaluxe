@@ -495,23 +495,19 @@ html:has(dialog[open]) {
 }
 
 /*
- * De salonfoto in de afsluiter van de homepage: zwart-wit in het brons
- * opgelost (luminosity), zodat hij sfeer geeft zonder de tekst te storen.
- * Zoomt zacht uit terwijl het blok in beeld schuift.
+ * De afsluiter van de homepage: een boog zoals de spiegels in de salon, met een
+ * gouden lijn eromheen. De salonfoto erin is zwart-wit in het brons opgelost
+ * (luminosity) en schuift langzaam door de ruimte (.hero-pan).
  */
 @layer components {
-  .cta-foto {
-    opacity: 0.3;
-    mix-blend-mode: luminosity;
+  .cta-boog {
+    border-radius: clamp(8rem, 30vw, 18rem) clamp(8rem, 30vw, 18rem) 0 0;
+    outline: 1.5px solid var(--color-gold);
+    outline-offset: 10px;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      .cta-foto {
-        animation: photo-in linear both;
-        animation-timeline: view();
-        animation-range: entry 0% cover 60%;
-      }
-    }
+  .cta-foto {
+    opacity: 0.38;
+    mix-blend-mode: luminosity;
   }
 }

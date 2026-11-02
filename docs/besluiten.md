@@ -27,7 +27,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - opening gecentreerd op ivoor (`PageOpening`), blokken in crème, ivoor of één keer brons (`PageSection`), afsluiter gecentreerd (`PageClosing`);
   - prijzen en openingstijden met puntlijntjes (`DottedRow`);
   - koppen semibold; geen genummerde secties, geen labels boven koppen en geen dunne lijnen.
-- **Fotostijl:** de boog van de spiegels in de salon, met een dun gouden lijntje (`.photo-arch`, voor liggende foto's `.photo-arch-wide`). Geldt voor alle foto's behalve de opening van de homepage. De foto zoomt zacht uit bij het in beeld komen en zacht in bij hover.
+- **Fotostijl:** de boog van de spiegels in de salon, met een dun gouden lijntje (`.photo-arch`, voor liggende foto's `.photo-arch-wide`). Geldt voor alle foto's behalve de opening van de homepage. De foto zoomt zacht uit bij het in beeld komen en zacht in bij hover. Het afspraakblok onderaan de homepage is zelf zo'n boog, met de salonfoto (S04) in brons die langzaam door de ruimte schuift.
 - **Fotoplekken blijven zichtbaar:** een plek zonder foto staat als lege plek met de code, tot de foto in het beheer is geplaatst.
 
 ## Bron van waarheid
