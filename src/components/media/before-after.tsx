@@ -12,6 +12,11 @@ const revealFor: Record<Phase, string> = { voor: "-20%", na: "120%" };
 /** Zijwaartse drift van de golf: twee golflengtes tijdens de overgang. */
 const waveFor: Record<Phase, string> = { voor: "0%", na: "200%" };
 
+/** Hoe lang elke fase blijft staan voordat hij vanzelf wisselt (incl. de overgang van 2,2 s). */
+const holdFor: Record<Phase, number> = { voor: 3200, na: 6200 };
+/** Naast elkaar wisselen de foto's om de beurt, niet tegelijk. */
+const staggerMs = 2400;
+
 /** Sterretjes (de ✦ uit het logo) die flonkeren als het resultaat er staat. */
 const sparkles = [
   { top: "16%", left: "70%", size: "1.25rem", delay: "1700ms" },
@@ -20,12 +25,12 @@ const sparkles = [
 ];
 
 /*
- * Voor en na als transformatie. De foto begint bij het voor; zodra hij goed
- * in beeld is, golft het resultaat er van boven naar beneden overheen, veert
- * het zacht op zijn plek en flonkeren er even drie sterretjes (zie
- * .transform-* in globals.css). Tikken of klikken speelt de
- * overgang terug naar het voor, en weer vooruit. Met "minder beweging"
- * ingesteld start niets vanzelf en is het een rustige overgang.
+ * Voor en na als transformatie. De foto begint bij het voor; zolang hij in
+ * beeld is, golft het resultaat er afwisselend overheen en weer af, met een
+ * vertraging per `index` zodat foto's naast elkaar om de beurt wisselen (zie
+ * .transform-* in globals.css). De schakelaar Voor / Na onderin laat zien wat
+ * je ziet; kiezen of op de foto tikken zet het vanzelf wisselen stil. Met
+ * "minder beweging" ingesteld wisselt niets vanzelf.
  */
 export function BeforeAfter({
   before,
@@ -34,6 +39,7 @@ export function BeforeAfter({
   caption,
   focus,
   sizes,
+  index = 0,
 }: {
   before: Photo;
   after: Photo;
@@ -41,46 +47,55 @@ export function BeforeAfter({
   caption: string | null;
   focus: PhotoFocus;
   sizes: string;
+  index?: number;
 }) {
   const [phase, setPhase] = useState<Phase>("voor");
-  const ref = useRef<HTMLButtonElement>(null);
+  const [auto, setAuto] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const started = useRef(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-  // Eén keer vanzelf afspelen als de foto voor het grootste deel in beeld is.
   useEffect(() => {
     const element = ref.current;
     if (!element || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        observer.disconnect();
-        timer = setTimeout(() => setPhase("na"), 450);
-      },
-      { threshold: 0.6 },
-    );
+    const observer = new IntersectionObserver(([entry]) => setVisible(Boolean(entry?.isIntersecting)), {
+      threshold: 0.6,
+    });
     observer.observe(element);
-    return () => {
-      observer.disconnect();
-      clearTimeout(timer);
-    };
+    return () => observer.disconnect();
   }, []);
+
+  // Vanzelf wisselen zolang de foto in beeld is; de eerste keer met de vertraging per foto.
+  useEffect(() => {
+    if (!auto || !visible) return;
+    const delay = started.current ? holdFor[phase] : 600 + index * staggerMs;
+    const timer = setTimeout(() => {
+      started.current = true;
+      setPhase((current) => (current === "na" ? "voor" : "na"));
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [auto, visible, phase, index]);
+
+  function choose(next: Phase) {
+    setAuto(false);
+    setPhase(next);
+  }
 
   const objectPosition = focusPosition[focus];
   const reveal = { "--reveal": revealFor[phase], "--wave": waveFor[phase] } as React.CSSProperties;
 
   return (
     <figure>
-      <button
+      {/* Tikken op de foto is een snelkoppeling; de knoppen onderin zijn de echte bediening. */}
+      <div
         ref={ref}
-        type="button"
         data-phase={phase}
-        onClick={() => setPhase((current) => (current === "na" ? "voor" : "na"))}
-        aria-label={phase === "na" ? `Toon hoe het was: ${alt}` : `Toon het resultaat: ${alt}`}
-        className="photo-arch group relative block aspect-[4/5] w-full cursor-pointer overflow-hidden bg-ivory focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze-deep"
+        onClick={() => choose(phase === "na" ? "voor" : "na")}
+        className="photo-arch group relative aspect-[4/5] w-full cursor-pointer overflow-hidden bg-ivory"
       >
         <Image
           src={before.url}
-          alt=""
+          alt={`Voor: ${alt}`}
           fill
           sizes={sizes}
           className="object-cover transition-transform duration-[2200ms] ease-calm group-data-[phase=na]:scale-[1.04]"
@@ -88,7 +103,7 @@ export function BeforeAfter({
         />
         <div className="transform-layer transform-after absolute inset-0" style={reveal}>
           <div className="transform-settle absolute inset-0">
-            <Image src={after.url} alt="" fill sizes={sizes} className="object-cover" style={{ objectPosition }} />
+            <Image src={after.url} alt={`Na: ${alt}`} fill sizes={sizes} className="object-cover" style={{ objectPosition }} />
           </div>
         </div>
         <span aria-hidden="true" className="transform-layer transform-streak pointer-events-none absolute inset-x-0" style={reveal} />
@@ -104,27 +119,34 @@ export function BeforeAfter({
           </svg>
         ))}
 
-        <span
-          aria-hidden="true"
-          className="absolute bottom-4 left-4 flex items-baseline gap-3 bg-cream/90 px-3 py-2 text-small font-medium text-ink"
+        <div
+          role="group"
+          aria-label={`Voor en na: ${alt}`}
+          onClick={(event) => event.stopPropagation()}
+          className="absolute bottom-4 left-1/2 grid -translate-x-1/2 grid-cols-2 rounded-full bg-cream/90 p-1 text-small font-semibold text-ink shadow-print backdrop-blur-sm"
         >
-          <span className={`transition-opacity duration-500 ${phase === "voor" ? "opacity-100" : "opacity-40"}`}>Voor</span>
-          <span className="relative h-px w-8 self-center bg-line-strong">
-            <span
-              className={`absolute inset-y-0 left-0 bg-ink transition-[width] duration-[2200ms] ease-calm ${
-                phase === "na" ? "w-full" : "w-0"
+          <span
+            aria-hidden="true"
+            className={`absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-ink transition-transform duration-500 ease-soft ${
+              phase === "na" ? "translate-x-full" : ""
+            }`}
+          />
+          {(["voor", "na"] as const).map((option) => (
+            <button
+              key={option}
+              type="button"
+              aria-pressed={phase === option}
+              onClick={() => choose(option)}
+              className={`relative min-w-16 rounded-full px-4 py-2 transition-colors duration-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-deep ${
+                phase === option ? "text-cream" : "text-ink"
               }`}
-            />
-          </span>
-          <span className={`transition-opacity duration-500 ${phase === "na" ? "opacity-100" : "opacity-40"}`}>Na</span>
-        </span>
-      </button>
-      <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-small">
-        <span>{caption}</span>
-        <span className="text-ink-soft" aria-live="polite">
-          {phase === "na" ? "Tik op de foto om terug te kijken" : "Tik op de foto voor het resultaat"}
-        </span>
-      </figcaption>
+            >
+              {option === "voor" ? "Voor" : "Na"}
+            </button>
+          ))}
+        </div>
+      </div>
+      {caption && <figcaption className="mt-3 text-small">{caption}</figcaption>}
     </figure>
   );
 }

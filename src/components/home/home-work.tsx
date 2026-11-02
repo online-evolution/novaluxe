@@ -40,7 +40,7 @@ export async function HomeWork() {
 
       {shownPairs.length > 0 && (
         <ul className="mt-8 grid gap-10 px-gutter sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {shownPairs.map((pair) => (
+          {shownPairs.map((pair, index) => (
             <li key={pair.id}>
               <BeforeAfter
                 before={pair.before}
@@ -48,6 +48,7 @@ export async function HomeWork() {
                 alt={pair.alt ?? pair.caption ?? "Resultaat bij NovaLuxe"}
                 caption={pair.caption}
                 focus={pair.focus}
+                index={index}
                 sizes="(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 92vw"
               />
             </li>
