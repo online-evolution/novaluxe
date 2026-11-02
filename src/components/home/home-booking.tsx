@@ -31,11 +31,10 @@ export async function HomeBooking() {
         </div>
 
         <h2 id="home-afspraak" className="mx-auto max-w-[14em] text-display-m font-semibold text-balance">
-          Klaar voor je volgende afspraak
+          Klaar voor nieuwe nagels of extensions?
         </h2>
         <p className="mx-auto mt-6 max-w-measure text-lede">
-          Weet je al waarvoor je wilt komen? Via de reserveringspagina kies je jouw nagel- of extensionsbehandeling en
-          een beschikbare datum en tijd.
+          Kies je behandeling en een moment dat jou uitkomt. Ik bekijk je aanvraag en laat je weten of het past.
         </p>
         <BigLink href={bookingHref} className="mt-8">
           Maak een afspraak
