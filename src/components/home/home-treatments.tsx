@@ -28,7 +28,7 @@ function Treatment({
       <h2 id={id} className="mt-6 text-display-s font-semibold [font-size:min(8.7cqi,2.75rem)]!">
         {title}
       </h2>
-      <p className="mt-4 mb-6 max-w-measure">{children}</p>
+      <p className="mt-4 mb-6 max-w-measure text-lede">{children}</p>
       {/* mt-auto: de knoppen staan op één lijn, ook bij ongelijke tekst. */}
       <BigLink href={href} size="md" className="mt-auto self-start">
         {linkLabel}
