@@ -35,7 +35,7 @@ export async function HomeWork() {
             Mijn werk
           </h2>
           <p className="mt-4 max-w-measure text-lede">
-            Een greep uit de extensions en nagels die ik in de salon heb gemaakt. Meer zie je op Instagram.
+            Een greep uit de extensions en nagels die ik in de salon heb gemaakt.
           </p>
         </div>
         <BigAnchor href={site.instagram.href} size="md" target="_blank" rel="noopener noreferrer">
