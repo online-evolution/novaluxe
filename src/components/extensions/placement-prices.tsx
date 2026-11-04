@@ -1,28 +1,38 @@
 "use client";
 
 import { useId, useState } from "react";
+import { DottedRow } from "@/components/page/dotted-row";
 import type { PriceMatrix } from "@/domain/pricing";
 import { formatEuro } from "@/lib/format";
 
 /**
- * Prijzen nieuwe plaatsing. Op mobiel kies je eerst een lengte (vier korte
- * regels in plaats van een brede tabel); vanaf lg staat de volledige tabel.
- * Zonder JavaScript toont mobiel de eerste lengte.
+ * Prijzen nieuwe plaatsing: eerst een lengte kiezen, dan vier rustige regels
+ * in plaats van een tabel met zestien bedragen. De schakelaar is goud, zoals
+ * die van voor en na. Zonder JavaScript staat de eerste lengte er.
  */
-export function PlacementPrices({ matrix }: { matrix: PriceMatrix }) {
+export function PlacementPrices({ title, matrix }: { title: React.ReactNode; matrix: PriceMatrix }) {
   const [selected, setSelected] = useState(matrix.lengths[0]);
   const groupName = useId();
   const selectedIndex = Math.max(0, matrix.lengths.indexOf(selected ?? NaN));
+  const count = matrix.lengths.length;
 
-  if (matrix.lengths.length === 0) return null;
+  if (count === 0) return null;
 
   return (
     <div>
-      {/* Mobiel en tablet */}
-      <div className="lg:hidden">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+        {title}
         <fieldset>
-          <legend className="label text-ink-soft">Kies een lengte</legend>
-          <div className="mt-3 grid grid-cols-4 border border-line-strong">
+          <legend className="sr-only">Kies een lengte</legend>
+          <div
+            className="relative grid rounded-full bg-ivory p-1 text-small font-semibold"
+            style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}
+          >
+            <span
+              aria-hidden="true"
+              className="absolute inset-y-1 left-1 rounded-full bg-gold bg-(image:--gold-foil) transition-transform duration-500 ease-soft"
+              style={{ width: `calc((100% - 0.5rem) / ${count})`, transform: `translateX(${selectedIndex * 100}%)` }}
+            />
             {matrix.lengths.map((length) => (
               <label key={length} className="relative">
                 <input
@@ -33,58 +43,19 @@ export function PlacementPrices({ matrix }: { matrix: PriceMatrix }) {
                   onChange={() => setSelected(length)}
                   className="peer sr-only"
                 />
-                <span className="figures flex h-12 cursor-pointer items-center justify-center border-l border-line-strong text-small font-medium transition-colors duration-(--duration-quick) peer-checked:bg-ink peer-checked:text-cream peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-bronze-deep [label:first-child_&]:border-l-0">
+                <span className="figures flex h-10 min-w-16 cursor-pointer items-center justify-center rounded-full px-3 whitespace-nowrap peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-bronze-deep">
                   {length} cm
                 </span>
               </label>
             ))}
           </div>
         </fieldset>
-        <dl className="mt-4" aria-live="polite">
-          {matrix.rows.map((row) => (
-            <div
-              key={row.weftRows}
-              className="flex items-baseline justify-between gap-6 border-b-2 border-dotted border-sand py-3"
-            >
-              <dt>{row.label}</dt>
-              <dd className="figures text-display-s font-semibold leading-none">
-                {formatPrice(row.prices[selectedIndex])}
-              </dd>
-            </div>
-          ))}
-        </dl>
       </div>
-
-      {/* Desktop */}
-      <table className="hidden w-full lg:table">
-        <caption className="sr-only">Prijzen nieuwe plaatsing per lengte en aantal banen</caption>
-        <thead>
-          <tr>
-            <th scope="col" className="label py-3 text-left text-ink-soft">
-              Aantal banen
-            </th>
-            {matrix.lengths.map((length) => (
-              <th key={length} scope="col" className="label figures py-3 text-right text-ink-soft">
-                {length} cm
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {matrix.rows.map((row) => (
-            <tr key={row.weftRows} className="border-b-2 border-dotted border-sand">
-              <th scope="row" className="py-4 text-left font-medium">
-                {row.label}
-              </th>
-              {row.prices.map((cents, index) => (
-                <td key={matrix.lengths[index]} className="figures py-4 text-right text-lede font-semibold">
-                  {formatPrice(cents)}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <dl className="mt-6 text-lede" aria-live="polite" aria-label={`Prijzen bij ${matrix.lengths[selectedIndex]} cm`}>
+        {matrix.rows.map((row) => (
+          <DottedRow key={row.weftRows} label={row.label} value={formatPrice(row.prices[selectedIndex])} />
+        ))}
+      </dl>
     </div>
   );
 }

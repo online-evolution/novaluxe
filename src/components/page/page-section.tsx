@@ -54,6 +54,46 @@ export function PageSection({
   );
 }
 
+/**
+ * Tekst en een staande foto naast elkaar, gecentreerd zoals de kennismaking op
+ * de homepage. Met `photoFirst` staat de foto op desktop links, zodat
+ * opeenvolgende blokken om en om lopen.
+ */
+export function SplitSection({
+  id,
+  labelledBy,
+  tone = "cream",
+  shot,
+  subject,
+  photoFirst = false,
+  square = false,
+  children,
+}: {
+  id?: string;
+  labelledBy: string;
+  tone?: keyof typeof tones;
+  shot: string;
+  subject: string;
+  photoFirst?: boolean;
+  /** Vierkante foto (1:1) in plaats van 4:5. */
+  square?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} aria-labelledby={labelledBy} className={`scroll-mt-8 px-gutter py-section-tight ${tones[tone]}`}>
+      <div className="mx-auto grid max-w-[76rem] items-center gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className={`lg:col-span-7 ${photoFirst ? "lg:order-last" : ""}`}>{children}</div>
+        <SitePhoto
+          shot={shot}
+          subject={subject}
+          className={`mx-auto w-3/4 sm:w-1/2 lg:col-span-5 lg:w-full ${square ? "aspect-square" : "aspect-[4/5]"}`}
+          sizes="(min-width: 1024px) 460px, (min-width: 640px) 50vw, 75vw"
+        />
+      </div>
+    </section>
+  );
+}
+
 export function SectionTitle({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <h2 id={id} className="text-display-m font-semibold text-balance">

@@ -28,8 +28,8 @@ Foto's plaatsen gaat in het beheer onder **Foto's**: per shot-ID bij "Vaste plek
 | ID | Shot | Gebruik |
 |---|---|---|
 | W01 | Detail: handen van Jessie aan het werk aan nagels | Hero-kandidaat, nagels |
-| W02 | Detail: handen van Jessie die een weft plaatsen of omhoogplaatsen | Extensions, invisible techniek |
-| W03 | Kleur matchen: kleurringen of strengen tegen het haar van de klant | Extensions, kleurmatching |
+| W02 | Detail: handen van Jessie die een weft plaatsen of omhoogplaatsen | Extensions, onderhoud en omhoogplaatsen |
+| W03 | Kleur matchen: kleurringen of strengen tegen het haar van de klant | Extensions, eerlijk advies |
 | W04 | Product verwijderen of afweken (laat de zorgvuldigheid zien) | Nagels, "ook je eigen nagels" |
 | W05 | Nail art in wording: penseel, details | Nagels, nail art |
 

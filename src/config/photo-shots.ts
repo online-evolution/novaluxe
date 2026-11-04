@@ -25,6 +25,8 @@ export const photoShots: PhotoShot[] = [
   { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Homepage (alle aandacht) en Over ons", ratio: "3:2" },
   { code: "E02", subject: "Haar in een staart, bevestigingen niet zichtbaar", where: "Extensions, invisible techniek", ratio: "4:5" },
   { code: "J03", subject: "Jessie in gesprek met een klant (klant onherkenbaar)", where: "Extensions, gratis consult", ratio: "4:5" },
+  { code: "W03", subject: "Jessie bekijkt het haar van een klant, bijvoorbeeld bij het kleur matchen", where: "Extensions, eerlijk advies", ratio: "4:5" },
+  { code: "W02", subject: "Handen van Jessie die een weft plaatsen of omhoogplaatsen", where: "Extensions, onderhoud", ratio: "4:5" },
   { code: "M05", subject: "Borstel, satijnen kussensloop of bonnet", where: "Extensions, verzorging thuis", ratio: "1:1" },
   { code: "N02", subject: "Gellak in een mooie kleur", where: "Nagels, bovenaan", ratio: "4:5" },
   { code: "N06", subject: "Mixed design of nail art met details", where: "Nagels, nail art", ratio: "4:5" },
