@@ -53,4 +53,24 @@ Daarna bouwen we de koppeling in het beheer: Jessie koppelt daar zelf haar Apple
 
 ## Resultaat
 
-Nog niet gedraaid tegen een echt Apple ID.
+**9 november 2026, via het beheer, met een eigen Apple ID (niet van Jessie): geslaagd.** Alle onderdelen in orde:
+
+| Onderdeel | Uitkomst | Tijd |
+| --- | --- | --- |
+| Inloggen | gelukt | 1,3 s |
+| Agenda's vinden | 2 agenda's, beide met een wijzigingskenmerk | 0,5 s |
+| Bezette tijden lezen | 0 tijdvakken (de agenda's waren leeg) | 0,5 s |
+| Testagenda aanmaken | gelukt | 0,4 s |
+| Testafspraken maken | gelukt | 2,1 s |
+| Teruglezen en controleren | klopt: 4 bezette tijden en 1 hele dag; "vrij" telt niet mee; 1 uitzondering | 0,6 s |
+| Versiekenmerk ophalen | gelukt | 0,3 s |
+| Wijzigen met het juiste versiekenmerk | gelukt | 0,4 s |
+| Wijzigen met een verouderd versiekenmerk | geweigerd (412) | 0,2 s |
+| Wijziging opmerken | versiekenmerk van afspraak én agenda veranderd | 0,9 s |
+| Opruimen | 4 verwijderd | 2,9 s |
+
+Opmerkingen:
+
+- Het lezen van bestaande afspraken is alleen bewezen met de eigen testafspraken. De agenda's van het testaccount waren leeg. Bij Jessies agenda eerst alleen lezen en de bezette tijden naast haar iPhone leggen.
+- Een volledige ronde duurt ongeveer 10 seconden. Voor de koppeling lezen we daarom niet bij elke bezoeker, maar synchroniseren we op de achtergrond en houden we het resultaat kort vast.
+- Nog te doen voor het criterium "drie keer achter elkaar": de test nog twee keer draaien.
