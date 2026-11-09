@@ -31,7 +31,6 @@ export const photoShots: PhotoShot[] = [
   { code: "N02", subject: "Gellak in een mooie kleur", where: "Nagels, manicure en gellak", ratio: "4:5" },
   { code: "N04", subject: "Acryl, lang, met een duidelijke vorm", where: "Nagels, acryl", ratio: "4:5" },
   { code: "N06", subject: "Mixed design of nail art met details", where: "Nagels, nail art", ratio: "4:5" },
-  { code: "W05", subject: "Nail art in wording: penseel en details", where: "Nagels, nail art (klein)", ratio: "1:1" },
   { code: "W04", subject: "Product verwijderen of afweken", where: "Nagels, verwijderen", ratio: "4:5" },
   { code: "M04", subject: "Nagelriemolie en verzorgingsproducten", where: "Nagels, onderhoud en reparatie", ratio: "4:5" },
   { code: "J04", subject: "Portret van dichtbij", where: "Over ons, het moment voor de spiegel", ratio: "4:5" },

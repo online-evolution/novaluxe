@@ -1,57 +1,35 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
 import { DottedRow } from "@/components/page/dotted-row";
 import { PriceList } from "@/components/pricing/price-list";
+import { GoldSwitch } from "@/components/ui/gold-switch";
 import type { PriceMatrix, PriceRow } from "@/domain/pricing";
 import { formatEuro } from "@/lib/format";
 
 /**
  * Prijzen extensions: nieuwe plaatsing en omhoogplaatsen naast elkaar. Bij
- * nieuwe plaatsing kies je eerst een lengte met een gouden schakelaar, zoals
- * die van voor en na; die staat op desktop in een eigen rij, zodat beide
- * lijsten op dezelfde hoogte beginnen. Zonder JavaScript staat de eerste
- * lengte er.
+ * nieuwe plaatsing kies je eerst een lengte; die schakelaar staat op desktop in
+ * een eigen rij, zodat beide lijsten op dezelfde hoogte beginnen. Zonder
+ * JavaScript staat de eerste lengte er.
  */
 export function PlacementPrices({ matrix, refresh }: { matrix: PriceMatrix; refresh: PriceRow[] }) {
-  const [selected, setSelected] = useState(matrix.lengths[0]);
-  const groupName = useId();
-  const selectedIndex = Math.max(0, matrix.lengths.indexOf(selected ?? NaN));
-  const count = matrix.lengths.length;
+  const [selected, setSelected] = useState(matrix.lengths[0] ?? 0);
+  const selectedIndex = Math.max(0, matrix.lengths.indexOf(selected));
 
   return (
     <div className="grid text-lede lg:grid-cols-2 lg:gap-x-20">
       <h3 className="text-display-s font-semibold lg:col-start-1 lg:row-start-1">Nieuwe plaatsing</h3>
-      {count > 0 && (
+      {matrix.lengths.length > 0 && (
         <>
-          <fieldset className="mt-5 lg:col-start-1 lg:row-start-2">
-            <legend className="sr-only">Kies een lengte</legend>
-            <div
-              className="relative inline-grid rounded-full bg-ivory p-1 text-small font-semibold"
-              style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}
-            >
-              <span
-                aria-hidden="true"
-                className="absolute inset-y-1 left-1 rounded-full bg-gold bg-(image:--gold-foil) transition-transform duration-500 ease-soft"
-                style={{ width: `calc((100% - 0.5rem) / ${count})`, transform: `translateX(${selectedIndex * 100}%)` }}
-              />
-              {matrix.lengths.map((length) => (
-                <label key={length} className="relative">
-                  <input
-                    type="radio"
-                    name={groupName}
-                    value={length}
-                    checked={length === selected}
-                    onChange={() => setSelected(length)}
-                    className="peer sr-only"
-                  />
-                  <span className="figures flex h-10 min-w-16 cursor-pointer items-center justify-center rounded-full px-3 whitespace-nowrap peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-bronze-deep">
-                    {length} cm
-                  </span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
+          <div className="mt-5 lg:col-start-1 lg:row-start-2">
+            <GoldSwitch
+              legend="Kies een lengte"
+              options={matrix.lengths.map((length) => ({ value: length, label: `${length} cm` }))}
+              value={selected}
+              onChange={setSelected}
+            />
+          </div>
           <dl
             className="mt-6 lg:col-start-1 lg:row-start-3"
             aria-live="polite"

@@ -1,14 +1,11 @@
 import type { Metadata, Route } from "next";
-import { SitePhoto } from "@/components/media/site-photo";
-import { Facts } from "@/components/page/facts";
+import { NailPrices } from "@/components/nails/nail-prices";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
 import { PhotoClosing } from "@/components/page/photo-closing";
-import { PriceList, SetRefillTable } from "@/components/pricing/price-list";
 import { site } from "@/config/site";
 import type { CatalogTreatment } from "@/domain/catalog";
 import { priceRows, setRefillRows, type PriceRow } from "@/domain/pricing";
-import { formatEuro } from "@/lib/format";
 import { getCatalog } from "@/server/catalog";
 
 export const metadata: Metadata = {
@@ -23,13 +20,11 @@ type Comparison = {
   id: string;
   title: string;
   text: string[];
-  strength: string;
-  length: string;
   shot: string;
   subject: string;
 };
 
-/* Teksten uit docs/bron; "stevigheid" en "lengte" zijn daaruit samengevat. */
+/* Teksten uit docs/bron. */
 const comparisons: Comparison[] = [
   {
     id: "manicure",
@@ -38,8 +33,6 @@ const comparisons: Comparison[] = [
       "Houd je van verzorgde, natuurlijke nagels? Kies dan voor een manicure naturel. Wil je er een mooie kleur bij die langer blijft zitten? Dan kun je kiezen voor gellak.",
       "Gellak kan ongeveer drie weken mooi blijven, maar geeft geen extra stevigheid aan je nagels. Je kunt ook een manicure met rubber base boeken.",
     ],
-    strength: "Geen extra stevigheid",
-    length: "Je eigen lengte",
     shot: "N02",
     subject: "Gellak in een mooie kleur",
   },
@@ -50,8 +43,6 @@ const comparisons: Comparison[] = [
       "Wil je jouw eigen nagels verstevigen en laten groeien? BIAB geeft extra ondersteuning, waardoor ze minder snel breken.",
       "Ik gebruik BIAB alleen op de natuurlijke nagel. Wil je extra lengte? Dan adviseer ik acryl. Met BIAB kun je kiezen voor naturel, een kleur, French of een design dat jij mooi vindt.",
     ],
-    strength: "Extra ondersteuning",
-    length: "Je eigen lengte",
     shot: "N03",
     subject: "BIAB naturel of French op de eigen nagel",
   },
@@ -62,8 +53,6 @@ const comparisons: Comparison[] = [
       "Met acryl kunnen we je nagels verlengen en heb je veel keuze in vorm en lengte. Weet je al precies wat je wilt? Leuk!",
       "Twijfel je nog, dan kijk ik met je mee naar wat mooi staat bij jouw handen. Daarna kiezen we de kleur of het design.",
     ],
-    strength: "Opbouw die de nagel ondersteunt",
-    length: "Verlengd, met keuze in vorm",
     shot: "N04",
     subject: "Acryl, lang, met een duidelijke vorm",
   },
@@ -134,12 +123,6 @@ export default async function NailsPage() {
                 {paragraph}
               </p>
             ))}
-            <Facts
-              items={[
-                { label: "Stevigheid", value: item.strength },
-                { label: "Lengte", value: item.length },
-              ]}
-            />
           </SplitSection>
         );
       })}
@@ -161,15 +144,6 @@ export default async function NailsPage() {
           Heb je ergens mooie nagels gezien of een voorbeeld opgeslagen? Laat het me vooraf zien, dan bespreken we wat
           mogelijk is.
         </p>
-        {nailArt?.priceCents != null && (
-          <Facts items={[{ label: "Nail art", value: `${formatEuro(nailArt.priceCents)} per nagel` }]} />
-        )}
-        <SitePhoto
-          shot="W05"
-          subject="Nail art in wording: penseel en details"
-          className="mt-10 aspect-square w-1/2 sm:w-1/3"
-          sizes="(min-width: 640px) 33vw, 50vw"
-        />
       </SplitSection>
 
       <SplitSection labelledBy="zorg-titel" shot="W04" subject="Product afweken in plaats van wegvijlen">
@@ -202,48 +176,16 @@ export default async function NailsPage() {
           Gebruik thuis regelmatig nagelriemolie en trek of knip velletjes niet zelf los. Zo help je jouw nagels en
           nagelriemen verzorgd te houden.
         </p>
-        <Facts
-          items={[
-            { label: "Bijwerken", value: "Ongeveer iedere 3 weken" },
-            { label: "Breuk in de eerste week na BIAB of acryl", value: "Kosteloos gerepareerd" },
-          ]}
-        />
       </SplitSection>
 
       <PageSection id="tarieven" labelledBy="tarieven-titel" contained>
-        <SectionTitle id="tarieven-titel">Nagels tarieven</SectionTitle>
-        <div className="mt-12 grid gap-x-20 gap-y-14 text-lede lg:grid-cols-2">
-          <div>
-            <h3 className="text-display-s font-semibold">Manicure</h3>
-            <div className="mt-5">
-              <PriceList rows={manicureRows} caption="Prijzen manicure" />
-            </div>
-          </div>
-          <div>
-            <h3 className="text-display-s font-semibold">BIAB</h3>
-            <div className="mt-5">
-              <SetRefillTable rows={setRefillRows(biab)} caption="Prijzen BIAB" />
-            </div>
-          </div>
-          <div>
-            <h3 className="text-display-s font-semibold">Acryl</h3>
-            <div className="mt-5">
-              <SetRefillTable rows={setRefillRows(acryl)} caption="Prijzen acryl" />
-            </div>
-          </div>
-          <div>
-            <h3 className="text-display-s font-semibold">Verwijderen</h3>
-            <div className="mt-5">
-              <PriceList rows={removalRows} caption="Prijzen verwijderen" />
-            </div>
-            {nailArt?.priceCents != null && (
-              <p className="mt-6 text-small text-ink-soft">
-                Nail art kun je bijboeken bij gellak, BIAB en acryl:{" "}
-                <span className="figures">{formatEuro(nailArt.priceCents)}</span> per nagel.
-              </p>
-            )}
-          </div>
-        </div>
+        <NailPrices
+          title={<SectionTitle id="tarieven-titel">Nagels tarieven</SectionTitle>}
+          manicure={manicureRows}
+          biab={setRefillRows(biab)}
+          acryl={setRefillRows(acryl)}
+          removal={removalRows}
+        />
       </PageSection>
 
       <PhotoClosing
