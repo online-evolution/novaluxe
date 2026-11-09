@@ -51,7 +51,7 @@ export default function AboutPage() {
         </blockquote>
       </SplitSection>
 
-      <SplitSection labelledBy="salon-titel" shot="S02" subject="Sfeerdetail: textiel, spiegel, licht" square>
+      <SplitSection labelledBy="salon-titel" shot="S02" subject="Sfeerdetail: textiel, spiegel, licht">
         <SectionTitle id="salon-titel">Een salon waar je jezelf kunt zijn</SectionTitle>
         <p className="mt-8 max-w-measure text-lede">
           Ik run NovaLuxe zelf en help altijd één klant tegelijk. Tijdens jouw afspraak heb je dus mijn volledige aandacht.

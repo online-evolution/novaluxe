@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import { DottedRow } from "@/components/page/dotted-row";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
-import { PhotoClosing } from "@/components/page/photo-closing";
 import { ContactForm } from "@/components/contact/contact-form";
 import { Icon, type IconName } from "@/components/ui/icons";
-import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
 import { formatRanges, weekdayRows } from "@/domain/hours";
 import { formatLongDate } from "@/lib/time";
@@ -40,7 +38,8 @@ const channels: { icon: IconName; label: string; value: string; href: string; ex
  * Teksten uit docs/bron (Contact); openingstijden en uitzonderingen uit de
  * database. Opbouw zoals de andere pagina's: een opening in brons met de
  * salonfoto (S04), de salon met adres en contactgegevens naast de entree (S03),
- * een contactformulier, de openingstijden en één afsluiter in brons.
+ * een contactformulier, de openingstijden naast de salonfoto (S02) en een schermbrede
+ * kaart. Geen afsluiter in brons: de kaart sluit de pagina af.
  */
 export default async function ContactPage() {
   const [week, exceptions] = await Promise.all([getWeeklyHours(), getUpcomingExceptions()]);
@@ -115,36 +114,29 @@ export default async function ContactPage() {
         </div>
       </PageSection>
 
-      <PageSection labelledBy="tijden-titel" contained>
-        {/* Titel links, tijden rechts: het blok blijft in balans, ook zonder afwijkende tijden. */}
-        <div className="grid gap-8 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-20">
-          <h2 id="tijden-titel" className="text-display-m font-semibold text-balance">
-            Openingstijden
-          </h2>
-          <div>
-            <dl className="text-lede">
-              {weekdayRows(week).map((row) => (
-                <DottedRow key={row.days} label={row.days} value={<TimeRanges text={row.hours} />} />
+      <SplitSection labelledBy="tijden-titel" shot="S02" subject="Sfeerdetail van de salon" photoFirst>
+        <SectionTitle id="tijden-titel">Openingstijden</SectionTitle>
+        <dl className="mt-8 max-w-measure text-lede">
+          {weekdayRows(week).map((row) => (
+            <DottedRow key={row.days} label={row.days} value={<TimeRanges text={row.hours} />} />
+          ))}
+        </dl>
+
+        {exceptions.length > 0 && (
+          <>
+            <h3 className="mt-12 text-display-s font-semibold">Afwijkende openingstijden</h3>
+            <dl className="mt-5 max-w-measure text-lede">
+              {exceptions.map((exception) => (
+                <DottedRow
+                  key={exception.date}
+                  label={<span className="inline-block first-letter:uppercase">{formatLongDate(exception.date)}</span>}
+                  value={<TimeRanges text={exception.closed ? "Gesloten" : formatRanges(exception.ranges)} />}
+                />
               ))}
             </dl>
-
-            {exceptions.length > 0 && (
-              <>
-                <h3 className="mt-12 text-display-s font-semibold">Afwijkende openingstijden</h3>
-                <dl className="mt-5 text-lede">
-                  {exceptions.map((exception) => (
-                    <DottedRow
-                      key={exception.date}
-                      label={<span className="inline-block first-letter:uppercase">{formatLongDate(exception.date)}</span>}
-                      value={<TimeRanges text={exception.closed ? "Gesloten" : formatRanges(exception.ranges)} />}
-                    />
-                  ))}
-                </dl>
-              </>
-            )}
-          </div>
-        </div>
-      </PageSection>
+          </>
+        )}
+      </SplitSection>
 
       {/* Kaart over de volle breedte. Wie erop tikt, krijgt de route; zo vangt de kaart ook het scrollen niet af. */}
       <div className="relative h-[clamp(20rem,45vw,32rem)] overflow-hidden bg-ivory">
@@ -153,7 +145,7 @@ export default async function ContactPage() {
           title={`Kaart met de ligging van ${site.name}, ${site.address.street} in ${site.address.city}`}
           loading="lazy"
           tabIndex={-1}
-          className="pointer-events-none absolute inset-0 size-full border-0 [filter:grayscale(1)_sepia(0.3)_contrast(0.95)]"
+          className="pointer-events-none absolute -inset-[120px] h-[calc(100%+240px)] w-[calc(100%+240px)] border-0 [filter:grayscale(1)_sepia(0.3)_contrast(0.95)]"
         />
         <span
           aria-hidden="true"
@@ -172,17 +164,18 @@ export default async function ContactPage() {
           tabIndex={-1}
           className="absolute inset-0"
         />
+        {/* De kaart is rondom 120 px groter dan het vlak: de zoomknopjes en de eigen bronvermelding vallen
+            erbuiten (het midden blijft gelijk). De bronvermelding is verplicht en staat daarom hier. */}
+        <a
+          href="https://www.openstreetmap.org/copyright"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute right-0 bottom-0 bg-cream/85 px-2 py-0.5 text-[0.6875rem] text-ink-soft hover:text-ink"
+        >
+          © OpenStreetMap-bijdragers <span className="sr-only">(opent in een nieuw venster)</span>
+        </a>
       </div>
 
-      <PhotoClosing
-        id="afspraak-titel"
-        shot="S01"
-        title="Klaar voor nieuwe nagels of extensions?"
-        href={bookingHref}
-        label="Maak een afspraak"
-      >
-        Kies je behandeling en een moment dat jou uitkomt. Ik bekijk je aanvraag en laat je weten of het past.
-      </PhotoClosing>
     </>
   );
 }

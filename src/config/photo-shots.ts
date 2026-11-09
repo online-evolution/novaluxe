@@ -22,7 +22,7 @@ export const photoShots: PhotoShot[] = [
   { code: "J01", subject: "Portret van Jessie in de salon", where: "Homepage, bij Jessie", ratio: "4:5" },
   { code: "E01", subject: "Extensions van achteren, lang haar met een natuurlijke val", where: "Homepage, extensions", ratio: "4:5" },
   { code: "N03", subject: "BIAB naturel of French op de eigen nagel", where: "Homepage (nagels) en Nagels, BIAB", ratio: "4:5" },
-  { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Homepage (alle aandacht); Extensions en Over Jessie als achtergrond bovenaan; Extensions, Nagels en Contact onderaan", ratio: "3:2" },
+  { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Homepage (alle aandacht); Extensions en Over Jessie als achtergrond bovenaan; Extensions en Nagels onderaan", ratio: "3:2" },
   { code: "E02", subject: "Haar in een staart, bevestigingen niet zichtbaar", where: "Extensions, invisible techniek", ratio: "4:5" },
   { code: "J03", subject: "Jessie in gesprek met een klant (klant onherkenbaar)", where: "Extensions, gratis consult", ratio: "4:5" },
   { code: "W03", subject: "Jessie bekijkt het haar van een klant, bijvoorbeeld bij het kleur matchen", where: "Extensions, eerlijk advies", ratio: "4:5" },
@@ -35,7 +35,7 @@ export const photoShots: PhotoShot[] = [
   { code: "M04", subject: "Nagelriemolie en verzorgingsproducten", where: "Nagels, onderhoud en reparatie", ratio: "4:5" },
   { code: "J04", subject: "Portret van dichtbij", where: "Over Jessie, het moment voor de spiegel", ratio: "4:5" },
   { code: "J02", subject: "Jessie aan het werk, half van opzij", where: "Over Jessie, mijn passie", ratio: "4:5" },
-  { code: "S02", subject: "Sfeerdetail van het interieur", where: "Over Jessie, de salon", ratio: "1:1" },
+  { code: "S02", subject: "Sfeerdetail van het interieur", where: "Over Jessie, de salon; Contact, bij de openingstijden", ratio: "4:5" },
   { code: "S03", subject: "De entree van de salon", where: "Contact, bij het adres", ratio: "4:5" },
 ];
 
