@@ -1,6 +1,5 @@
 import type { Metadata, Route } from "next";
 import { PlacementPrices } from "@/components/extensions/placement-prices";
-import { Facts } from "@/components/page/facts";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
 import { PhotoClosing } from "@/components/page/photo-closing";
@@ -129,12 +128,6 @@ export default async function ExtensionsPage() {
           Bij het omhoogplaatsen gebruik ik dezelfde wefts opnieuw. Met de juiste verzorging gaat het haar doorgaans een
           jaar of langer mee. Hoe je het thuis verzorgt, maakt daarbij veel verschil.
         </p>
-        <Facts
-          items={[
-            { label: "Omhoogplaatsen", value: "Iedere 6–8 weken" },
-            { label: "Dezelfde wefts", value: "Een jaar of langer" },
-          ]}
-        />
       </SplitSection>
 
       <PageSection id="tarieven" labelledBy="tarieven-titel" contained>
