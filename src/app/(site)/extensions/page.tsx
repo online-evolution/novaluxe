@@ -29,8 +29,8 @@ const careTips = [
 /*
  * Teksten uit docs/bron (Extensions en Extensions tarieven en verzorging);
  * prijzen uit de database. Foto's zijn optioneel: de pagina klopt ook zonder.
- * Opbouw zoals de homepage: ivoor, dan om en om crème en ivoor met de foto
- * afwisselend rechts en links, en tot slot brons. Alle lopende tekst in
+ * Opbouw: een opening in brons met de salonfoto (S01), net als de afsluiter;
+ * daartussen om en om crème en ivoor met de foto afwisselend rechts en links. Alle lopende tekst in
  * text-lede.
  */
 export default async function ExtensionsPage() {
@@ -46,8 +46,7 @@ export default async function ExtensionsPage() {
       <PageOpening
         id="extensions-titel"
         title="Meer lengte en volume met een natuurlijke uitstraling"
-        shot="E01"
-        subject="Resultaat van achteren, natuurlijke val"
+        backdrop="S01"
       >
         <p className="mx-auto mt-6 max-w-measure text-lede">
           Wil je langer haar, een vollere coupe of allebei? Vertel me wat je voor ogen hebt. Samen kijken we wat bij jouw
@@ -56,9 +55,6 @@ export default async function ExtensionsPage() {
         <p className="mx-auto mt-4 max-w-measure text-lede">
           Ben je al blij met je lengte, maar mis je wat volume? Ook dan kunnen extensions een mooie aanvulling zijn.
         </p>
-        <div className="mt-8">
-          <BigLink href={consultHref}>Plan je gratis consult</BigLink>
-        </div>
       </PageOpening>
 
       <SplitSection

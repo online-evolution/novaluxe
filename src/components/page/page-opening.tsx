@@ -1,22 +1,41 @@
 import { SitePhoto } from "@/components/media/site-photo";
+import { BronzeBackdrop } from "./bronze-backdrop";
 
 /**
  * Opening van een pagina: gecentreerd op ivoor, zoals de homepage. Met een
- * `shot` staat de foto er als boog naast.
+ * `shot` staat de foto er als boog naast; met een `backdrop` ligt de salonfoto
+ * in brons achter de tekst, zoals in het afspraakblok onderaan.
  */
 export function PageOpening({
   id,
   title,
   shot,
   subject = "",
+  backdrop,
   children,
 }: {
   id: string;
   title: string;
   shot?: string;
   subject?: string;
+  backdrop?: string;
   children: React.ReactNode;
 }) {
+  if (backdrop) {
+    return (
+      <section
+        aria-labelledby={id}
+        className="relative isolate overflow-hidden px-gutter py-[clamp(5rem,12vw,9rem)] text-center text-cream"
+      >
+        <BronzeBackdrop shot={backdrop} sizes="100vw" />
+        <h1 id={id} className="mx-auto max-w-[14em] text-display-l font-semibold text-balance">
+          {title}
+        </h1>
+        {children}
+      </section>
+    );
+  }
+
   const hasPhoto = Boolean(shot);
 
   return (

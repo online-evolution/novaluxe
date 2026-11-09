@@ -29,7 +29,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - koppen semibold; geen genummerde secties, geen labels boven koppen en geen dunne lijnen;
   - net als de homepage: gecentreerd binnen 76rem, achtergronden om en om crème en ivoor, foto naast de tekst afwisselend rechts en links (`SplitSection`), en alle lopende tekst in één grootte (`text-lede`); alleen bijschriften en kleine labels zijn kleiner;
   - afsluiter als boog met een salonfoto in brons (`PhotoClosing`), op Extensions met S01;
-  - Extensions: opening → gratis consult → Genius Wefts → eerlijk advies met quote (W03) → onderhoud (W02) → tarieven → verzorging. Prijzen per lengte met een gouden schakelaar, zoals bij voor en na, in plaats van een tabel met zestien bedragen.
+  - Extensions: opening in brons met de salonfoto (S01) als achtergrond, zonder knop of foto ernaast → gratis consult → Genius Wefts → eerlijk advies met quote (W03) → onderhoud (W02) → tarieven → verzorging. Prijzen per lengte met een gouden schakelaar, zoals bij voor en na, in plaats van een tabel met zestien bedragen.
 - **Fotostijl:** de boog van de spiegels in de salon, met een dun gouden lijntje (`.photo-arch`, voor liggende foto's `.photo-arch-wide`). Geldt voor alle foto's behalve de opening van de homepage. De foto zoomt zacht uit bij het in beeld komen en zacht in bij hover. Het afspraakblok onderaan de homepage is zelf zo'n boog, met de salonfoto (S04) in brons die langzaam door de ruimte schuift.
 - **Fotoplekken blijven zichtbaar:** een plek zonder foto staat als lege plek met de code, tot de foto in het beheer is geplaatst.
 

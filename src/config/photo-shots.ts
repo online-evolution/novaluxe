@@ -20,9 +20,9 @@ export type PhotoShot = {
 export const photoShots: PhotoShot[] = [
   { code: "S04", subject: "De salon in één beeld", where: "Homepage, bovenaan", ratio: "3:2" },
   { code: "J01", subject: "Portret van Jessie in de salon", where: "Homepage, bij Jessie", ratio: "4:5" },
-  { code: "E01", subject: "Extensions van achteren, lang haar met een natuurlijke val", where: "Homepage (extensions) en Extensions, bovenaan", ratio: "4:5" },
+  { code: "E01", subject: "Extensions van achteren, lang haar met een natuurlijke val", where: "Homepage, extensions", ratio: "4:5" },
   { code: "N03", subject: "BIAB naturel of French op de eigen nagel", where: "Homepage, nagels", ratio: "4:5" },
-  { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Homepage (alle aandacht) en Over ons", ratio: "3:2" },
+  { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Homepage (alle aandacht), Over ons en Extensions (achtergrond boven en onder)", ratio: "3:2" },
   { code: "E02", subject: "Haar in een staart, bevestigingen niet zichtbaar", where: "Extensions, invisible techniek", ratio: "4:5" },
   { code: "J03", subject: "Jessie in gesprek met een klant (klant onherkenbaar)", where: "Extensions, gratis consult", ratio: "4:5" },
   { code: "W03", subject: "Jessie bekijkt het haar van een klant, bijvoorbeeld bij het kleur matchen", where: "Extensions, eerlijk advies", ratio: "4:5" },
