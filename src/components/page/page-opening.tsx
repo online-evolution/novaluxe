@@ -28,7 +28,7 @@ export function PageOpening({
         className="relative isolate overflow-hidden px-gutter py-[clamp(5rem,12vw,9rem)] text-center text-cream"
       >
         <BronzeBackdrop shot={backdrop} sizes="100vw" />
-        <h1 id={id} className="mx-auto max-w-[14em] text-display-l font-semibold text-balance">
+        <h1 id={id} className="mx-auto max-w-[16em] text-display-m font-semibold text-balance">
           {title}
         </h1>
         {children}

@@ -1,6 +1,7 @@
 import type { Metadata, Route } from "next";
 import { PlacementPrices } from "@/components/extensions/placement-prices";
 import { WeftsDiagram } from "@/components/extensions/wefts-diagram";
+import { Facts } from "@/components/page/facts";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
 import { PhotoClosing } from "@/components/page/photo-closing";
@@ -138,16 +139,12 @@ export default async function ExtensionsPage() {
           Bij het omhoogplaatsen gebruik ik dezelfde wefts opnieuw. Met de juiste verzorging gaat het haar doorgaans een
           jaar of langer mee. Hoe je het thuis verzorgt, maakt daarbij veel verschil.
         </p>
-        <dl className="mt-10 grid max-w-measure gap-6 sm:grid-cols-2">
-          <div className="bg-cream px-6 py-5">
-            <dt className="text-small font-medium text-ink-soft">Omhoogplaatsen</dt>
-            <dd className="figures mt-1 text-display-s font-semibold">Iedere 6–8 weken</dd>
-          </div>
-          <div className="bg-cream px-6 py-5">
-            <dt className="text-small font-medium text-ink-soft">Dezelfde wefts</dt>
-            <dd className="mt-1 text-display-s font-semibold">Een jaar of langer</dd>
-          </div>
-        </dl>
+        <Facts
+          items={[
+            { label: "Omhoogplaatsen", value: "Iedere 6–8 weken" },
+            { label: "Dezelfde wefts", value: "Een jaar of langer" },
+          ]}
+        />
       </SplitSection>
 
       <PageSection id="tarieven" labelledBy="tarieven-titel" contained>

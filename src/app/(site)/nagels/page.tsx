@@ -1,12 +1,11 @@
 import type { Metadata, Route } from "next";
 import { SitePhoto } from "@/components/media/site-photo";
 import { NailProfile, type NailTreatment } from "@/components/nails/nail-profile";
-import { PageClosing } from "@/components/page/page-closing";
-import { PageLinks } from "@/components/page/page-links";
+import { Facts } from "@/components/page/facts";
 import { PageOpening } from "@/components/page/page-opening";
-import { PageSection, SectionTitle } from "@/components/page/page-section";
+import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
+import { PhotoClosing } from "@/components/page/photo-closing";
 import { PriceList, SetRefillTable } from "@/components/pricing/price-list";
-import { BigLink } from "@/components/ui/action";
 import { site } from "@/config/site";
 import type { CatalogTreatment } from "@/domain/catalog";
 import { priceRows, setRefillRows, type PriceRow } from "@/domain/pricing";
@@ -21,21 +20,14 @@ export const metadata: Metadata = {
 
 const bookingHref: Route = "/reserveren?categorie=nagels";
 
-const chapters = [
-  { id: "manicure", label: "Manicure en gellak" },
-  { id: "biab", label: "BIAB" },
-  { id: "acryl", label: "Acryl" },
-  { id: "nail-art", label: "Nail art" },
-  { id: "onderhoud", label: "Onderhoud" },
-  { id: "tarieven", label: "Tarieven" },
-];
-
 type Comparison = {
   id: NailTreatment;
   title: string;
   text: string[];
   strength: string;
   length: string;
+  shot: string;
+  subject: string;
 };
 
 /* Teksten uit docs/bron; "stevigheid" en "lengte" zijn daaruit samengevat. */
@@ -49,6 +41,8 @@ const comparisons: Comparison[] = [
     ],
     strength: "Geen extra stevigheid",
     length: "Je eigen lengte",
+    shot: "N02",
+    subject: "Gellak in een mooie kleur",
   },
   {
     id: "biab",
@@ -59,6 +53,8 @@ const comparisons: Comparison[] = [
     ],
     strength: "Extra ondersteuning",
     length: "Je eigen lengte",
+    shot: "N03",
+    subject: "BIAB naturel of French op de eigen nagel",
   },
   {
     id: "acryl",
@@ -69,6 +65,8 @@ const comparisons: Comparison[] = [
     ],
     strength: "Opbouw die de nagel ondersteunt",
     length: "Verlengd, met keuze in vorm",
+    shot: "N04",
+    subject: "Acryl, lang, met een duidelijke vorm",
   },
 ];
 
@@ -77,7 +75,9 @@ const bySlug = (catalog: CatalogTreatment[], slug: string) =>
 
 /*
  * Teksten uit docs/bron (Nagels en Nagels tarieven); prijzen uit de database.
- * Foto's zijn optioneel: de pagina klopt ook zonder.
+ * Foto's zijn optioneel: de pagina klopt ook zonder. Opbouw zoals Extensions:
+ * een opening in brons met de salonfoto (S01), daarna om en om crème en ivoor
+ * met de foto afwisselend rechts en links, en een afsluiter in brons.
  */
 export default async function NailsPage() {
   const catalog = await getCatalog();
@@ -107,71 +107,72 @@ export default async function NailsPage() {
 
   return (
     <>
-      <PageOpening
-        id="nagels-titel"
-        title="Mooie nagels beginnen bij de juiste behandeling"
-        shot="N02"
-        subject="Gellak in een mooie kleur"
-      >
+      <PageOpening id="nagels-titel" title="Mooie nagels beginnen bij de juiste behandeling" backdrop="S01">
         <p className="mx-auto mt-6 max-w-measure text-lede">
           Hou je van kort en naturel, of juist van lange nagels met een opvallend design? Vertel me wat je mooi vindt.
         </p>
-        <p className="mx-auto mt-4 max-w-measure">
+        <p className="mx-auto mt-4 max-w-measure text-lede">
           Bij NovaLuxe kun je terecht voor een manicure, gellak, BIAB of acryl. We kijken samen welke behandeling past bij
           jouw wensen en je natuurlijke nagels.
         </p>
-        <div className="mt-8">
-          <BigLink href={bookingHref}>Maak een nagelafspraak</BigLink>
-        </div>
-        <PageLinks items={chapters} />
       </PageOpening>
 
-      {/* Vergelijking in doorsnede */}
-      <section aria-label="Manicure, BIAB en acryl vergeleken" className="bg-cream px-gutter py-section-tight">
-        <p className="max-w-measure text-small text-ink-soft">
-          Doorsnede van een vingertop. De donkere lijn is je eigen nagel; het bronzen vlak is wat ik erop aanbreng.
-        </p>
-        <div className="mt-10 grid gap-x-10 gap-y-16 md:grid-cols-3">
-          {comparisons.map((item) => (
-            <article key={item.id} id={item.id} aria-labelledby={`${item.id}-titel`} className="scroll-mt-8">
-              <NailProfile treatment={item.id} />
-              <h2 id={`${item.id}-titel`} className="mt-8 text-display-s font-semibold text-balance">
-                {item.title}
-              </h2>
-              {item.text.map((paragraph) => (
-                <p key={paragraph} className="mt-5 max-w-measure">
-                  {paragraph}
-                </p>
-              ))}
-              <dl className="mt-6 grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-small">
-                <dt className="text-ink-soft">Stevigheid</dt>
-                <dd className="font-medium">{item.strength}</dd>
-                <dt className="text-ink-soft">Lengte</dt>
-                <dd className="font-medium">{item.length}</dd>
-              </dl>
-            </article>
-          ))}
-        </div>
-      </section>
+      {comparisons.map((item, index) => {
+        const ivory = index % 2 === 1;
+        return (
+          <SplitSection
+            key={item.id}
+            id={item.id}
+            labelledBy={`${item.id}-titel`}
+            tone={ivory ? "ivory" : "cream"}
+            shot={item.shot}
+            subject={item.subject}
+            photoFirst={ivory}
+          >
+            <SectionTitle id={`${item.id}-titel`}>{item.title}</SectionTitle>
+            {item.text.map((paragraph, paragraphIndex) => (
+              <p key={paragraph} className={`${paragraphIndex === 0 ? "mt-8" : "mt-5"} max-w-measure text-lede`}>
+                {paragraph}
+              </p>
+            ))}
+            <Facts
+              panel={ivory ? "cream" : "ivory"}
+              items={[
+                { label: "Stevigheid", value: item.strength },
+                { label: "Lengte", value: item.length },
+              ]}
+            />
+            <figure className="mt-10 grid max-w-measure gap-4 sm:grid-cols-[16rem_1fr] sm:items-center sm:gap-6">
+              <div className="w-64 max-w-full">
+                <NailProfile treatment={item.id} />
+              </div>
+              <figcaption className="border-l border-gold pl-4 text-small text-ink-soft">
+                Doorsnede van een vingertop. De donkere lijn is je eigen nagel; het bronzen vlak is wat ik erop aanbreng.
+              </figcaption>
+            </figure>
+          </SplitSection>
+        );
+      })}
 
-      <PageSection
+      <SplitSection
         id="nail-art"
         labelledBy="nail-art-titel"
         tone="ivory"
         shot="N06"
         subject="Nail art met details, zoals 3D-bloemen of glitter"
+        photoFirst
       >
         <SectionTitle id="nail-art-titel">Maak je set persoonlijk met nail art</SectionTitle>
         <p className="mt-8 max-w-measure text-lede">
           Een klassieke French, glitters, een speels design of 3D-bloemen: ik vind het leuk om van iedere set iets
           persoonlijks te maken. Je kunt nail art bijboeken bij gellak, BIAB en acryl.
         </p>
-        <p className="mt-5 max-w-measure">
+        <p className="mt-5 max-w-measure text-lede">
           Heb je ergens mooie nagels gezien of een voorbeeld opgeslagen? Laat het me vooraf zien, dan bespreken we wat
           mogelijk is.
         </p>
         {nailArt?.priceCents != null && (
-          <p className="figures mt-6 text-lede font-semibold">Nail art: {formatEuro(nailArt.priceCents)} per nagel</p>
+          <Facts items={[{ label: "Nail art", value: `${formatEuro(nailArt.priceCents)} per nagel` }]} />
         )}
         <SitePhoto
           shot="W05"
@@ -179,17 +180,10 @@ export default async function NailsPage() {
           className="mt-10 aspect-square w-1/2 sm:w-1/3"
           sizes="(min-width: 640px) 33vw, 50vw"
         />
-      </PageSection>
+      </SplitSection>
 
-      <PageSection
-        labelledBy="zorg-titel"
-        tone="bronze"
-        shot="W04"
-        subject="Product afweken in plaats van wegvijlen"
-      >
-        <h2 id="zorg-titel" className="max-w-[16em] text-display-m font-semibold text-balance">
-          Ook je eigen nagels verdienen aandacht
-        </h2>
+      <SplitSection labelledBy="zorg-titel" shot="W04" subject="Product afweken in plaats van wegvijlen">
+        <SectionTitle id="zorg-titel">Ook je eigen nagels verdienen aandacht</SectionTitle>
         <p className="mt-8 max-w-measure text-lede">
           Ik werk zorgvuldig en houd rekening met de natuurlijke vorm van je nagels. Bij BIAB en acryl zorg ik voor een
           opbouw die de nagel goed ondersteunt.
@@ -198,41 +192,40 @@ export default async function NailsPage() {
           Ook bij het verwijderen ben ik voorzichtig: ik week het product af in plaats van alles tot op de natuurlijke
           nagelplaat weg te vijlen. Zo probeer ik onnodige beschadiging te voorkomen.
         </p>
-      </PageSection>
+      </SplitSection>
 
-      <PageSection id="onderhoud" labelledBy="onderhoud-titel">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <p aria-hidden="true" className="figures text-display-xl font-semibold">
-              3
-            </p>
-            <p aria-hidden="true" className="mt-4 text-lede font-medium">
-              weken, ongeveer, tussen twee afspraken
-            </p>
-          </div>
-          <div>
-            <SectionTitle id="onderhoud-titel">Onderhoud en reparatie</SectionTitle>
-            <p className="mt-8 max-w-measure">
-              Ik zie je graag ongeveer iedere drie weken terug om je nagels weer bij te werken. Wacht je langer, dan wordt
-              de kans op breken of scheuren groter. Breekt er binnen de eerste week na je BIAB- of acrylbehandeling toch
-              een nagel? Laat het me weten, dan repareer ik deze kosteloos.
-            </p>
-            <p className="mt-5 max-w-measure">
-              Gebruik thuis regelmatig nagelriemolie en trek of knip velletjes niet zelf los. Zo help je jouw nagels en
-              nagelriemen verzorgd te houden.
-            </p>
-          </div>
-        </div>
-      </PageSection>
+      <SplitSection
+        id="onderhoud"
+        labelledBy="onderhoud-titel"
+        tone="ivory"
+        shot="M04"
+        subject="Nagelriemolie en verzorgingsproducten"
+        photoFirst
+      >
+        <SectionTitle id="onderhoud-titel">Onderhoud en reparatie</SectionTitle>
+        <p className="mt-8 max-w-measure text-lede">
+          Ik zie je graag ongeveer iedere drie weken terug om je nagels weer bij te werken. Wacht je langer, dan wordt de
+          kans op breken of scheuren groter. Breekt er binnen de eerste week na je BIAB- of acrylbehandeling toch een
+          nagel? Laat het me weten, dan repareer ik deze kosteloos.
+        </p>
+        <p className="mt-5 max-w-measure text-lede">
+          Gebruik thuis regelmatig nagelriemolie en trek of knip velletjes niet zelf los. Zo help je jouw nagels en
+          nagelriemen verzorgd te houden.
+        </p>
+        <Facts
+          items={[
+            { label: "Bijwerken", value: "Ongeveer iedere 3 weken" },
+            { label: "Breuk in de eerste week na BIAB of acryl", value: "Kosteloos gerepareerd" },
+          ]}
+        />
+      </SplitSection>
 
-      <PageSection id="tarieven" labelledBy="tarieven-titel" tone="ivory">
-        <h2 id="tarieven-titel" className="text-display-l font-semibold text-balance">
-          Nagels tarieven
-        </h2>
-        <div className="mt-12 grid gap-x-20 gap-y-14 lg:grid-cols-2">
+      <PageSection id="tarieven" labelledBy="tarieven-titel" contained>
+        <SectionTitle id="tarieven-titel">Nagels tarieven</SectionTitle>
+        <div className="mt-12 grid gap-x-20 gap-y-14 text-lede lg:grid-cols-2">
           <div>
             <h3 className="text-display-s font-semibold">Manicure</h3>
-            <div className="mt-5 text-lede">
+            <div className="mt-5">
               <PriceList rows={manicureRows} caption="Prijzen manicure" />
             </div>
           </div>
@@ -263,13 +256,19 @@ export default async function NailsPage() {
         </div>
       </PageSection>
 
-      <PageClosing id="kiezen-titel" title="Hulp nodig bij het kiezen" href={bookingHref} label="Maak een nagelafspraak">
+      <PhotoClosing
+        id="kiezen-titel"
+        shot="S04"
+        title="Hulp nodig bij het kiezen"
+        href={bookingHref}
+        label="Maak een nagelafspraak"
+      >
         Twijfel je over de juiste behandeling? Bel me gerust op{" "}
-        <a href={site.phone.href} className="figures underline decoration-bronze underline-offset-4">
+        <a href={site.phone.href} className="figures underline decoration-gold underline-offset-4">
           {site.phone.display}
         </a>
         . Ik denk graag met je mee.
-      </PageClosing>
+      </PhotoClosing>
     </>
   );
 }

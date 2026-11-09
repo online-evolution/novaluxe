@@ -18,23 +18,25 @@ export type PhotoShot = {
 };
 
 export const photoShots: PhotoShot[] = [
-  { code: "S04", subject: "De salon in één beeld", where: "Homepage, bovenaan", ratio: "3:2" },
+  { code: "S04", subject: "De salon in één beeld", where: "Homepage, bovenaan en onderaan; Nagels en Over ons, onderaan", ratio: "3:2" },
   { code: "J01", subject: "Portret van Jessie in de salon", where: "Homepage, bij Jessie", ratio: "4:5" },
   { code: "E01", subject: "Extensions van achteren, lang haar met een natuurlijke val", where: "Homepage, extensions", ratio: "4:5" },
-  { code: "N03", subject: "BIAB naturel of French op de eigen nagel", where: "Homepage, nagels", ratio: "4:5" },
-  { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Homepage (alle aandacht), Over ons en Extensions (achtergrond boven en onder)", ratio: "3:2" },
+  { code: "N03", subject: "BIAB naturel of French op de eigen nagel", where: "Homepage (nagels) en Nagels, BIAB", ratio: "4:5" },
+  { code: "S01", subject: "De behandelplek, leeg, met daglicht", where: "Homepage (alle aandacht); Extensions, Nagels en Over ons als achtergrond bovenaan; Extensions onderaan", ratio: "3:2" },
   { code: "E02", subject: "Haar in een staart, bevestigingen niet zichtbaar", where: "Extensions, invisible techniek", ratio: "4:5" },
   { code: "J03", subject: "Jessie in gesprek met een klant (klant onherkenbaar)", where: "Extensions, gratis consult", ratio: "4:5" },
   { code: "W03", subject: "Jessie bekijkt het haar van een klant, bijvoorbeeld bij het kleur matchen", where: "Extensions, eerlijk advies", ratio: "4:5" },
   { code: "W02", subject: "Handen van Jessie die een weft plaatsen of omhoogplaatsen", where: "Extensions, onderhoud", ratio: "4:5" },
   { code: "M05", subject: "Borstel, satijnen kussensloop of bonnet", where: "Extensions, verzorging thuis", ratio: "1:1" },
-  { code: "N02", subject: "Gellak in een mooie kleur", where: "Nagels, bovenaan", ratio: "4:5" },
+  { code: "N02", subject: "Gellak in een mooie kleur", where: "Nagels, manicure en gellak", ratio: "4:5" },
+  { code: "N04", subject: "Acryl, lang, met een duidelijke vorm", where: "Nagels, acryl", ratio: "4:5" },
   { code: "N06", subject: "Mixed design of nail art met details", where: "Nagels, nail art", ratio: "4:5" },
   { code: "W05", subject: "Nail art in wording: penseel en details", where: "Nagels, nail art (klein)", ratio: "1:1" },
   { code: "W04", subject: "Product verwijderen of afweken", where: "Nagels, verwijderen", ratio: "4:5" },
-  { code: "J04", subject: "Portret van dichtbij", where: "Over ons, bovenaan", ratio: "3:4" },
-  { code: "J02", subject: "Jessie aan het werk, half van opzij", where: "Over ons", ratio: "4:5" },
-  { code: "S02", subject: "Sfeerdetail van het interieur", where: "Over ons", ratio: "1:1" },
+  { code: "M04", subject: "Nagelriemolie en verzorgingsproducten", where: "Nagels, onderhoud en reparatie", ratio: "4:5" },
+  { code: "J04", subject: "Portret van dichtbij", where: "Over ons, het moment voor de spiegel", ratio: "4:5" },
+  { code: "J02", subject: "Jessie aan het werk, half van opzij", where: "Over ons, mijn passie", ratio: "4:5" },
+  { code: "S02", subject: "Sfeerdetail van het interieur", where: "Over ons, de salon", ratio: "1:1" },
   { code: "S03", subject: "De entree van de salon", where: "Contact", ratio: "4:5" },
 ];
 
