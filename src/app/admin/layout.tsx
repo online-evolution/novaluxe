@@ -45,6 +45,7 @@ const menu = [
   { href: "/admin/behandelingen", label: "Behandelingen" },
   { href: "/admin/openingstijden", label: "Openingstijden" },
   { href: "/admin/instellingen", label: "Instellingen" },
+  { href: "/admin/icloud", label: "iCloud" },
   { href: "/admin/account", label: "Account" },
 ] as const;
 

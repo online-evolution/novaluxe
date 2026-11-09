@@ -5,58 +5,52 @@ Doel: vaststellen of NovaLuxe betrouwbaar met een iCloud-agenda kan werken, vó�
 De spike staat los van de app, in `spike/icloud/`:
 
 - `busy.ts` haalt uit agenda-data alleen begin, einde en bezet/vrij. Titel, beschrijving, locatie en deelnemers worden nooit gelezen. Herhalingen, uitzonderingen, tijdzones, "vrij" en geannuleerde afspraken worden zelf verwerkt (met ical.js), ook als de server dat niet doet.
-- `busy.test.ts` test dat zonder internet: `npm run spike:icloud:test`.
-- `run.ts` praat met `caldav.icloud.com` (met tsdav).
+- `checks.ts` voert alle controles uit tegen `caldav.icloud.com` (met tsdav). Het beheer (iCloud) en het script `run.ts` gebruiken allebei deze controles.
+- `busy.test.ts` test zonder internet dat het lezen klopt, ook voor de eigen testafspraken van de spike: `npm run spike:icloud:test`.
 
-## Wat jij moet doen
+## Zo draai je de spike
 
-1. **Maak een test-Apple-ID aan.** Niet het account van Jessie. Zet tweestapsverificatie aan; zonder die stap kun je geen app-specifiek wachtwoord maken.
-2. **Maak een app-specifiek wachtwoord** op account.apple.com → Inloggen en beveiliging → App-specifieke wachtwoorden. Noem het bijvoorbeeld "NovaLuxe spike".
-3. **Zet een paar testafspraken in de agenda van dat account**, zodat het lezen iets te doen heeft. Bijvoorbeeld via icloud.com of een iPhone met dat account:
-   - een losse afspraak;
-   - een wekelijkse herhaling, waarbij je één keer verplaatst en één keer verwijdert;
-   - een afspraak die op "vrij" staat;
-   - een afspraak voor de hele dag.
-4. **Zet de gegevens in een bestand `.env.icloud-spike`** in de map van het project. Doe dit zelf, en zet het wachtwoord niet in de chat. Het bestand valt onder `.env*` en komt dus nooit in git.
-   ```
-   ICLOUD_SPIKE_USERNAME=<Apple ID van het testaccount>
-   ICLOUD_SPIKE_APP_PASSWORD=<app-specifiek wachtwoord>
-   ICLOUD_SPIKE_BEVESTIG=testaccount
-   ```
-5. **Draai de spike:**
-   ```
-   npm run spike:icloud -- --rapport docs/icloud-spike-resultaat.md
-   ```
-   Het rapport bevat alleen aantallen, tijden en statuscodes: geen inloggegevens en geen inhoud van afspraken. Het mag dus in git.
+1. Gebruik een Apple ID dat niet van Jessie is, bijvoorbeeld je eigen.
+2. Maak een app-specifiek wachtwoord op account.apple.com: Inloggen en beveiliging → App-specifieke wachtwoorden. Daarvoor moet tweestapsverificatie aan staan; bij de meeste Apple ID's is dat al zo.
+3. Ga in het beheer naar **iCloud**, vul het Apple ID en de code in en klik op **Test de verbinding**. Na ongeveer een halve minuut zie je een lijst met vinkjes.
+
+Er wordt niets opgeslagen: de gegevens bestaan alleen tijdens de test en komen nooit in een log of de database. Er zijn maximaal 10 tests per uur.
+
+De spike maakt zijn eigen testafspraken in de agenda "NovaLuxe spike": een losse afspraak, een wekelijkse herhaling met één verplaatste en één geschrapte keer, een afspraak op "vrij" en een hele dag. Hij controleert ze en ruimt ze daarna op. Je hoeft zelf niets in de agenda te zetten.
+
+Liever vanaf de opdrachtregel? Zet `ICLOUD_SPIKE_USERNAME` en `ICLOUD_SPIKE_APP_PASSWORD` in `.env.icloud-spike`. Dat bestand valt onder `.env*` en komt dus nooit in git. Draai dan:
+
+```
+npm run spike:icloud -- --rapport docs/icloud-spike-resultaat.md
+```
 
 ## Wat de spike controleert
 
 | Onderdeel | Wat we willen zien |
 | --- | --- |
 | Inloggen met een app-specifiek wachtwoord | Gelukt, binnen enkele seconden |
-| Agenda's vinden | Alle agenda's met afspraken, met een ctag of sync-token |
-| Lezen over 30 dagen | Bezette tijdvakken kloppen met wat er in de agenda staat, inclusief herhalingen en uitzonderingen |
-| Server-uitrol (expand) en free-busy-query | Ter informatie: we zijn er niet van afhankelijk, `busy.ts` rolt zelf uit |
-| Schrijven in de agenda "NovaLuxe spike" | Aanmaken, teruglezen met ETag, wijzigen met If-Match en verwijderen lukken |
-| Wijzigen met een verouderde ETag | Status 412: iCloud weigert, er wordt niets stil overschreven |
-| Wijzigingen opmerken | ETag en ctag/sync-token veranderen na een wijziging |
+| Agenda's vinden | Alle agenda's met afspraken, met een wijzigingskenmerk (ctag of sync-token) |
+| Bezette tijden lezen (30 dagen) | Alleen aantallen; niets van de inhoud |
+| Eigen testafspraken teruglezen | Precies de verwachte bezette tijden: herhaling uitgerold, verplaatste keer op de nieuwe tijd, geschrapte keer weg, "vrij" telt niet mee, één hele dag |
+| Wijzigen met het juiste versiekenmerk (If-Match) | Gelukt |
+| Wijzigen met een verouderd versiekenmerk | Status 412: iCloud weigert, er wordt niets stil overschreven |
+| Wijziging opmerken | Versiekenmerk van de afspraak én van de agenda veranderen |
+| Opruimen | Alle testafspraken weer weg |
 
-De spike schrijft alleen in de agenda "NovaLuxe spike". Die maakt hij zelf aan als hij nog niet bestaat. Hij laat de agenda daarna staan; de testafspraak ruimt hij altijd op.
+De spike schrijft alleen in de agenda "NovaLuxe spike". Die maakt hij zelf aan als hij nog niet bestaat, en hij laat hem daarna leeg staan.
 
 ## Beoordeling
 
-**Door (integratie bouwen in de app)** als:
+**Door (koppeling bouwen in de app)** als:
 
-- inloggen, lezen en schrijven betrouwbaar werken (drie keer achter elkaar draaien zonder fouten);
-- de tijdvakken kloppen met de agenda op de iPhone;
-- een verouderde ETag 412 geeft.
+- de test drie keer achter elkaar slaagt;
+- de bezette tijden van de testafspraken kloppen;
+- een verouderd versiekenmerk geweigerd wordt (412).
 
-**Niet door** bij onverklaarbare fouten, onjuiste tijden, of als iCloud wijzigingen met een verouderde ETag accepteert. Dan rapporteren we eerst en kiezen we samen een alternatief, zoals een eenrichtings-ICS-abonnement vanuit NovaLuxe.
+**Niet door** bij onverklaarbare fouten, onjuiste tijden, of als iCloud wijzigingen met een verouderd versiekenmerk accepteert. Dan rapporteren we eerst en kiezen we samen een alternatief, zoals een eenrichtings-ICS-abonnement vanuit NovaLuxe.
 
-Pas daarna, en alleen in de modus `--alleen-lezen`, een controle op de echte agenda van Jessie, met een eigen app-specifiek wachtwoord dat zij kan intrekken.
-
-Daarna bouwen we de koppeling in het beheer: Jessie koppelt daar zelf haar Apple ID met een app-specifiek wachtwoord, versleuteld opgeslagen (zie `docs/besluiten.md`, iCloud). Voor de spike zelf blijven de gegevens van het testaccount in `.env.icloud-spike`.
+Daarna bouwen we de koppeling in het beheer: Jessie koppelt daar zelf haar Apple ID met een app-specifiek wachtwoord, versleuteld opgeslagen (zie `docs/besluiten.md`, iCloud). Haar echte agenda wordt eerst alleen gelezen.
 
 ## Resultaat
 
-Nog niet gedraaid: wacht op een test-Apple-ID. Het rapport komt in `docs/icloud-spike-resultaat.md`.
+Nog niet gedraaid tegen een echt Apple ID.
