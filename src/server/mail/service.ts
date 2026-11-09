@@ -38,7 +38,7 @@ import {
  *
  * Elke mail krijgt eerst een regel in `mail_messages` en wordt daarna
  * verstuurd. Lukt dat niet, dan probeert de site het nog twee keer (bij het
- * openen van het beheer en met de dagelijkse taak), tot een dag na de
+ * openen van het beheer en met de vaste taak, elk kwartier), tot een dag na de
  * aanleiding. Inhoud en adres worden pas bij het versturen opgehaald, met een
  * controle of de mail nog klopt: een bevestiging voor een intussen
  * geannuleerde afspraak gaat niet meer weg.

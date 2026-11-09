@@ -3,10 +3,10 @@ import { syncCalendarIfStale } from "@/server/calendar/sync";
 import { deliverPendingMail } from "@/server/mail/service";
 
 /*
- * Dagelijkse taak van Vercel (gratis, zie vercel.json): het vangnet voor de
- * iCloud-synchronisatie en voor mails die nog weg moeten, op rustige dagen.
- * De gewone rondes lopen na wijzigingen en bij bezoek aan de reserveerpagina
- * of het beheer.
+ * Vaste taak van Vercel, elk kwartier (vercel.json, Pro-plan): houdt de
+ * iCloud-agenda bij en verstuurt mails die nog weg moeten, ook als niemand de
+ * site bezoekt. Daarnaast lopen rondes na wijzigingen en bij bezoek aan de
+ * reserveerpagina of het beheer.
  *
  * Met CRON_SECRET in Vercel stuurt Vercel dat mee en is dit adres alleen
  * voor Vercel. Zonder CRON_SECRET kan iedereen het aanroepen; dat start dan

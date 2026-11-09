@@ -246,7 +246,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - ontkoppelen wist het wachtwoord.
 - Versturen via SMTP (`smtp.gmail.com`, poort 465) met nodemailer. Gmail staat ruim genoeg mails per dag toe voor een salon.
 - **Logboek zonder kopieën:** elke mail krijgt een regel in `mail_messages` (soort, afspraak of bericht, status, fout in gewone taal). Inhoud en adres worden pas bij het versturen opgehaald; de regel verdwijnt met de afspraak of het bericht. Voordat een mail weggaat, wordt gecontroleerd of hij nog klopt (geen bevestiging voor een intussen geannuleerde afspraak).
-- **Mislukt?** De site probeert het nog twee keer (bij het openen van het beheer en met de dagelijkse taak), tot een dag na de aanleiding. Bij een geweigerd app-wachtwoord stopt dat, tot Jessie opnieuw koppelt of een testmail lukt. Het beheer toont per afspraak welke mails zijn verstuurd, met "Alsnog versturen", en het menu telt mislukte mails.
+- **Mislukt?** De site probeert het nog twee keer (bij het openen van het beheer en met de vaste taak, elk kwartier), tot een dag na de aanleiding. Bij een geweigerd app-wachtwoord stopt dat, tot Jessie opnieuw koppelt of een testmail lukt. Het beheer toont per afspraak welke mails zijn verstuurd, met "Alsnog versturen", en het menu telt mislukte mails.
 - Zonder koppeling gaan meldingen voor Jessie nergens heen (ze ziet alles in het beheer) en zegt het beheer bij een afspraak dat ze de klant zelf moet inlichten.
 - Klantmails zijn in de ik-vorm van Jessie, met behandeling, tijd, prijs (prijzen in overleg als "in overleg") en adres. Wijzigen of afzeggen gaat via bellen of antwoorden op de mail; online kan dat niet.
 - Links in mails gebruiken `SITE_URL`, anders het productieadres van Vercel.
@@ -292,7 +292,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - Uit de agenda's die Jessie aanvinkt lezen we alleen begin en einde (`calendar_busy_blocks`). Die tijden zijn online niet te boeken; in het beheer gelden ze als blokkade (waarschuwing, Jessie kan toch inplannen).
   - Verschuift of verwijdert Jessie een NovaLuxe-item op haar iPhone, dan wordt dat een afwijking. Jessie kiest in het beheer: de tijd van de iPhone overnemen (nooit over een andere afspraak heen), het item terugzetten, of bij verwijderen de afspraak annuleren.
   - De sleutel voor het wachtwoord wordt met HKDF afgeleid van `AUTH_SECRET`; er is geen extra geheim nodig. Wordt `AUTH_SECRET` vervangen, dan koppelt Jessie opnieuw.
-  - **Geen betaald abonnement nodig:** er draait geen vaste klok. NovaLuxe werkt de agenda bij direct na elke wijziging in het beheer, en via `after()` als de laatste ronde ouder is dan vijf minuten wanneer iemand vrije tijden opvraagt of het beheer opent. De gratis dagelijkse taak van Vercel (`vercel.json`, `/api/cron/agenda`) is het vangnet. Er loopt nooit meer dan één ronde tegelijk (claim in `calendar_connection.sync_started_at`).
+  - **Wanneer:** NovaLuxe werkt de agenda bij direct na elke wijziging in het beheer, via `after()` als de laatste ronde ouder is dan vijf minuten wanneer iemand vrije tijden opvraagt of het beheer opent, en elk kwartier via de vaste taak van Vercel (`vercel.json`, `/api/cron/agenda`; Pro-plan sinds 2026-11-09). Er loopt nooit meer dan één ronde tegelijk (claim in `calendar_connection.sync_started_at`).
 - Bij voorkeur een aparte agenda "NovaLuxe".
 - Van privéafspraken slaan we alleen begin, einde en bezet/vrij op.
 - Wijzigingen op de iPhone overschrijven nooit stilzwijgend de database. We detecteren de afwijking en Jessie kiest in de admin wat er gebeurt.
@@ -308,4 +308,4 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - `DATABASE_URL` en `DATABASE_URL_UNPOOLED` staan er als sensitive variabelen.
   - Productie-URL tot het domein gekoppeld is: `novaluxe-seven.vercel.app` (noindex).
 
-- De architectuur gaat uit van een commerciële productieomgeving (Vercel Pro of externe cron). Ze leunt niet op Hobby-beperkingen.
+- **Vercel Pro** (sinds 2026-11-09): commercieel gebruik is toegestaan, en de vaste taak `/api/cron/agenda` draait elk kwartier.

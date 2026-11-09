@@ -28,10 +28,9 @@ import { decryptSecret, encryptSecret } from "./secret";
  *     nemen we dat niet stil over: de koppeling krijgt een afwijking en Jessie
  *     kiest in het beheer. Schrijven gebeurt altijd met If-Match (ETag).
  *
- * Er draait geen vaste klok (geen betaald Vercel-abonnement nodig): na elke
- * wijziging in het beheer, en als de laatste ronde ouder is dan een paar
- * minuten wanneer iemand reserveert of het beheer opent (`after`). De gratis
- * dagelijkse taak van Vercel is het vangnet.
+ * Wanneer: na elke wijziging in het beheer, als de laatste ronde ouder is dan
+ * een paar minuten wanneer iemand reserveert of het beheer opent (`after`),
+ * en elk kwartier via de vaste taak van Vercel (`/api/cron/agenda`).
  */
 
 const serverUrl = "https://caldav.icloud.com";
