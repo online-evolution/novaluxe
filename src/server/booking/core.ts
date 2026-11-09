@@ -6,7 +6,14 @@ import type { Weekday, WeeklyHours } from "@/domain/hours";
 import { resolveSettings, type Settings } from "@/domain/settings";
 import { utcToZonedParts, zonedDateTimeToUtc } from "@/lib/time";
 import { getDb } from "@/server/db";
-import { appointments, blockedPeriods, businessHours, customers, settings as settingsTable } from "@/server/db/schema";
+import {
+  appointments,
+  blockedPeriods,
+  businessHours,
+  calendarBusyBlocks,
+  customers,
+  settings as settingsTable,
+} from "@/server/db/schema";
 import { loadBusy, loadExceptions, rulesFrom } from "./availability";
 
 /*
@@ -114,6 +121,14 @@ export async function checkAdminSlot(
     .from(blockedPeriods)
     .where(and(lt(blockedPeriods.startAt, endAt), gt(blockedPeriods.endAt, startAt)));
   if (blocks.length > 0) return "blokkade";
+
+  // Bezet in Jessies eigen agenda (iCloud) telt voor haar als een blokkade: waarschuwen, niet weigeren.
+  const privateBusy = await tx
+    .select({ id: calendarBusyBlocks.id })
+    .from(calendarBusyBlocks)
+    .where(and(lt(calendarBusyBlocks.startAt, endAt), gt(calendarBusyBlocks.endAt, startAt)))
+    .limit(1);
+  if (privateBusy.length > 0) return "blokkade";
 
   const date = utcToZonedParts(startAt).date;
   const [weekly, exceptions] = await Promise.all([loadWeeklyHours(tx), loadExceptions(date, date, tx)]);

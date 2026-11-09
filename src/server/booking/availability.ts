@@ -10,7 +10,7 @@ import {
 import type { DateException } from "@/domain/hours";
 import { addDays } from "@/lib/time";
 import { getDb } from "@/server/db";
-import { appointments, availabilityExceptions, blockedPeriods } from "@/server/db/schema";
+import { appointments, availabilityExceptions, blockedPeriods, calendarBusyBlocks } from "@/server/db/schema";
 import { getWeeklyHours } from "@/server/schedule";
 import { getSettings } from "@/server/settings";
 
@@ -19,11 +19,12 @@ type Tx = Parameters<Parameters<Db["transaction"]>[0]>[0];
 
 /**
  * Alles wat een tijd bezet maakt: bevestigde afspraken, aanvragen die nog
- * niet verlopen zijn, en blokkades. Altijd vers uit de database.
+ * niet verlopen zijn, blokkades en bezette tijden uit Jessies eigen
+ * iCloud-agenda (alleen begin en einde). Altijd vers uit de database.
  */
 export async function loadBusy(from: Date, to: Date, db: Db | Tx = getDb()): Promise<Interval[]> {
   const now = new Date();
-  const [taken, blocks] = await Promise.all([
+  const [taken, blocks, privateBusy] = await Promise.all([
     db
       .select({ start: appointments.startAt, end: appointments.endAt })
       .from(appointments)
@@ -41,8 +42,12 @@ export async function loadBusy(from: Date, to: Date, db: Db | Tx = getDb()): Pro
       .select({ start: blockedPeriods.startAt, end: blockedPeriods.endAt })
       .from(blockedPeriods)
       .where(and(lt(blockedPeriods.startAt, to), gt(blockedPeriods.endAt, from))),
+    db
+      .select({ start: calendarBusyBlocks.startAt, end: calendarBusyBlocks.endAt })
+      .from(calendarBusyBlocks)
+      .where(and(lt(calendarBusyBlocks.startAt, to), gt(calendarBusyBlocks.endAt, from))),
   ]);
-  return [...taken, ...blocks];
+  return [...taken, ...blocks, ...privateBusy];
 }
 
 export async function loadExceptions(

@@ -1,12 +1,10 @@
 import ICAL from "ical.js";
 
 /*
- * iCloud-spike (Fase 14): uit iCalendar-data alleen haalbaar maken wat
- * NovaLuxe mag weten van een privéafspraak: begin, einde en bezet/vrij.
- * Titel, beschrijving, locatie en deelnemers worden nooit gelezen.
- *
- * Bewust buiten src/: de agenda-integratie komt pas in de app als de spike
- * betrouwbaar blijkt (docs/besluiten.md, iCloud).
+ * Uit iCalendar-data alleen halen wat NovaLuxe mag weten van een
+ * privéafspraak: begin, einde en bezet/vrij. Titel, beschrijving, locatie en
+ * deelnemers worden nooit gelezen. Bewezen in de iCloud-spike (Fase 14,
+ * docs/icloud-spike.md).
  */
 
 export type BusyInterval = {

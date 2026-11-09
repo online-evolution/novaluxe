@@ -28,7 +28,8 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 - [ ] **Nail-artfoto's van klanten** (privé uploads): Vercel Blob kan ook privé opslaan en is al gekoppeld. Nog te bouwen, samen met de bewaartermijn. Tot die tijd beschrijft de klant het ontwerp in tekst.
 - [ ] **`BLOB_READ_WRITE_TOKEN` in Vercel als "sensitive" markeren** (Vercel meldt hem nu als leesbaar geheim).
 - [ ] **Melding aan Jessie bij een nieuwe aanvraag:** volgt met de e-mail (Fase 13). Tot die tijd ziet ze aanvragen alleen in het beheer (Vandaag en Afspraken).
-- [ ] **iCloud-spike draaien:** in het beheer onder iCloud, met een Apple ID dat niet van Jessie is en een app-specifiek wachtwoord (zie `docs/icloud-spike.md`). Daarna de koppeling in het beheer bouwen (Jessie koppelt zelf, wachtwoord versleuteld in de database; zie `docs/besluiten.md`).
+- [ ] **iCloud koppelen voor Jessie:** de koppeling staat klaar (Beheer → iCloud). Jessie maakt een app-specifiek wachtwoord en koppelt zelf. Daarna samen controleren dat de bezette tijden kloppen met haar iPhone.
+- [ ] **Optioneel, gratis: `CRON_SECRET` in Vercel zetten**, zodat alleen Vercel de dagelijkse agendataak kan starten. Zonder geheim kan iedereen hooguit één ronde per vijf minuten starten.
 - [ ] **Domein** koppelen, en daarna `SITE_URL` instellen in Vercel (basis voor vrijgavelinks).
 - [ ] **Klantberichten bij bevestigen, afwijzen, annuleren en verplaatsen:** volgen met de e-mail (Fase 13). Het beheer zegt Jessie nu dat ze de klant zelf moet inlichten.
 - [ ] **Bij livegang:** `robots: noindex` in `src/app/layout.tsx` verwijderen.

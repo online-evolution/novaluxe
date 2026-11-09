@@ -1,7 +1,8 @@
-import { connection, type NextRequest } from "next/server";
+import { after, connection, type NextRequest } from "next/server";
 import { z } from "zod";
 import { quote, validateChoice } from "@/domain/booking";
 import { getAvailability } from "@/server/booking/availability";
+import { syncCalendarIfStale } from "@/server/calendar/sync";
 import { getCatalog } from "@/server/catalog";
 import { getSettings } from "@/server/settings";
 
@@ -10,7 +11,14 @@ import { getSettings } from "@/server/settings";
  * toont ze alleen; bij het versturen wordt de tijd opnieuw gecontroleerd.
  *
  *   GET /api/beschikbaarheid?variant=<id>&opties=<id,id>&nailart=1
+ *
+ * Daarna, buiten het antwoord om, de iCloud-agenda bijwerken als de laatste
+ * ronde ouder is dan een paar minuten (zie src/server/calendar/sync.ts).
  */
+
+/** Ruimte voor de iCloud-ronde na het antwoord. */
+export const maxDuration = 60;
+
 const query = z.object({
   variant: z.uuid(),
   opties: z
@@ -40,6 +48,7 @@ export async function GET(request: NextRequest) {
 
   const { durationMinutes } = quote(checked.choice, settings.nailArtDefaultBufferMinutes);
   const days = await getAvailability(durationMinutes);
+  after(() => syncCalendarIfStale().catch(() => undefined));
   return Response.json({ durationMinutes, days }, { headers: { "Cache-Control": "no-store" } });
 }
 

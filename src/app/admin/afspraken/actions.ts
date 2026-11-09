@@ -1,6 +1,7 @@
 "use server";
 
 import { refresh } from "next/cache";
+import { after } from "next/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -17,6 +18,7 @@ import {
   type PlanResult,
 } from "@/server/admin/appointments";
 import { requireAdmin } from "@/server/auth/session";
+import { syncCalendar } from "@/server/calendar/sync";
 import { createRelease, revokeRelease, setDepositPaid } from "@/server/booking/release";
 
 const field = (formData: FormData, name: string) => String(formData.get(name) ?? "");
@@ -28,7 +30,7 @@ const messages: Record<Exclude<ChangeResult | PlanResult, { ok: true }>["reason"
   "niet-toegestaan": "Dat kan niet (meer) bij deze afspraak. Laad de pagina opnieuw.",
   "tijd-bezet": "Deze tijd is inmiddels bezet door een andere afspraak of aanvraag. Bevestigen kan niet meer.",
   blokkade:
-    "Dit tijdstip valt in een blokkade (bijvoorbeeld pauze of vakantie). Vink ‘Toch inplannen’ aan als je dat zeker weet.",
+    "Dit tijdstip valt in een blokkade of staat bezet in je eigen agenda (bijvoorbeeld pauze, vakantie of een privéafspraak). Vink ‘Toch inplannen’ aan als je dat zeker weet.",
   bezet: "Op dit tijdstip staat al een andere afspraak of aanvraag. Kies een andere tijd.",
   "buiten-openingstijden":
     "Dit tijdstip valt (deels) buiten je openingstijden. Vink ‘Toch inplannen’ aan als je dat zeker weet.",
@@ -45,8 +47,14 @@ export async function changeStatusAction(_previous: ActionState, formData: FormD
 
   const result = await changeStatus(id.data, action.data, optionalText(formData.get("note")));
   if (!result.ok) return { error: messages[result.reason] };
+  after(syncAfterChange);
   // Het formulier van deze actie verdwijnt na de wijziging; de melding staat daarom op de pagina zelf.
   redirect(`/admin/afspraken/${id.data}?gedaan=${action.data}`);
+}
+
+/** Na een wijziging de iCloud-agenda bijwerken, na het antwoord aan Jessie (geen koppeling: niets). */
+async function syncAfterChange() {
+  await syncCalendar().catch(() => undefined);
 }
 
 /** Datum, tijd en duur uit het formulier; `null` als iets niet klopt. */
@@ -75,6 +83,7 @@ export async function rescheduleAction(_previous: ActionState, formData: FormDat
     force: formData.get("force") === "on",
   });
   if (!result.ok) return { error: messages[result.reason] };
+  after(syncAfterChange);
   refresh();
   return { success: "Verplaatst." };
 }
@@ -128,6 +137,7 @@ export async function createAppointmentAction(_previous: ActionState, formData: 
     force: formData.get("force") === "on",
   });
   if (!result.ok) return { error: messages[result.reason] };
+  after(syncAfterChange);
   redirect(`/admin/afspraken/${result.id}`);
 }
 

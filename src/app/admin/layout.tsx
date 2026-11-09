@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { after } from "next/server";
 import { Suspense } from "react";
 import { countOpenRequests } from "@/server/admin/appointments";
 import { getCurrentAdmin } from "@/server/auth/session";
+import { countDrifts, syncCalendarIfStale } from "@/server/calendar/sync";
 import { countUnreadMessages } from "@/server/contact";
 import monogram from "../../../public/brand/novaluxe-monogram.png";
 import { logout } from "./actions";
+
+/** Ruimte voor de iCloud-ronde die na het tonen van een beheerpagina kan lopen. */
+export const maxDuration = 60;
 
 export const metadata: Metadata = {
   title: { default: "Beheer", template: "%s · Beheer NovaLuxe" },
@@ -52,7 +57,13 @@ const menu = [
 async function AdminNav() {
   const admin = await getCurrentAdmin();
   if (!admin) return null;
-  const [openRequests, unreadMessages] = await Promise.all([countOpenRequests(), countUnreadMessages()]);
+  const [openRequests, unreadMessages, drifts] = await Promise.all([
+    countOpenRequests(),
+    countUnreadMessages(),
+    countDrifts(),
+  ]);
+  // De iCloud-agenda bijwerken na het tonen van de pagina, als dat een paar minuten geleden is.
+  after(() => syncCalendarIfStale().catch(() => undefined));
 
   return (
     <nav aria-label="Beheermenu" className="flex flex-wrap items-baseline gap-x-6 gap-y-2 text-small">
@@ -63,6 +74,12 @@ async function AdminNav() {
             <span className="ml-1.5 figures text-bronze-deep">
               ({openRequests}
               <span className="sr-only"> {openRequests === 1 ? "nieuwe aanvraag" : "nieuwe aanvragen"}</span>)
+            </span>
+          )}
+          {item.href === "/admin/icloud" && drifts > 0 && (
+            <span className="ml-1.5 figures text-bronze-deep">
+              ({drifts}
+              <span className="sr-only"> {drifts === 1 ? "afwijking in de agenda" : "afwijkingen in de agenda"}</span>)
             </span>
           )}
           {item.href === "/admin/berichten" && unreadMessages > 0 && (

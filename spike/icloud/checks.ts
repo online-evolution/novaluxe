@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { DAVClient, type DAVCalendar, type DAVCalendarObject } from "tsdav";
 import { addDays, localDateString, zonedDateTimeToUtc } from "../../src/lib/time";
-import { busyIntervals } from "./busy";
+import { busyIntervals } from "../../src/lib/calendar/busy";
 
 /*
  * iCloud-spike (Fase 14): alle controles in één functie, voor het script

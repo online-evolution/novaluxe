@@ -276,6 +276,12 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - het beheer legt stap voor stap uit hoe Jessie het app-specifieke wachtwoord maakt en hoe ze het bij Apple intrekt;
   - dit wordt pas gebouwd als de spike (met een test-Apple-ID via `.env.icloud-spike`) betrouwbaar is gebleken.
 - Daarbuiten blijft de regel: geen iCloud-inloggegevens in broncode of logs.
+- **De koppeling (gebouwd na de geslaagde spike):** `src/server/calendar/sync.ts`.
+  - Bevestigde afspraken staan als item in de agenda "NovaLuxe" in Jessies iCloud; annuleren haalt het item weg, verplaatsen in NovaLuxe verplaatst het item (met If-Match).
+  - Uit de agenda's die Jessie aanvinkt lezen we alleen begin en einde (`calendar_busy_blocks`). Die tijden zijn online niet te boeken; in het beheer gelden ze als blokkade (waarschuwing, Jessie kan toch inplannen).
+  - Verschuift of verwijdert Jessie een NovaLuxe-item op haar iPhone, dan wordt dat een afwijking. Jessie kiest in het beheer: de tijd van de iPhone overnemen (nooit over een andere afspraak heen), het item terugzetten, of bij verwijderen de afspraak annuleren.
+  - De sleutel voor het wachtwoord wordt met HKDF afgeleid van `AUTH_SECRET`; er is geen extra geheim nodig. Wordt `AUTH_SECRET` vervangen, dan koppelt Jessie opnieuw.
+  - **Geen betaald abonnement nodig:** er draait geen vaste klok. NovaLuxe werkt de agenda bij direct na elke wijziging in het beheer, en via `after()` als de laatste ronde ouder is dan vijf minuten wanneer iemand vrije tijden opvraagt of het beheer opent. De gratis dagelijkse taak van Vercel (`vercel.json`, `/api/cron/agenda`) is het vangnet. Er loopt nooit meer dan één ronde tegelijk (claim in `calendar_connection.sync_started_at`).
 - Bij voorkeur een aparte agenda "NovaLuxe".
 - Van privéafspraken slaan we alleen begin, einde en bezet/vrij op.
 - Wijzigingen op de iPhone overschrijven nooit stilzwijgend de database. We detecteren de afwijking en Jessie kiest in de admin wat er gebeurt.

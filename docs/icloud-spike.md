@@ -49,7 +49,7 @@ De spike schrijft alleen in de agenda "NovaLuxe spike". Die maakt hij zelf aan a
 
 **Niet door** bij onverklaarbare fouten, onjuiste tijden, of als iCloud wijzigingen met een verouderd versiekenmerk accepteert. Dan rapporteren we eerst en kiezen we samen een alternatief, zoals een eenrichtings-ICS-abonnement vanuit NovaLuxe.
 
-Daarna bouwen we de koppeling in het beheer: Jessie koppelt daar zelf haar Apple ID met een app-specifiek wachtwoord, versleuteld opgeslagen (zie `docs/besluiten.md`, iCloud). Haar echte agenda wordt eerst alleen gelezen.
+Gebouwd op 9 november 2026 (zie `docs/besluiten.md`, iCloud). Daarvoor gold: daarna bouwen we de koppeling in het beheer: Jessie koppelt daar zelf haar Apple ID met een app-specifiek wachtwoord, versleuteld opgeslagen (zie `docs/besluiten.md`, iCloud). Haar echte agenda wordt eerst alleen gelezen.
 
 ## Resultaat
 
