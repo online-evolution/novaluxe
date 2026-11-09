@@ -1,6 +1,5 @@
 import type { Metadata, Route } from "next";
 import { SitePhoto } from "@/components/media/site-photo";
-import { NailProfile, type NailTreatment } from "@/components/nails/nail-profile";
 import { Facts } from "@/components/page/facts";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
 const bookingHref: Route = "/reserveren?categorie=nagels";
 
 type Comparison = {
-  id: NailTreatment;
+  id: string;
   title: string;
   text: string[];
   strength: string;
@@ -76,7 +75,7 @@ const bySlug = (catalog: CatalogTreatment[], slug: string) =>
 /*
  * Teksten uit docs/bron (Nagels en Nagels tarieven); prijzen uit de database.
  * Foto's zijn optioneel: de pagina klopt ook zonder. Opbouw zoals Extensions:
- * een opening in brons met de salonfoto (S01), daarna om en om crème en ivoor
+ * een opening in brons met de salonfoto (S04), daarna om en om crème en ivoor
  * met de foto afwisselend rechts en links, en een afsluiter in brons.
  */
 export default async function NailsPage() {
@@ -107,7 +106,7 @@ export default async function NailsPage() {
 
   return (
     <>
-      <PageOpening id="nagels-titel" title="Mooie nagels beginnen bij de juiste behandeling" backdrop="S01">
+      <PageOpening id="nagels-titel" title="Mooie nagels beginnen bij de juiste behandeling" backdrop="S04">
         <p className="mx-auto mt-6 max-w-measure text-lede">
           Hou je van kort en naturel, of juist van lange nagels met een opvallend design? Vertel me wat je mooi vindt.
         </p>
@@ -141,14 +140,6 @@ export default async function NailsPage() {
                 { label: "Lengte", value: item.length },
               ]}
             />
-            <figure className="mt-10 grid max-w-measure gap-4 sm:grid-cols-[16rem_1fr] sm:items-center sm:gap-6">
-              <div className="w-64 max-w-full">
-                <NailProfile treatment={item.id} />
-              </div>
-              <figcaption className="border-l border-gold pl-4 text-small text-ink-soft">
-                Doorsnede van een vingertop. De donkere lijn is je eigen nagel; het bronzen vlak is wat ik erop aanbreng.
-              </figcaption>
-            </figure>
           </SplitSection>
         );
       })}
@@ -257,7 +248,7 @@ export default async function NailsPage() {
 
       <PhotoClosing
         id="kiezen-titel"
-        shot="S04"
+        shot="S01"
         title="Hulp nodig bij het kiezen"
         href={bookingHref}
         label="Maak een nagelafspraak"
