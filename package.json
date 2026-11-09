@@ -13,7 +13,9 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:migrate:prod": "node --env-file=.env.production.local node_modules/drizzle-kit/bin.cjs migrate",
     "admin:create": "tsx scripts/create-admin.ts",
-    "test": "node --import tsx --test \"src/**/*.test.ts\""
+    "test": "node --import tsx --test \"src/**/*.test.ts\"",
+    "spike:icloud": "tsx spike/icloud/run.ts",
+    "spike:icloud:test": "node --import tsx --test \"spike/**/*.test.ts\""
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
@@ -34,7 +36,9 @@
     "drizzle-kit": "^0.31.11",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
+    "ical.js": "^2.2.1",
     "tailwindcss": "^4",
+    "tsdav": "^2.5.0",
     "tsx": "^4.23.15",
     "typescript": "^5"
   },

@@ -28,7 +28,7 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 - [ ] **Nail-artfoto's van klanten** (privé uploads): Vercel Blob kan ook privé opslaan en is al gekoppeld. Nog te bouwen, samen met de bewaartermijn. Tot die tijd beschrijft de klant het ontwerp in tekst.
 - [ ] **`BLOB_READ_WRITE_TOKEN` in Vercel als "sensitive" markeren** (Vercel meldt hem nu als leesbaar geheim).
 - [ ] **Melding aan Jessie bij een nieuwe aanvraag:** volgt met de e-mail (Fase 13). Tot die tijd ziet ze aanvragen alleen in het beheer (Vandaag en Afspraken).
-- [ ] **iCloud:** een test-Apple-ID voor de spike, en daarna een app-specifiek wachtwoord voor de agenda van Jessie.
+- [ ] **iCloud-spike draaien:** de spike staat klaar (`npm run spike:icloud`, zie `docs/icloud-spike.md`). Nodig: een test-Apple-ID met tweestapsverificatie en een app-specifiek wachtwoord, in `.env.icloud-spike`. Daarna pas, alleen lezend, een app-specifiek wachtwoord voor de agenda van Jessie.
 - [ ] **Domein** koppelen, en daarna `SITE_URL` instellen in Vercel (basis voor vrijgavelinks).
 - [ ] **Klantberichten bij bevestigen, afwijzen, annuleren en verplaatsen:** volgen met de e-mail (Fase 13). Het beheer zegt Jessie nu dat ze de klant zelf moet inlichten.
 - [ ] **Bij livegang:** `robots: noindex` in `src/app/layout.tsx` verwijderen.

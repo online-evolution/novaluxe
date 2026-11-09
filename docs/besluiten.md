@@ -274,6 +274,8 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - Van privéafspraken slaan we alleen begin, einde en bezet/vrij op.
 - Wijzigingen op de iPhone overschrijven nooit stilzwijgend de database. We detecteren de afwijking en Jessie kiest in de admin wat er gebeurt.
 - De integratie komt pas in de kern van de applicatie als de spike betrouwbaar blijkt.
+- De spike staat los van de app in `spike/icloud/` (handleiding en beoordeling: `docs/icloud-spike.md`). CalDAV via tsdav, iCalendar via ical.js; geen eigen XML- of ICS-trucs. Herhalingen rollen we zelf uit, zodat we niet afhangen van server-uitrol door iCloud.
+- Schrijven gebeurt altijd met If-Match (ETag). Een verouderde ETag moet geweigerd worden (412); zo wordt niets stil overschreven.
 
 ## Infrastructuur
 
