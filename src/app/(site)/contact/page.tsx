@@ -1,8 +1,9 @@
-import type { Metadata, Route } from "next";
+import type { Metadata } from "next";
 import { DottedRow } from "@/components/page/dotted-row";
 import { PageOpening } from "@/components/page/page-opening";
-import { PageSection, SectionTitle } from "@/components/page/page-section";
-import { BigAnchor, BigLink } from "@/components/ui/action";
+import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
+import { PhotoClosing } from "@/components/page/photo-closing";
+import { BigAnchor } from "@/components/ui/action";
 import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
 import { formatRanges, weekdayRows } from "@/domain/hours";
@@ -15,81 +16,81 @@ export const metadata: Metadata = {
     "Vragen over extensions of nagels? Bel NovaLuxe op 06 13867266 of stuur een bericht via Instagram. Je vindt de salon aan de Wijndaelerduin 25 in Kijkduin, Den Haag.",
 };
 
-const consultHref: Route = "/reserveren?behandeling=gratis-consult";
-
 const fullAddress = `${site.address.street}, ${site.address.postalCode} ${site.address.city}`;
 // Gewone link naar een kaartdienst; bewust geen ingesloten kaart (geen cookies of tracking).
 const routeHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
 
+const linkClass = "decoration-gold underline-offset-4 hover:underline";
+
 /*
- * Teksten uit docs/bron (Contact); openingstijden en uitzonderingen uit de database.
+ * Teksten uit docs/bron (Contact); openingstijden en uitzonderingen uit de
+ * database. Opbouw zoals de andere pagina's: een opening in brons met de
+ * salonfoto (S04), de salon met adres en contactgegevens naast de entree (S03),
+ * de openingstijden en één afsluiter in brons.
  */
 export default async function ContactPage() {
   const [week, exceptions] = await Promise.all([getWeeklyHours(), getUpcomingExceptions()]);
 
   return (
     <>
-      <PageOpening id="contact-titel" title="Heb je een vraag">
+      <PageOpening id="contact-titel" title="Heb je een vraag" backdrop="S04">
         <p className="mx-auto mt-6 max-w-measure text-lede">
           Wil je iets weten over een behandeling of twijfel je wat je moet boeken? Neem gerust contact op. Ik luister naar
           je wensen en denk met je mee.
         </p>
-        <h2 className="sr-only">Contactgegevens</h2>
-        <ul className="mt-10 flex flex-wrap justify-center gap-x-10 gap-y-6">
-          <li>
-            <p className="font-medium">Bel NovaLuxe</p>
-            <a
-              href={site.phone.href}
-              className="figures mt-1 inline-block text-display-m font-semibold decoration-bronze underline-offset-8 hover:underline"
-            >
-              {site.phone.display}
-            </a>
-          </li>
-          <li>
-            <p className="font-medium">Bekijk Instagram</p>
-            <a
-              href={site.instagram.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-1 inline-block text-display-m font-semibold decoration-bronze underline-offset-8 hover:underline"
-            >
-              {site.instagram.handle} <span className="sr-only">(opent in een nieuw venster)</span>
-            </a>
-          </li>
-          <li>
-            <p className="font-medium">Bekijk Facebook</p>
-            <a
-              href={site.facebook.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-1 inline-block text-display-m font-semibold decoration-bronze underline-offset-8 hover:underline"
-            >
-              {site.name} <span className="sr-only">(opent in een nieuw venster)</span>
-            </a>
-          </li>
-        </ul>
-        <p className="figures mt-6 text-small text-ink-soft">KvK-nummer {site.kvk}</p>
       </PageOpening>
 
-      <PageSection labelledBy="salon-titel" shot="S03" subject="De entree van de salon">
-        <div className="grid gap-12">
-          <div>
-            <SectionTitle id="salon-titel">Je vindt de salon in {site.area}</SectionTitle>
-            <address className="mt-6 text-display-s font-medium not-italic">
-              {site.name}
-              <br />
-              {site.address.street}
-              <br />
-              {site.address.postalCode} {site.address.city}
-            </address>
-            <BigAnchor href={routeHref} size="md" target="_blank" rel="noopener noreferrer" className="mt-6">
-              Plan je route <span className="sr-only">(opent in een nieuw venster)</span>
-            </BigAnchor>
-          </div>
+      <SplitSection labelledBy="salon-titel" shot="S03" subject="De entree van de salon">
+        <SectionTitle id="salon-titel">Je vindt de salon in {site.area}</SectionTitle>
+        <address className="mt-8 text-lede not-italic">
+          {site.name}
+          <br />
+          {site.address.street}
+          <br />
+          {site.address.postalCode} {site.address.city}
+        </address>
+        <BigAnchor href={routeHref} size="md" target="_blank" rel="noopener noreferrer" className="mt-8">
+          Plan je route <span className="sr-only">(opent in een nieuw venster)</span>
+        </BigAnchor>
 
+        <h3 className="mt-14 text-display-s font-semibold">Bel of stuur een bericht</h3>
+        <dl className="mt-5 max-w-measure text-lede">
+          <DottedRow
+            label="Bellen"
+            value={
+              <a href={site.phone.href} className={linkClass}>
+                {site.phone.display}
+              </a>
+            }
+          />
+          <DottedRow
+            label="Instagram"
+            value={
+              <a href={site.instagram.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                {site.instagram.handle} <span className="sr-only">(opent in een nieuw venster)</span>
+              </a>
+            }
+          />
+          <DottedRow
+            label="Facebook"
+            value={
+              <a href={site.facebook.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                {site.name} <span className="sr-only">(opent in een nieuw venster)</span>
+              </a>
+            }
+          />
+        </dl>
+        <p className="figures mt-6 text-small text-ink-soft">KvK-nummer {site.kvk}</p>
+      </SplitSection>
+
+      <PageSection labelledBy="tijden-titel" tone="ivory" contained>
+        {/* Titel links, tijden rechts: het blok blijft in balans, ook zonder afwijkende tijden. */}
+        <div className="grid gap-8 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-20">
+          <h2 id="tijden-titel" className="text-display-m font-semibold text-balance">
+            Openingstijden
+          </h2>
           <div>
-            <h3 className="text-display-s font-semibold">Openingstijden</h3>
-            <dl className="mt-4 text-lede">
+            <dl className="text-lede">
               {weekdayRows(week).map((row) => (
                 <DottedRow key={row.days} label={row.days} value={<TimeRanges text={row.hours} />} />
               ))}
@@ -97,8 +98,8 @@ export default async function ContactPage() {
 
             {exceptions.length > 0 && (
               <>
-                <h3 className="mt-10 text-display-s font-semibold">Afwijkende openingstijden</h3>
-                <dl className="mt-4">
+                <h3 className="mt-12 text-display-s font-semibold">Afwijkende openingstijden</h3>
+                <dl className="mt-5 text-lede">
                   {exceptions.map((exception) => (
                     <DottedRow
                       key={exception.date}
@@ -113,32 +114,15 @@ export default async function ContactPage() {
         </div>
       </PageSection>
 
-      <section aria-label="Afspraak maken" className="grid gap-14 bg-bronze-deep px-gutter py-section-tight text-cream lg:grid-cols-2 lg:gap-16">
-        <div>
-          <h2 className="text-display-m font-semibold text-balance">Interesse in extensions</h2>
-          <p className="mt-6 max-w-measure text-lede">
-            Benieuwd of extensions iets voor jou zijn? Kom langs voor een gratis consult. Dan bekijk ik je haar en praten
-            we over wat jij graag zou willen. Je krijgt eerlijk advies en weet meteen wat het kost.
-          </p>
-          <div className="mt-8">
-            <BigLink href={consultHref}>
-              Plan je gratis consult
-            </BigLink>
-          </div>
-        </div>
-        <div>
-          <h2 className="text-display-m font-semibold text-balance">Klaar voor je volgende afspraak</h2>
-          <p className="mt-6 max-w-measure text-lede">
-            Weet je al waarvoor je wilt komen? Via de reserveringspagina kies je jouw nagel- of extensionsbehandeling en
-            een beschikbare datum en tijd.
-          </p>
-          <div className="mt-8">
-            <BigLink href={bookingHref}>
-              Naar reserveren
-            </BigLink>
-          </div>
-        </div>
-      </section>
+      <PhotoClosing
+        id="afspraak-titel"
+        shot="S01"
+        title="Klaar voor nieuwe nagels of extensions?"
+        href={bookingHref}
+        label="Maak een afspraak"
+      >
+        Kies je behandeling en een moment dat jou uitkomt. Ik bekijk je aanvraag en laat je weten of het past.
+      </PhotoClosing>
     </>
   );
 }
