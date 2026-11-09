@@ -97,8 +97,10 @@ export default async function ExtensionsPage() {
           Ik kijk naar jouw haar en stem daar de lengte, het gewicht en het aantal banen op af. Voor een mooie overgang
           naar je eigen haarkleur combineer ik waar nodig verschillende tinten extensions.
         </p>
-        <figure className="mt-10 flex max-w-measure items-end gap-6">
-          <WeftsDiagram lengthsCm={matrix.lengths} className="w-32 shrink-0 sm:w-40" />
+        <figure className="mt-10 grid max-w-measure gap-4 sm:grid-cols-[10rem_1fr] sm:items-end sm:gap-6">
+          <div className="w-40">
+            <WeftsDiagram lengthsCm={matrix.lengths} />
+          </div>
           {/* TODO(content): uitleg "baan" laten bevestigen door Jessie (PROJECT-TODOS.md). */}
           <figcaption className="border-l border-gold pl-4 text-small text-ink-soft">
             Eén baan is één rij wefts. Welke lengte en hoeveel banen bij jou passen, bespreken we tijdens het gratis
