@@ -9,8 +9,9 @@ type Mode = "new" | "refill";
 
 /**
  * Prijzen nagels: vier gelijke lijsten met puntlijntjes, twee aan twee naast
- * elkaar. Eén gouden schakelaar naast de titel kiest bij BIAB en acryl tussen
- * nieuwe set en opvullen, in plaats van twee tabellen met kolommen.
+ * elkaar. Naast de kopjes BIAB en acryl staat een gouden schakelaar voor nieuwe
+ * set of opvullen; beide staan altijd in dezelfde stand. Alle kopjes zijn even
+ * hoog, zodat de lijsten naast elkaar op dezelfde hoogte beginnen.
  */
 export function NailPrices({
   title,
@@ -28,37 +29,41 @@ export function NailPrices({
   const [mode, setMode] = useState<Mode>("new");
   const pick = (rows: SetRefillRow[]): PriceRow[] =>
     rows.map((row) => ({ label: row.label, priceCents: mode === "new" ? row.newSetCents : row.refillCents }));
+  const modeSwitch = (legend: string) => (
+    <GoldSwitch
+      legend={legend}
+      options={[
+        { value: "new" as const, label: "Nieuwe set" },
+        { value: "refill" as const, label: "Opvullen" },
+      ]}
+      value={mode}
+      onChange={setMode}
+    />
+  );
   const modeLabel = mode === "new" ? "nieuwe set" : "opvullen";
   // Bij opvullen staat er soms geen prijs; de toelichting zegt dan waarom.
   const acrylNotes = mode === "refill" ? acryl.filter((row) => row.note).map((row) => `${row.label}: ${lower(row.note!)}`) : [];
 
   return (
     <>
-      <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
-        {title}
-        <div>
-          <p className="mb-2 text-small text-ink-soft">BIAB en acryl</p>
-          <GoldSwitch
-            legend="Prijzen BIAB en acryl"
-            options={[
-              { value: "new" as const, label: "Nieuwe set" },
-              { value: "refill" as const, label: "Opvullen" },
-            ]}
-            value={mode}
-            onChange={setMode}
-          />
-        </div>
-      </div>
+      {title}
 
-      <div className="mt-12 grid gap-x-20 gap-y-14 text-lede lg:grid-cols-2">
+      <div className="mt-10 grid gap-x-20 gap-y-14 text-lede lg:grid-cols-2">
         <PriceBlock title="Manicure" rows={manicure} />
-        <PriceBlock title="BIAB" rows={pick(biab)} caption={`Prijzen BIAB, ${modeLabel}`} live />
+        <PriceBlock
+          title="BIAB"
+          rows={pick(biab)}
+          caption={`Prijzen BIAB, ${modeLabel}`}
+          live
+          action={modeSwitch("Prijzen BIAB")}
+        />
         {/* Op mobiel acryl direct na BIAB (de schakelaar geldt voor die twee); op desktop rechts onder BIAB. */}
         <PriceBlock
           title="Acryl"
           rows={pick(acryl)}
           caption={`Prijzen acryl, ${modeLabel}`}
           live
+          action={modeSwitch("Prijzen acryl")}
           className="lg:col-start-2 lg:row-start-2"
         >
           {acrylNotes.length > 0 && <p className="mt-4 text-small text-ink-soft">{acrylNotes.join(" ")}</p>}
@@ -75,6 +80,7 @@ function PriceBlock({
   caption,
   live = false,
   className = "",
+  action,
   children,
 }: {
   title: string;
@@ -82,11 +88,15 @@ function PriceBlock({
   caption?: string;
   live?: boolean;
   className?: string;
+  action?: React.ReactNode;
   children?: React.ReactNode;
 }) {
   return (
     <div className={className}>
-      <h3 className="text-display-s font-semibold">{title}</h3>
+      <div className="flex min-h-12 flex-wrap items-center justify-between gap-x-6 gap-y-3">
+        <h3 className="text-display-s font-semibold">{title}</h3>
+        {action}
+      </div>
       <div className="mt-5" aria-live={live ? "polite" : undefined}>
         <PriceList rows={rows} caption={caption ?? `Prijzen ${title.toLowerCase()}`} />
       </div>
