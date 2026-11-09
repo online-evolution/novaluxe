@@ -23,7 +23,7 @@ export function HomeJessie() {
           >
             Het mooiste moment is voor mij wanneer je in de spiegel kijkt en blij wordt van wat je ziet.
           </blockquote>
-          <BigLink href="/over-ons" size="md" className="mt-8">
+          <BigLink href="/over-jessie" size="md" className="mt-8">
             Lees mijn verhaal
           </BigLink>
         </div>

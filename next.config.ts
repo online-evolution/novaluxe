@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    // De pagina heette eerst Over ons; oude links en zoekresultaten blijven werken.
+    return [{ source: "/over-ons", destination: "/over-jessie", permanent: true }];
+  },
   typedRoutes: true,
   cacheComponents: true,
   images: {

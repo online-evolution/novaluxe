@@ -3,7 +3,9 @@ import { DottedRow } from "@/components/page/dotted-row";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
 import { PhotoClosing } from "@/components/page/photo-closing";
+import { ContactForm } from "@/components/contact/contact-form";
 import { BigAnchor } from "@/components/ui/action";
+import { Icon, type IconName } from "@/components/ui/icons";
 import { bookingHref } from "@/config/navigation";
 import { site } from "@/config/site";
 import { formatRanges, weekdayRows } from "@/domain/hours";
@@ -20,13 +22,17 @@ const fullAddress = `${site.address.street}, ${site.address.postalCode} ${site.a
 // Gewone link naar een kaartdienst; bewust geen ingesloten kaart (geen cookies of tracking).
 const routeHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
 
-const linkClass = "decoration-gold underline-offset-4 hover:underline";
+const channels: { icon: IconName; label: string; value: string; href: string; external: boolean }[] = [
+  { icon: "phone", label: "Bellen", value: site.phone.display, href: site.phone.href, external: false },
+  { icon: "instagram", label: "Instagram", value: site.instagram.handle, href: site.instagram.href, external: true },
+  { icon: "facebook", label: "Facebook", value: site.name, href: site.facebook.href, external: true },
+];
 
 /*
  * Teksten uit docs/bron (Contact); openingstijden en uitzonderingen uit de
  * database. Opbouw zoals de andere pagina's: een opening in brons met de
  * salonfoto (S04), de salon met adres en contactgegevens naast de entree (S03),
- * de openingstijden en één afsluiter in brons.
+ * een contactformulier, de openingstijden en één afsluiter in brons.
  */
 export default async function ContactPage() {
   const [week, exceptions] = await Promise.all([getWeeklyHours(), getUpcomingExceptions()]);
@@ -54,36 +60,47 @@ export default async function ContactPage() {
         </BigAnchor>
 
         <h3 className="mt-14 text-display-s font-semibold">Bel of stuur een bericht</h3>
-        <dl className="mt-5 max-w-measure text-lede">
-          <DottedRow
-            label="Bellen"
-            value={
-              <a href={site.phone.href} className={linkClass}>
-                {site.phone.display}
+        <ul className="mt-6 grid gap-6 sm:grid-cols-3">
+          {channels.map((channel) => (
+            <li key={channel.label}>
+              <a
+                href={channel.href}
+                {...(channel.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="group flex items-center gap-4 sm:flex-col sm:items-start"
+              >
+                <span className="grid size-14 shrink-0 place-items-center rounded-full border border-gold text-bronze-deep transition-colors duration-(--duration-quick) group-hover:bg-gold group-hover:bg-(image:--gold-foil) group-hover:text-ink">
+                  <Icon name={channel.icon} className="size-6" />
+                </span>
+                <span>
+                  <span className="block text-small text-ink-soft">{channel.label}</span>
+                  <span className="figures block text-lede font-semibold decoration-gold underline-offset-4 group-hover:underline">
+                    {channel.value}
+                  </span>
+                  {channel.external && <span className="sr-only">(opent in een nieuw venster)</span>}
+                </span>
               </a>
-            }
-          />
-          <DottedRow
-            label="Instagram"
-            value={
-              <a href={site.instagram.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                {site.instagram.handle} <span className="sr-only">(opent in een nieuw venster)</span>
-              </a>
-            }
-          />
-          <DottedRow
-            label="Facebook"
-            value={
-              <a href={site.facebook.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                {site.name} <span className="sr-only">(opent in een nieuw venster)</span>
-              </a>
-            }
-          />
-        </dl>
+            </li>
+          ))}
+        </ul>
         <p className="figures mt-6 text-small text-ink-soft">KvK-nummer {site.kvk}</p>
       </SplitSection>
 
-      <PageSection labelledBy="tijden-titel" tone="ivory" contained>
+      <PageSection id="bericht" labelledBy="bericht-titel" tone="ivory" contained>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <SectionTitle id="bericht-titel">Stuur me een bericht</SectionTitle>
+            <p className="mt-8 max-w-measure text-lede">
+              Heb je een vraag over een behandeling of over je afspraak? Laat hier een bericht achter, dan neem ik zo snel
+              mogelijk contact met je op.
+            </p>
+          </div>
+          <div className="lg:col-span-7">
+            <ContactForm />
+          </div>
+        </div>
+      </PageSection>
+
+      <PageSection labelledBy="tijden-titel" contained>
         {/* Titel links, tijden rechts: het blok blijft in balans, ook zonder afwijkende tijden. */}
         <div className="grid gap-8 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-20">
           <h2 id="tijden-titel" className="text-display-m font-semibold text-balance">

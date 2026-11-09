@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { countOpenRequests } from "@/server/admin/appointments";
 import { getCurrentAdmin } from "@/server/auth/session";
+import { countUnreadMessages } from "@/server/contact";
 import monogram from "../../../public/brand/novaluxe-monogram.png";
 import { logout } from "./actions";
 
@@ -39,6 +40,7 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
 const menu = [
   { href: "/admin", label: "Vandaag" },
   { href: "/admin/afspraken", label: "Afspraken" },
+  { href: "/admin/berichten", label: "Berichten" },
   { href: "/admin/fotos", label: "Foto's" },
   { href: "/admin/behandelingen", label: "Behandelingen" },
   { href: "/admin/openingstijden", label: "Openingstijden" },
@@ -49,7 +51,7 @@ const menu = [
 async function AdminNav() {
   const admin = await getCurrentAdmin();
   if (!admin) return null;
-  const openRequests = await countOpenRequests();
+  const [openRequests, unreadMessages] = await Promise.all([countOpenRequests(), countUnreadMessages()]);
 
   return (
     <nav aria-label="Beheermenu" className="flex flex-wrap items-baseline gap-x-6 gap-y-2 text-small">
@@ -60,6 +62,12 @@ async function AdminNav() {
             <span className="ml-1.5 figures text-bronze-deep">
               ({openRequests}
               <span className="sr-only"> {openRequests === 1 ? "nieuwe aanvraag" : "nieuwe aanvragen"}</span>)
+            </span>
+          )}
+          {item.href === "/admin/berichten" && unreadMessages > 0 && (
+            <span className="ml-1.5 figures text-bronze-deep">
+              ({unreadMessages}
+              <span className="sr-only"> {unreadMessages === 1 ? "nieuw bericht" : "nieuwe berichten"}</span>)
             </span>
           )}
         </Link>
