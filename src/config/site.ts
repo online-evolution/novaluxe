@@ -14,6 +14,8 @@ export const site = {
     postalCode: "2554 BX",
     city: "Den Haag",
   },
+  /** Wijndaelerduin 25 volgens OpenStreetMap (Nominatim, nov. 2026); voor de kaart op Contact. */
+  geo: { lat: 52.0611039, lon: 4.2212403 },
   phone: {
     display: "06 13867266",
     href: "tel:+31613867266",

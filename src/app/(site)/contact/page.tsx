@@ -19,8 +19,15 @@ export const metadata: Metadata = {
 };
 
 const fullAddress = `${site.address.street}, ${site.address.postalCode} ${site.address.city}`;
-// Gewone link naar een kaartdienst; bewust geen ingesloten kaart (geen cookies of tracking).
+// Route via Google Maps in een nieuw venster; op de pagina zelf staat de kaart van OpenStreetMap.
 const routeHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+
+const iconCircle = "grid size-14 shrink-0 place-items-center rounded-full border border-gold text-bronze-deep";
+
+// Kaart van OpenStreetMap: geen trackingcookies, dus geen toestemming nodig (Google Maps wel).
+// De kaart centreert op het adres; de gouden markering staat daarom in het midden.
+const { lat, lon } = site.geo;
+const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - 0.007},${lat - 0.0028},${lon + 0.007},${lat + 0.0028}&layer=mapnik`;
 
 const channels: { icon: IconName; label: string; value: string; href: string; external: boolean }[] = [
   { icon: "phone", label: "Bellen", value: site.phone.display, href: site.phone.href, external: false },
@@ -48,16 +55,19 @@ export default async function ContactPage() {
 
       <SplitSection labelledBy="salon-titel" shot="S03" subject="De entree van de salon">
         <SectionTitle id="salon-titel">Je vindt de salon in {site.area}</SectionTitle>
-        <address className="mt-8 text-lede not-italic">
-          {site.name}
-          <br />
-          {site.address.street}
-          <br />
-          {site.address.postalCode} {site.address.city}
-        </address>
-        <BigAnchor href={routeHref} size="md" target="_blank" rel="noopener noreferrer" className="mt-8">
-          Plan je route <span className="sr-only">(opent in een nieuw venster)</span>
-        </BigAnchor>
+        <div className="mt-8 flex items-start gap-4">
+          <span className={iconCircle}>
+            <Icon name="pin" className="size-6" />
+          </span>
+          <address className="text-lede not-italic">
+            <span className="block text-small text-ink-soft">Adres</span>
+            {site.name}
+            <br />
+            {site.address.street}
+            <br />
+            {site.address.postalCode} {site.address.city}
+          </address>
+        </div>
 
         <h3 className="mt-14 text-display-s font-semibold">Bel of stuur een bericht</h3>
         <ul className="mt-6 grid gap-6 sm:grid-cols-3">
@@ -68,7 +78,7 @@ export default async function ContactPage() {
                 {...(channel.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="group flex items-center gap-4 sm:flex-col sm:items-start"
               >
-                <span className="grid size-14 shrink-0 place-items-center rounded-full border border-gold text-bronze-deep transition-colors duration-(--duration-quick) group-hover:bg-gold group-hover:bg-(image:--gold-foil) group-hover:text-ink">
+                <span className={`${iconCircle} transition-colors duration-(--duration-quick) group-hover:bg-gold group-hover:bg-(image:--gold-foil) group-hover:text-ink`}>
                   <Icon name={channel.icon} className="size-6" />
                 </span>
                 <span>
@@ -82,7 +92,6 @@ export default async function ContactPage() {
             </li>
           ))}
         </ul>
-        <p className="figures mt-6 text-small text-ink-soft">KvK-nummer {site.kvk}</p>
       </SplitSection>
 
       <PageSection id="bericht" labelledBy="bericht-titel" tone="ivory" contained>
@@ -129,6 +138,40 @@ export default async function ContactPage() {
             )}
           </div>
         </div>
+
+        <figure className="mt-section-tight">
+          {/* Wie op de kaart tikt, krijgt de route; zo vangt de kaart ook het scrollen niet af. */}
+          <div className="photo-arch-wide relative aspect-[4/3] overflow-hidden bg-ivory sm:aspect-[16/7]">
+            <iframe
+              src={mapSrc}
+              title={`Kaart met de ligging van ${site.name}, ${site.address.street} in ${site.address.city}`}
+              loading="lazy"
+              tabIndex={-1}
+              className="pointer-events-none absolute inset-0 size-full border-0 [filter:grayscale(1)_sepia(0.3)_contrast(0.95)]"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-full flex-col items-center pb-1"
+            >
+              <span className="grid size-12 place-items-center rounded-full bg-gold bg-(image:--gold-foil) text-ink shadow-print">
+                <Icon name="pin" className="size-6" />
+              </span>
+              <span className="-mt-1 size-3 rotate-45 bg-gold" />
+            </span>
+            <a
+              href={routeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-hidden="true"
+              tabIndex={-1}
+              className="absolute inset-0"
+            />
+          </div>
+          {/* De bronvermelding van OpenStreetMap staat in de kaart zelf. */}
+          <BigAnchor href={routeHref} size="md" target="_blank" rel="noopener noreferrer" className="mt-8">
+            Plan je route <span className="sr-only">(opent in een nieuw venster)</span>
+          </BigAnchor>
+        </figure>
       </PageSection>
 
       <PhotoClosing
