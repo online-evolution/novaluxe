@@ -1,9 +1,11 @@
 "use server";
 
+import { after } from "next/server";
 import { z } from "zod";
 import { site } from "@/config/site";
 import { clientIp } from "@/server/auth/rate-limit";
 import { saveContactMessage } from "@/server/contact";
+import { sendMailNow } from "@/server/mail/service";
 import { takeToken } from "@/server/rate-limit";
 
 export type ContactField = "name" | "email" | "phone" | "message";
@@ -69,12 +71,14 @@ export async function sendContactMessage(_previous: ContactState, formData: Form
   if (!(await takeToken("contact-all", "all", { limit: 50, windowMinutes: 24 * 60 }))) return { error: busy };
 
   try {
-    await saveContactMessage({
+    const contactMessageId = await saveContactMessage({
       name: parsed.data.name,
       email: parsed.data.email,
       phone: parsed.data.phone || null,
       message: parsed.data.message,
     });
+    // Melding aan Jessie, na het antwoord aan de bezoeker.
+    after(() => sendMailNow("bericht", { contactMessageId }));
   } catch (error) {
     // Geen details naar de bezoeker; wel in de serverlog (zonder persoonsgegevens).
     console.error("Contactbericht opslaan mislukt", error instanceof Error ? error.message : error);

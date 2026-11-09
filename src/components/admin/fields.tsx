@@ -135,3 +135,13 @@ export function ForceCheckbox({ label }: { label: string }) {
     </label>
   );
 }
+
+/** "Stuur de klant een e-mail", standaard aangevinkt. */
+export function MailCheckbox({ label }: { label: string }) {
+  return (
+    <label className="flex items-start gap-3 text-small">
+      <input type="checkbox" name="mailKlant" value="ja" defaultChecked className="mt-0.5 size-5 shrink-0 accent-bronze-deep" />
+      {label}
+    </label>
+  );
+}

@@ -1,10 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { z } from "zod";
 import { site } from "@/config/site";
 import { clientIp } from "@/server/auth/rate-limit";
 import { createAppointmentRequest } from "@/server/booking/request";
+import { sendMailNow } from "@/server/mail/service";
 import { takeToken } from "@/server/rate-limit";
 
 export type BookingField = "name" | "email" | "phone" | "nailArtDescription";
@@ -100,6 +102,9 @@ export async function requestAppointment(
         slotGone: true,
       };
     }
+    // Melding aan Jessie, na het antwoord aan de klant (die hoeft niet te wachten).
+    const appointmentId = result.appointmentId;
+    after(() => sendMailNow("aanvraag", { appointmentId }));
   } catch (error) {
     // Geen details naar de bezoeker; wel in de serverlog (zonder persoonsgegevens).
     console.error("Afspraakaanvraag mislukt", error instanceof Error ? error.message : error);

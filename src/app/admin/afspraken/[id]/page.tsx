@@ -7,13 +7,15 @@ import { ActionForm } from "@/components/admin/action-form";
 import { AdminPageHeader, AdminSection, Loading } from "@/components/admin/admin-page";
 import { StatusText } from "@/components/admin/appointment-list";
 import { ReleaseSection } from "@/components/admin/release-section";
-import { DateField, ForceCheckbox, TextArea, TimeField } from "@/components/admin/fields";
+import { DateField, ForceCheckbox, MailCheckbox, TextArea, TimeField } from "@/components/admin/fields";
+import { MailList } from "@/components/admin/mail-list";
 import { allowedActions, effectiveStatus, statusLabels } from "@/domain/appointment";
 import { formatEuro } from "@/lib/format";
 import { formatLongDate, formatMoment, localDateString, utcToZonedParts } from "@/lib/time";
 import { getAppointmentForAdmin } from "@/server/admin/appointments";
 import { requireAdmin } from "@/server/auth/session";
 import { listReleasesForCustomer, listReleaseVariants } from "@/server/booking/release";
+import { getMailConnection, listMailsForAppointment } from "@/server/mail/service";
 import { changeStatusAction, rescheduleAction, saveNotesAction } from "../actions";
 
 export const metadata: Metadata = { title: "Afspraak" };
@@ -47,10 +49,18 @@ async function AppointmentDetail({ params, searchParams }: PageProps<"/admin/afs
   if (!data) notFound();
 
   const { appointment, customer, options, events, history } = data;
-  const [releases, releaseVariants] =
-    data.category === "extensions"
-      ? await Promise.all([listReleasesForCustomer(customer.id), listReleaseVariants()])
-      : [[], []];
+  const isExtensions = data.category === "extensions";
+  const [releases, releaseVariants, mailConnection, mails] = await Promise.all([
+    isExtensions ? listReleasesForCustomer(customer.id) : [],
+    isExtensions ? listReleaseVariants() : [],
+    getMailConnection(),
+    listMailsForAppointment(appointment.id),
+  ]);
+  // Kan de klant automatisch een mail krijgen? Anders zegt het beheer waarom niet.
+  const canMail = mailConnection !== null && customer.email !== null;
+  const noMailReason = !customer.email
+    ? "Er is geen e-mailadres van de klant bekend, dus laat het de klant zelf weten."
+    : "Gmail is nog niet gekoppeld (Beheer → E-mail), dus laat het de klant zelf weten.";
   const now = new Date();
   const status = effectiveStatus(appointment, now);
   const actions = allowedActions(appointment, now);
@@ -158,7 +168,7 @@ async function AppointmentDetail({ params, searchParams }: PageProps<"/admin/afs
                   <input type="hidden" name="actie" value="confirm" />
                 </ActionForm>
                 <p className="mt-3 max-w-xl text-small text-ink-soft">
-                  De automatische bevestigingsmail komt er later bij. Laat het de klant voorlopig zelf weten.
+                  {canMail ? "De klant krijgt automatisch een bevestigingsmail." : noMailReason}
                 </p>
               </div>
             )}
@@ -201,7 +211,8 @@ async function AppointmentDetail({ params, searchParams }: PageProps<"/admin/afs
                       />
                     </div>
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-6 grid gap-3">
+                    {canMail && <MailCheckbox label="Stuur de klant een e-mail met de nieuwe tijd" />}
                     <ForceCheckbox label="Toch inplannen, ook buiten mijn openingstijden of over een blokkade" />
                   </div>
                 </ActionForm>
@@ -214,10 +225,13 @@ async function AppointmentDetail({ params, searchParams }: PageProps<"/admin/afs
                   <input type="hidden" name="id" value={appointment.id} />
                   <input type="hidden" name="actie" value="reject" />
                   <TextArea name="note" label="Reden, voor jezelf (optioneel)" rows={2} />
+                  {canMail && (
+                    <div className="mt-6">
+                      <MailCheckbox label="Stuur de klant een e-mail dat de aanvraag niet doorgaat" />
+                    </div>
+                  )}
                 </ActionForm>
-                <p className="mt-3 max-w-xl text-small text-ink-soft">
-                  De klant krijgt hier nog geen automatisch bericht van, dus laat het zelf even weten.
-                </p>
+                {!canMail && <p className="mt-3 max-w-xl text-small text-ink-soft">{noMailReason}</p>}
               </Fold>
             )}
 
@@ -227,10 +241,25 @@ async function AppointmentDetail({ params, searchParams }: PageProps<"/admin/afs
                   <input type="hidden" name="id" value={appointment.id} />
                   <input type="hidden" name="actie" value="cancel" />
                   <TextArea name="note" label="Reden, voor jezelf (optioneel)" rows={2} />
+                  {canMail && (
+                    <div className="mt-6">
+                      <MailCheckbox label="Stuur de klant een e-mail over de annulering" />
+                    </div>
+                  )}
                 </ActionForm>
+                {!canMail && <p className="mt-3 max-w-xl text-small text-ink-soft">{noMailReason}</p>}
               </Fold>
             )}
           </div>
+        </AdminSection>
+      )}
+
+      {mails.length > 0 && (
+        <AdminSection title="E-mails">
+          <MailList
+            mails={mails.map((mail) => ({ ...mail, appointmentStatus: appointment.status }))}
+            canRetry={mailConnection !== null}
+          />
         </AdminSection>
       )}
 

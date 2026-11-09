@@ -15,8 +15,9 @@ export async function saveContactMessage(input: {
   email: string | null;
   phone: string | null;
   message: string;
-}): Promise<void> {
-  await getDb().insert(contactMessages).values(input);
+}): Promise<string> {
+  const [row] = await getDb().insert(contactMessages).values(input).returning({ id: contactMessages.id });
+  return row!.id;
 }
 
 /** Ongelezen berichten eerst, daarbinnen de nieuwste bovenaan. */

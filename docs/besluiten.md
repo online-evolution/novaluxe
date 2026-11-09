@@ -236,9 +236,20 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 
 - Workflow:
   - nieuwe aanvraag → melding naar Jessie;
-  - bevestigd → bevestigingsmail naar de klant;
-  - afgewezen → Jessie handelt de afwijzing of het contact af.
-- Er is één server-side `MailService` met één adapter per provider. Afzender en ontvangers zijn centraal instelbaar. We gebruiken geen voorlopig adres alsof het definitief is.
+  - nieuw contactbericht → melding naar Jessie (antwoorden gaat direct naar de afzender);
+  - bevestigd → bevestigingsmail naar de klant, altijd (ook bij een afspraak die Jessie zelf invoert, als ze het vinkje laat staan);
+  - afgewezen, geannuleerd of verplaatst → Jessie kiest met een vinkje (standaard aan) of de klant een mail krijgt.
+- Er is één server-side `MailService` (`src/server/mail`) met één adapter per provider. Afzender en ontvangers zijn centraal instelbaar. We gebruiken geen voorlopig adres alsof het definitief is.
+- **Verzenden via Jessies eigen Gmail (besluit 2026-11-09):** gratis, klanten zien haar bekende adres, antwoorden komen in haar inbox en verstuurde mails staan bij "Verzonden". Jessie koppelt zelf in **Beheer → E-mail** met haar Gmail-adres en een app-wachtwoord van Google (daarvoor moet verificatie in 2 stappen aan staan). Zelfde voorwaarden als bij iCloud:
+  - het app-wachtwoord staat versleuteld in de database (AES-256-GCM, eigen sleutel afgeleid van AUTH_SECRET, `src/server/secret.ts`) en wordt nooit teruggetoond, gelogd of naar de browser gestuurd;
+  - koppelen lukt pas als inloggen werkt; Jessie krijgt dan meteen een testmail;
+  - ontkoppelen wist het wachtwoord.
+- Versturen via SMTP (`smtp.gmail.com`, poort 465) met nodemailer. Gmail staat ruim genoeg mails per dag toe voor een salon.
+- **Logboek zonder kopieën:** elke mail krijgt een regel in `mail_messages` (soort, afspraak of bericht, status, fout in gewone taal). Inhoud en adres worden pas bij het versturen opgehaald; de regel verdwijnt met de afspraak of het bericht. Voordat een mail weggaat, wordt gecontroleerd of hij nog klopt (geen bevestiging voor een intussen geannuleerde afspraak).
+- **Mislukt?** De site probeert het nog twee keer (bij het openen van het beheer en met de dagelijkse taak), tot een dag na de aanleiding. Bij een geweigerd app-wachtwoord stopt dat, tot Jessie opnieuw koppelt of een testmail lukt. Het beheer toont per afspraak welke mails zijn verstuurd, met "Alsnog versturen", en het menu telt mislukte mails.
+- Zonder koppeling gaan meldingen voor Jessie nergens heen (ze ziet alles in het beheer) en zegt het beheer bij een afspraak dat ze de klant zelf moet inlichten.
+- Klantmails zijn in de ik-vorm van Jessie, met behandeling, tijd, prijs (prijzen in overleg als "in overleg") en adres. Wijzigen of afzeggen gaat via bellen of antwoorden op de mail; online kan dat niet.
+- Links in mails gebruiken `SITE_URL`, anders het productieadres van Vercel.
 
 ## Foto's op de website
 

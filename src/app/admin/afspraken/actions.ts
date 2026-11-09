@@ -19,6 +19,7 @@ import {
 } from "@/server/admin/appointments";
 import { requireAdmin } from "@/server/auth/session";
 import { syncCalendar } from "@/server/calendar/sync";
+import { sendMailNow } from "@/server/mail/service";
 import { createRelease, revokeRelease, setDepositPaid } from "@/server/booking/release";
 
 const field = (formData: FormData, name: string) => String(formData.get(name) ?? "");
@@ -47,10 +48,18 @@ export async function changeStatusAction(_previous: ActionState, formData: FormD
 
   const result = await changeStatus(id.data, action.data, optionalText(formData.get("note")));
   if (!result.ok) return { error: messages[result.reason] };
+  // De bevestiging gaat altijd (als dat kan); afwijzen en annuleren alleen als Jessie dat aanvinkt.
+  const mail = { confirm: "bevestiging", reject: "afwijzing", cancel: "annulering" } as const;
+  if (action.data === "confirm" || ((action.data === "reject" || action.data === "cancel") && wantsMail(formData))) {
+    await sendMailNow(mail[action.data], { appointmentId: id.data });
+  }
   after(syncAfterChange);
   // Het formulier van deze actie verdwijnt na de wijziging; de melding staat daarom op de pagina zelf.
   redirect(`/admin/afspraken/${id.data}?gedaan=${action.data}`);
 }
+
+/** Het vinkje "Stuur de klant een e-mail". */
+const wantsMail = (formData: FormData) => formData.get("mailKlant") === "ja";
 
 /** Na een wijziging de iCloud-agenda bijwerken, na het antwoord aan Jessie (geen koppeling: niets). */
 async function syncAfterChange() {
@@ -83,6 +92,7 @@ export async function rescheduleAction(_previous: ActionState, formData: FormDat
     force: formData.get("force") === "on",
   });
   if (!result.ok) return { error: messages[result.reason] };
+  if (wantsMail(formData)) await sendMailNow("verplaatsing", { appointmentId: id.data });
   after(syncAfterChange);
   refresh();
   return { success: "Verplaatst." };
@@ -137,6 +147,7 @@ export async function createAppointmentAction(_previous: ActionState, formData: 
     force: formData.get("force") === "on",
   });
   if (!result.ok) return { error: messages[result.reason] };
+  if (customer.data.email && wantsMail(formData)) await sendMailNow("bevestiging", { appointmentId: result.id });
   after(syncAfterChange);
   redirect(`/admin/afspraken/${result.id}`);
 }

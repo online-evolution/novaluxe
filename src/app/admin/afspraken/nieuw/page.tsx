@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ActionForm } from "@/components/admin/action-form";
 import { AdminPageHeader, AdminSection, Loading } from "@/components/admin/admin-page";
-import { DateField, ForceCheckbox, TextArea, TextField, TimeField } from "@/components/admin/fields";
+import { DateField, ForceCheckbox, MailCheckbox, TextArea, TextField, TimeField } from "@/components/admin/fields";
 import { formatEuro } from "@/lib/format";
 import { localDateString } from "@/lib/time";
 import { listVariantsForPlanning } from "@/server/admin/appointments";
 import { requireAdmin } from "@/server/auth/session";
+import { getMailConnection } from "@/server/mail/service";
 import { createAppointmentAction } from "../actions";
 
 export const metadata: Metadata = { title: "Afspraak toevoegen" };
@@ -30,7 +31,7 @@ export default function NewAppointmentPage() {
 
 async function NewAppointmentForm() {
   await requireAdmin();
-  const variants = await listVariantsForPlanning();
+  const [variants, mailConnection] = await Promise.all([listVariantsForPlanning(), getMailConnection()]);
   const groups = new Map<string, typeof variants>();
   for (const variant of variants) {
     groups.set(variant.treatmentName, [...(groups.get(variant.treatmentName) ?? []), variant]);
@@ -95,6 +96,11 @@ async function NewAppointmentForm() {
           <TextField name="name" label="Naam" autoComplete="off" required />
           <TextField name="phone" label="Telefoonnummer" type="tel" autoComplete="off" required />
           <TextField name="email" label="E-mailadres (optioneel)" type="email" autoComplete="off" />
+          {mailConnection && (
+            <div className="sm:col-span-2">
+              <MailCheckbox label="Stuur de klant een bevestiging per e-mail (als je een e-mailadres invult)" />
+            </div>
+          )}
           <div className="sm:col-span-2">
             <TextArea name="notes" label="Notitie voor jezelf (optioneel)" rows={3} />
           </div>

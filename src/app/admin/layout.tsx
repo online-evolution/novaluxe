@@ -7,6 +7,7 @@ import { countOpenRequests } from "@/server/admin/appointments";
 import { getCurrentAdmin } from "@/server/auth/session";
 import { countDrifts, syncCalendarIfStale } from "@/server/calendar/sync";
 import { countUnreadMessages } from "@/server/contact";
+import { countFailedMails, deliverPendingMail } from "@/server/mail/service";
 import monogram from "../../../public/brand/novaluxe-monogram.png";
 import { logout } from "./actions";
 
@@ -51,19 +52,23 @@ const menu = [
   { href: "/admin/openingstijden", label: "Openingstijden" },
   { href: "/admin/instellingen", label: "Instellingen" },
   { href: "/admin/icloud", label: "iCloud" },
+  { href: "/admin/email", label: "E-mail" },
   { href: "/admin/account", label: "Account" },
 ] as const;
 
 async function AdminNav() {
   const admin = await getCurrentAdmin();
   if (!admin) return null;
-  const [openRequests, unreadMessages, drifts] = await Promise.all([
+  const [openRequests, unreadMessages, drifts, failedMails] = await Promise.all([
     countOpenRequests(),
     countUnreadMessages(),
     countDrifts(),
+    countFailedMails(),
   ]);
-  // De iCloud-agenda bijwerken na het tonen van de pagina, als dat een paar minuten geleden is.
+  // Na het tonen van de pagina: de iCloud-agenda bijwerken (als dat een paar
+  // minuten geleden is) en mails die nog weg moeten opnieuw proberen.
   after(() => syncCalendarIfStale().catch(() => undefined));
+  after(() => deliverPendingMail().catch(() => undefined));
 
   return (
     <nav aria-label="Beheermenu" className="flex flex-wrap items-baseline gap-x-6 gap-y-2 text-small">
@@ -80,6 +85,12 @@ async function AdminNav() {
             <span className="ml-1.5 figures text-bronze-deep">
               ({drifts}
               <span className="sr-only"> {drifts === 1 ? "afwijking in de agenda" : "afwijkingen in de agenda"}</span>)
+            </span>
+          )}
+          {item.href === "/admin/email" && failedMails > 0 && (
+            <span className="ml-1.5 figures text-alert">
+              ({failedMails}
+              <span className="sr-only"> {failedMails === 1 ? "mail niet gelukt" : "mails niet gelukt"}</span>)
             </span>
           )}
           {item.href === "/admin/berichten" && unreadMessages > 0 && (
