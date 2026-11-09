@@ -136,7 +136,6 @@ export default async function NailsPage() {
               </p>
             ))}
             <Facts
-              panel={ivory ? "cream" : "ivory"}
               items={[
                 { label: "Stevigheid", value: item.strength },
                 { label: "Lengte", value: item.length },

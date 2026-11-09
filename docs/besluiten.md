@@ -24,7 +24,7 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
   - De achtergronden wisselen af (crème, ivoor, crème, ivoor, brons, donkere footer). Controleer dat als de volgorde verandert.
   - Kleuren: de huisstijl (ivoor, crème, brons, inkt). De variant in kastanje en goud is afgewezen.
 - **Andere pagina's:** dezelfde vormtaal, via `src/components/page`:
-  - opening in brons met de salonfoto (S01) als achtergrond, zonder knop of foto ernaast (`PageOpening` met `backdrop`); blokken in crème of ivoor (`PageSection`, `SplitSection`); korte feiten in vlakjes (`Facts`) in plaats van grote losse cijfers;
+  - opening in brons met de salonfoto (S01) als achtergrond, zonder knop of foto ernaast (`PageOpening` met `backdrop`); blokken in crème of ivoor (`PageSection`, `SplitSection`); korte feiten met het gouden sterretje (`Facts`), zonder vlakken, in plaats van grote losse cijfers; geen witte kaders rond tekst;
   - prijzen en openingstijden met puntlijntjes (`DottedRow`);
   - koppen semibold; geen genummerde secties, geen labels boven koppen en geen dunne lijnen;
   - net als de homepage: gecentreerd binnen 76rem, achtergronden om en om crème en ivoor, foto naast de tekst afwisselend rechts en links (`SplitSection`), en alle lopende tekst in één grootte (`text-lede`); alleen bijschriften en kleine labels zijn kleiner;

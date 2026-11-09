@@ -49,7 +49,7 @@ export default function AboutPage() {
           en werk ik ruim drie jaar als extensionspecialist. Extensions spraken mij al snel aan: met de juiste kleur,
           lengte en plaatsing kun je een groot verschil maken, terwijl het resultaat natuurlijk blijft ogen.
         </p>
-        <Facts items={experience} panel="ivory" columns={3} />
+        <Facts items={experience} />
       </SplitSection>
 
       <SplitSection labelledBy="spiegel-titel" tone="ivory" shot="J04" subject="Portret van Jessie van dichtbij" photoFirst>

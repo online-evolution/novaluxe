@@ -1,22 +1,19 @@
 /**
- * Een paar korte feiten in vlakjes, zoals hoe vaak je terugkomt. `panel` is de
- * kleur van de vlakjes: kies de andere dan de achtergrond van het blok.
+ * Een paar korte feiten naast elkaar, zoals hoe vaak je terugkomt. Met het
+ * gouden sterretje uit het logo, net als de verzorgingstips; zonder vlakken.
  */
-export function Facts({
-  items,
-  panel = "cream",
-  columns = 2,
-}: {
-  items: { label: string; value: string }[];
-  panel?: "cream" | "ivory";
-  columns?: 2 | 3;
-}) {
+export function Facts({ items }: { items: { label: string; value: string }[] }) {
   return (
-    <dl className={`mt-10 grid max-w-measure gap-4 ${columns === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+    <dl className="mt-10 flex max-w-measure flex-wrap gap-x-12 gap-y-6">
       {items.map((item) => (
-        <div key={item.label} className={`px-6 py-5 ${panel === "cream" ? "bg-cream" : "bg-ivory"}`}>
-          <dt className="text-small font-medium text-ink-soft">{item.label}</dt>
-          <dd className="figures mt-1 text-lede font-semibold">{item.value}</dd>
+        <div key={item.label} className="flex items-baseline gap-3">
+          <span aria-hidden="true" className="text-lede text-gold">
+            ✦
+          </span>
+          <div>
+            <dt className="text-small text-ink-soft">{item.label}</dt>
+            <dd className="figures text-lede font-semibold">{item.value}</dd>
+          </div>
         </div>
       ))}
     </dl>

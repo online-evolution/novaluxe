@@ -1,11 +1,9 @@
 import type { Metadata, Route } from "next";
 import { PlacementPrices } from "@/components/extensions/placement-prices";
-import { WeftsDiagram } from "@/components/extensions/wefts-diagram";
 import { Facts } from "@/components/page/facts";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
 import { PhotoClosing } from "@/components/page/photo-closing";
-import { PriceList } from "@/components/pricing/price-list";
 import { BigLink } from "@/components/ui/action";
 import { placementMatrix, priceRows } from "@/domain/pricing";
 import { scriptFont } from "@/lib/fonts";
@@ -97,16 +95,6 @@ export default async function ExtensionsPage() {
           Ik kijk naar jouw haar en stem daar de lengte, het gewicht en het aantal banen op af. Voor een mooie overgang
           naar je eigen haarkleur combineer ik waar nodig verschillende tinten extensions.
         </p>
-        <figure className="mt-10 grid max-w-measure gap-4 sm:grid-cols-[10rem_1fr] sm:items-end sm:gap-6">
-          <div className="w-40">
-            <WeftsDiagram lengthsCm={matrix.lengths} />
-          </div>
-          {/* TODO(content): uitleg "baan" laten bevestigen door Jessie (PROJECT-TODOS.md). */}
-          <figcaption className="border-l border-gold pl-4 text-small text-ink-soft">
-            Eén baan is één rij wefts. Welke lengte en hoeveel banen bij jou passen, bespreken we tijdens het gratis
-            consult.
-          </figcaption>
-        </figure>
       </SplitSection>
 
       <SplitSection id="advies" labelledBy="advies-titel" shot="W03" subject="Jessie bekijkt het haar van een klant">
@@ -155,17 +143,8 @@ export default async function ExtensionsPage() {
           Knippen, het laten overlopen van de extensions in je eigen haar en de styling zijn inbegrepen. Tijdens het
           gratis consult bespreken we welke lengte en hoeveel banen je nodig hebt.
         </p>
-        <div className="mt-14 grid gap-14 lg:grid-cols-2 lg:gap-20">
-          <PlacementPrices matrix={matrix} title={<h3 className="text-display-s font-semibold">Nieuwe plaatsing</h3>} />
-          <div>
-            {/* Even hoog als de kop met de lengteschakelaar, zodat de regels gelijk beginnen. */}
-            <div className="flex min-h-12 items-center">
-              <h3 className="text-display-s font-semibold">Omhoogplaatsen</h3>
-            </div>
-            <div className="mt-6 text-lede">
-              <PriceList rows={refreshRows} caption="Prijzen omhoogplaatsen" />
-            </div>
-          </div>
+        <div className="mt-14">
+          <PlacementPrices matrix={matrix} refresh={refreshRows} />
         </div>
       </PageSection>
 
@@ -188,10 +167,7 @@ export default async function ExtensionsPage() {
             </li>
           ))}
         </ul>
-        <aside
-          aria-labelledby="zwemmen-titel"
-          className="mt-10 max-w-measure bg-cream p-8 outline-[1.5px] outline-offset-6 outline-gold outline-solid"
-        >
+        <aside aria-labelledby="zwemmen-titel" className="mt-14 max-w-measure">
           <h3 id="zwemmen-titel" className="text-display-s font-semibold">
             Zwemmen en zon
           </h3>
