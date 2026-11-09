@@ -7,7 +7,6 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 - [ ] **Behandeltijden extensions:** nieuwe plaatsing en omhoogplaatsen (per 1–4 banen). Tot die tijd niet publiek boekbaar. Het gratis consult (15 minuten) is wel compleet.
 - [ ] **Acryl babyboom/colourboom:** behandelduur van de nieuwe set. Tot die tijd incompleet en niet boekbaar.
 - [ ] **"Verwijderen bij een nieuwe set: € 15 extra":** de uitleg moet bevestigd worden. Op dit moment opgevat als € 15 voor het verwijderen, náást de prijs van de nieuwe set. Niet als definitief tonen.
-- [ ] **Uitleg "baan" bevestigen:** op /extensions staat bij het diagram "Eén baan is één rij wefts." Die zin staat niet in de bron; Jessie moet hem controleren.
 - [ ] **Bewaartermijn** van voorbeeldfoto's voor nail art.
 - [ ] **Bewaartermijn contactberichten:** berichten via het contactformulier blijven nu staan tot Jessie ze verwijdert (Beheer → Berichten). Termijn vaststellen en automatisch opruimen; vermelden in de privacyverklaring.
 - [ ] **E-mailadres** van NovaLuxe: afzender, reply-to en het adres voor meldingen aan Jessie.
