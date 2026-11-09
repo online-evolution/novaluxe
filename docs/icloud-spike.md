@@ -55,6 +55,8 @@ De spike schrijft alleen in de agenda "NovaLuxe spike". Die maakt hij zelf aan a
 
 Pas daarna, en alleen in de modus `--alleen-lezen`, een controle op de echte agenda van Jessie, met een eigen app-specifiek wachtwoord dat zij kan intrekken.
 
+Daarna bouwen we de koppeling in het beheer: Jessie koppelt daar zelf haar Apple ID met een app-specifiek wachtwoord, versleuteld opgeslagen (zie `docs/besluiten.md`, iCloud). Voor de spike zelf blijven de gegevens van het testaccount in `.env.icloud-spike`.
+
 ## Resultaat
 
 Nog niet gedraaid: wacht op een test-Apple-ID. Het rapport komt in `docs/icloud-spike-resultaat.md`.

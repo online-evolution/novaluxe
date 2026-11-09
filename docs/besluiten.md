@@ -269,7 +269,13 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 ## iCloud
 
 - Eerst een losstaande spike met een test-Apple-ID, niet met het account van Jessie.
-- Credentials staan alleen in server-omgevingsvariabelen. Nooit in de database, de broncode of de logs.
+- **Koppelen via het beheer (besluit 2026-11-09, wijkt bewust af van de masterprompt):** Jessie koppelt haar agenda zelf in het beheer met haar Apple ID en een app-specifiek wachtwoord. Apple biedt geen andere nette toegang tot de agenda. Voorwaarden:
+  - het wachtwoord staat versleuteld in de database (AES-256-GCM); de sleutel staat alleen in een Vercel-geheim, nooit in de database of de broncode;
+  - het wachtwoord wordt nooit teruggetoond, gelogd of naar de browser gestuurd; het beheer toont alleen "gekoppeld" met het Apple ID, en "ontkoppelen" wist het;
+  - ontsleutelen gebeurt alleen op de server, op het moment van synchroniseren;
+  - het beheer legt stap voor stap uit hoe Jessie het app-specifieke wachtwoord maakt en hoe ze het bij Apple intrekt;
+  - dit wordt pas gebouwd als de spike (met een test-Apple-ID via `.env.icloud-spike`) betrouwbaar is gebleken.
+- Daarbuiten blijft de regel: geen iCloud-inloggegevens in broncode of logs.
 - Bij voorkeur een aparte agenda "NovaLuxe".
 - Van privéafspraken slaan we alleen begin, einde en bezet/vrij op.
 - Wijzigingen op de iPhone overschrijven nooit stilzwijgend de database. We detecteren de afwijking en Jessie kiest in de admin wat er gebeurt.
