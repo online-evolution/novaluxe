@@ -3,6 +3,7 @@ import { NailPrices } from "@/components/nails/nail-prices";
 import { PageOpening } from "@/components/page/page-opening";
 import { PageSection, SectionTitle, SplitSection } from "@/components/page/page-section";
 import { PhotoClosing } from "@/components/page/photo-closing";
+import { BigLink } from "@/components/ui/action";
 import { site } from "@/config/site";
 import type { CatalogTreatment } from "@/domain/catalog";
 import { priceRows, setRefillRows, type PriceRow } from "@/domain/pricing";
@@ -123,6 +124,11 @@ export default async function NailsPage() {
                 {paragraph}
               </p>
             ))}
+            {item.id === "manicure" && (
+              <BigLink href={bookingHref} size="md" className="mt-8">
+                Maak een nagelafspraak
+              </BigLink>
+            )}
           </SplitSection>
         );
       })}
