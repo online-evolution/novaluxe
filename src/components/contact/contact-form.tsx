@@ -5,7 +5,8 @@ import { sendContactMessage, type ContactField, type ContactState } from "@/app/
 import { actionClass } from "@/components/ui/action";
 
 /**
- * Contactformulier. Het bericht komt in het beheer bij Jessie (Berichten).
+ * Contactformulier: naam, e-mailadres en bericht verplicht, telefoon optioneel.
+ * Het bericht komt in het beheer bij Jessie (Berichten).
  * Met een verborgen veld en een tijdcontrole tegen spam, zoals bij het
  * afspraakformulier.
  */
@@ -44,7 +45,7 @@ export function ContactForm() {
       noValidate
       className="grid max-w-xl gap-6"
     >
-      <Field id="contact-naam" name="name" label="Naam" autoComplete="name" error={errors.name} />
+      <Field id="contact-naam" name="name" label="Naam" autoComplete="name" required error={errors.name} />
       <div className="grid gap-6 sm:grid-cols-2">
         <Field
           id="contact-email"
@@ -53,6 +54,7 @@ export function ContactForm() {
           type="email"
           inputMode="email"
           autoComplete="email"
+          required
           error={errors.email}
         />
         <Field
@@ -65,8 +67,7 @@ export function ContactForm() {
           error={errors.phone}
         />
       </div>
-      <p className="-mt-3 text-small text-ink-soft">Vul je e-mailadres of je telefoonnummer in, of allebei.</p>
-      <Field id="contact-bericht" name="message" label="Je vraag of bericht" multiline error={errors.message} />
+      <Field id="contact-bericht" name="message" label="Je vraag of bericht" multiline required error={errors.message} />
 
       {/* Verborgen voor mensen; alleen bots vullen dit in. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -95,6 +96,7 @@ function Field({
   label,
   error,
   multiline = false,
+  required = false,
   ...input
 }: {
   id: string;
@@ -102,12 +104,19 @@ function Field({
   label: string;
   error?: string;
   multiline?: boolean;
+  /** Verplicht: een gouden sterretje bij het label, en aria-required voor schermlezers. */
+  required?: boolean;
 } & Pick<React.InputHTMLAttributes<HTMLInputElement>, "type" | "inputMode" | "autoComplete">) {
   const described = error ? `${id}-fout` : undefined;
   return (
     <div>
       <label htmlFor={id} className="field-label">
         {label}
+        {required && (
+          <span aria-hidden="true" className="ml-0.5 text-bronze">
+            *
+          </span>
+        )}
       </label>
       {multiline ? (
         <textarea
@@ -117,10 +126,19 @@ function Field({
           maxLength={2000}
           aria-invalid={!!error}
           aria-describedby={described}
+          aria-required={required}
           className="field-input"
         />
       ) : (
-        <input id={id} name={name} aria-invalid={!!error} aria-describedby={described} className="field-input" {...input} />
+        <input
+          id={id}
+          name={name}
+          aria-invalid={!!error}
+          aria-describedby={described}
+          aria-required={required}
+          className="field-input"
+          {...input}
+        />
       )}
       {error && (
         <p id={described} className="mt-2 text-small text-alert">

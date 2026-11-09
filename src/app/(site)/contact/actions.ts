@@ -16,7 +16,7 @@ export type ContactState = {
 
 const schema = z.object({
   name: z.string().trim().min(2, "Vul je naam in.").max(120),
-  email: z.union([z.literal(""), z.email("Vul een geldig e-mailadres in.").max(200)]),
+  email: z.string().min(1, "Vul je e-mailadres in, zodat ik je kan antwoorden.").pipe(z.email("Vul een geldig e-mailadres in.").max(200)),
   phone: z.union([
     z.literal(""),
     z
@@ -55,9 +55,6 @@ export async function sendContactMessage(_previous: ContactState, formData: Form
       }
     }
   }
-  if (!String(formData.get("email") ?? "").trim() && !String(formData.get("phone") ?? "").trim()) {
-    fieldErrors.email = "Vul je e-mailadres of telefoonnummer in, zodat ik je kan antwoorden.";
-  }
   if (!parsed.success || Object.keys(fieldErrors).length > 0) {
     return { error: "Controleer de gemarkeerde velden.", fieldErrors };
   }
@@ -74,7 +71,7 @@ export async function sendContactMessage(_previous: ContactState, formData: Form
   try {
     await saveContactMessage({
       name: parsed.data.name,
-      email: parsed.data.email || null,
+      email: parsed.data.email,
       phone: parsed.data.phone || null,
       message: parsed.data.message,
     });
