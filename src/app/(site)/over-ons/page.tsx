@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Facts } from "@/components/page/facts";
 import { PageOpening } from "@/components/page/page-opening";
 import { SectionTitle, SplitSection } from "@/components/page/page-section";
 import { PhotoClosing } from "@/components/page/photo-closing";
@@ -11,15 +10,6 @@ export const metadata: Metadata = {
   description:
     "NovaLuxe begon in een klein zijkamertje thuis en groeide uit tot een eigen salon in Kijkduin. Maak kennis met Jessie: nagels, haar en extensions, één klant tegelijk.",
 };
-
-/*
- * Ervaring zoals in de bron, letterlijk overgenomen (niet berekend).
- */
-const experience = [
-  { label: "Nagels", value: "Ruim zes jaar" },
-  { label: "Kappersvak", value: "Zo’n vijf jaar" },
-  { label: "Extensions", value: "Ruim drie jaar" },
-];
 
 /*
  * Teksten uit docs/bron (Over ons). Persoonlijk verhaal, geen bedrijfspagina.
@@ -49,7 +39,6 @@ export default function AboutPage() {
           en werk ik ruim drie jaar als extensionspecialist. Extensions spraken mij al snel aan: met de juiste kleur,
           lengte en plaatsing kun je een groot verschil maken, terwijl het resultaat natuurlijk blijft ogen.
         </p>
-        <Facts items={experience} />
       </SplitSection>
 
       <SplitSection labelledBy="spiegel-titel" tone="ivory" shot="J04" subject="Portret van Jessie van dichtbij" photoFirst>
