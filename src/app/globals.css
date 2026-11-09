@@ -512,3 +512,17 @@ html:has(dialog[open]) {
     mix-blend-mode: luminosity;
   }
 }
+
+/*
+ * De afspraakwizard als kaart: crème op ivoor, met een lage boog bovenin en
+ * het gouden lijntje van de foto's, zodat hij uit de pagina springt.
+ */
+@layer components {
+  .booking-card {
+    background-color: var(--color-cream);
+    border-radius: clamp(3rem, 10vw, 7rem) clamp(3rem, 10vw, 7rem) 0 0;
+    outline: 1.5px solid var(--color-gold);
+    outline-offset: 8px;
+    box-shadow: 0 30px 60px -40px rgb(58 40 26 / 0.35);
+  }
+}

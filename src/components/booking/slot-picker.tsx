@@ -71,7 +71,7 @@ export function SlotPicker({
                   aria-pressed={date === cell}
                   aria-label={formatLongDate(cell)}
                   onClick={() => onDate(cell)}
-                  className={`h-11 font-medium transition-colors ${date === cell ? "bg-ink text-cream" : "border border-line-strong hover:border-ink"}`}
+                  className={`h-11 font-medium transition-colors ${date === cell ? "bg-gold bg-(image:--gold-foil) text-ink" : "border border-line-strong hover:border-gold"}`}
                 >
                   {Number(cell.slice(8))}
                 </button>
@@ -91,7 +91,7 @@ export function SlotPicker({
             <legend className="font-medium first-letter:uppercase">{formatLongDate(date)}</legend>
             <div className="figures mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4">
               {slots.map((slot) => (
-                <label key={slot} className={`flex h-11 cursor-pointer items-center justify-center border text-small font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-bronze-deep ${start === slot ? "border-ink bg-ink text-cream" : "border-line-strong hover:border-ink"}`}>
+                <label key={slot} className={`flex h-11 cursor-pointer items-center justify-center border text-small font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-bronze-deep ${start === slot ? "border-gold bg-gold bg-(image:--gold-foil) text-ink" : "border-line-strong hover:border-gold"}`}>
                   <input type="radio" name="tijd" value={slot} checked={start === slot} onChange={() => onStart(slot)} className="sr-only" />
                   {timeOf(slot)}
                 </label>

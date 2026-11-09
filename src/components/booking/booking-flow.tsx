@@ -229,9 +229,9 @@ export function BookingFlow({
 
   return (
     <div className="mx-auto max-w-3xl">
-      {/* Voortgang en samenvatting */}
-      <div className="flex items-baseline justify-between gap-6 border-b border-line-strong pb-3 text-small">
-        <span className="figures text-ink-soft">
+      {/* Voortgang: stap in woorden en een gouden balk per stap. */}
+      <div className="flex min-h-10 items-center justify-between gap-6 text-small">
+        <span className="figures font-medium text-bronze-deep">
           Stap {stepIndex + 1} van {steps.length}
         </span>
         {stepIndex > 0 && (
@@ -240,6 +240,14 @@ export function BookingFlow({
           </button>
         )}
       </div>
+      <ol aria-hidden="true" className="mt-3 grid gap-1.5" style={{ gridTemplateColumns: `repeat(${steps.length}, minmax(0, 1fr))` }}>
+        {steps.map((item, index) => (
+          <li
+            key={item}
+            className={`h-1 rounded-full transition-colors duration-500 ${index <= stepIndex ? "bg-gold bg-(image:--gold-foil)" : "bg-sand/50"}`}
+          />
+        ))}
+      </ol>
 
       {treatment && step !== "categorie" && step !== "behandeling" && (
         <Summary
@@ -260,7 +268,7 @@ export function BookingFlow({
           id="stap-titel"
           ref={headingRef}
           tabIndex={-1}
-          className="scroll-mt-6 text-display-s font-medium outline-none"
+          className="scroll-mt-6 text-display-m font-semibold text-balance outline-none"
         >
           {stepTitles[step]}
         </h2>
@@ -277,10 +285,18 @@ export function BookingFlow({
                     }
                     go("behandeling");
                   }}
-                  className={choiceClass(choice.category === category.key)}
+                  className={`${choiceClass(choice.category === category.key)} group flex h-full items-center justify-between gap-4 px-6! py-6!`}
                 >
-                  <span className="text-lede font-medium">{category.title}</span>
-                  <span className="mt-1 block text-small text-ink-soft">{category.text}</span>
+                  <span>
+                    <span className="block text-lede font-semibold">{category.title}</span>
+                    <span className="mt-1 block text-small text-ink-soft">{category.text}</span>
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="grid size-11 shrink-0 place-items-center rounded-full border border-gold text-bronze-deep transition-colors duration-(--duration-quick) group-hover:bg-gold group-hover:bg-(image:--gold-foil) group-hover:text-ink"
+                  >
+                    →
+                  </span>
                 </button>
               </li>
             ))}
@@ -467,9 +483,10 @@ const stepTitles: Record<Step, string> = {
   controle: "Controleer je aanvraag",
 };
 
+/** Keuzekaart: bij aanwijzen een gouden rand, gekozen goud omlijnd op ivoor. */
 function choiceClass(selected: boolean) {
-  return `block w-full border px-5 py-4 text-left transition-colors duration-(--duration-quick) hover:border-ink ${
-    selected ? "border-ink bg-ivory" : "border-line-strong"
+  return `block w-full border bg-cream px-5 py-4 text-left transition-[border-color,box-shadow,background-color] duration-(--duration-quick) hover:border-gold hover:shadow-[0_0_0_1px_var(--color-gold)] ${
+    selected ? "border-gold bg-ivory shadow-[0_0_0_1px_var(--color-gold)]" : "border-line-strong"
   }`;
 }
 
@@ -557,7 +574,7 @@ function OptionsStep(props: {
                 return (
                   <label key={item} className={`${choiceClass(label === item)} flex cursor-pointer items-baseline justify-between gap-4`}>
                     <span className="flex items-center gap-3">
-                      <input type="radio" name="afwerking" checked={label === item} onChange={() => { setLabel(item); update({ variantId: null, optionIds: [], date: null, start: null }); }} className="size-5 accent-ink" />
+                      <input type="radio" name="afwerking" checked={label === item} onChange={() => { setLabel(item); update({ variantId: null, optionIds: [], date: null, start: null }); }} className="size-5 accent-bronze-deep" />
                       {item}
                     </span>
                     <span className="figures text-small text-ink-soft">
@@ -574,7 +591,7 @@ function OptionsStep(props: {
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 {kinds.map((variant) => (
                   <label key={variant.id} className={`${choiceClass(choice.variantId === variant.id)} flex cursor-pointer items-center gap-3`}>
-                    <input type="radio" name="soort" checked={choice.variantId === variant.id} onChange={() => pickVariant(variant)} className="size-5 accent-ink" />
+                    <input type="radio" name="soort" checked={choice.variantId === variant.id} onChange={() => pickVariant(variant)} className="size-5 accent-bronze-deep" />
                     <span>
                       {kindLabels[variant.kind]}
                       <span className="figures block text-small text-ink-soft">
@@ -595,7 +612,7 @@ function OptionsStep(props: {
               {variants.map((variant) => (
                 <label key={variant.id} className={`${choiceClass(choice.variantId === variant.id)} flex cursor-pointer items-baseline justify-between gap-4`}>
                   <span className="flex items-center gap-3">
-                    <input type="radio" name="variant" checked={choice.variantId === variant.id} onChange={() => pickVariant(variant)} className="size-5 accent-ink" />
+                    <input type="radio" name="variant" checked={choice.variantId === variant.id} onChange={() => pickVariant(variant)} className="size-5 accent-bronze-deep" />
                     {variant.label}
                   </span>
                   <span className="figures text-small text-ink-soft">
@@ -620,7 +637,7 @@ function OptionsStep(props: {
                 start: null,
               })
             }
-            className="mt-1 size-5 accent-ink"
+            className="mt-1 size-5 accent-bronze-deep"
           />
           <span>
             {removal.name}
@@ -638,7 +655,7 @@ function OptionsStep(props: {
           <div className="mt-3 flex gap-6">
             {[false, true].map((value) => (
               <label key={String(value)} className="flex items-center gap-2">
-                <input type="radio" name="nailart" checked={choice.nailArt === value} onChange={() => update({ nailArt: value, date: null, start: null })} className="size-5 accent-ink" />
+                <input type="radio" name="nailart" checked={choice.nailArt === value} onChange={() => update({ nailArt: value, date: null, start: null })} className="size-5 accent-bronze-deep" />
                 {value ? "Ja" : "Nee"}
               </label>
             ))}
