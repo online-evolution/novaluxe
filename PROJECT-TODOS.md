@@ -10,7 +10,7 @@ Alleen punten die nog echt open staan. Besluiten staan in `docs/besluiten.md`.
 - [ ] **Bewaartermijn** van voorbeeldfoto's voor nail art.
 - [ ] **Bewaartermijn contactberichten:** berichten via het contactformulier blijven nu staan tot Jessie ze verwijdert (Beheer → Berichten). Termijn vaststellen en automatisch opruimen; vermelden in de privacyverklaring.
 - [ ] **Gmail koppelen voor Jessie** (Beheer → E-mail): verificatie in 2 stappen aan, een app-wachtwoord "NovaLuxe" maken en koppelen. Afzender en antwoordadres zijn dan haar Gmail; meldingen gaan standaard naar hetzelfde adres (in te stellen).
-- [ ] **Inloggegevens aan Jessie geven:** haar beheerdersaccount (nailssbyjessiee@gmail.com) staat op productie. Het wachtwoord staat lokaal in `.env.jessie-beheer`: veilig doorgeven, daarna dat bestand verwijderen. Jessie kan het wijzigen onder Account.
+- [ ] **Inloggegevens aan Jessie geven:** haar beheerdersaccount (bynovaluxe.beauty@gmail.com) staat op productie. Het wachtwoord staat lokaal in `.env.jessie-beheer`: veilig doorgeven, daarna dat bestand verwijderen. Jessie kan het wijzigen onder Account.
 - [ ] **Privacyverklaring en algemene voorwaarden:** de inhoud aanleveren. Nodig vanwege persoonsgegevens en foto-uploads (AVG).
 
 ## Merk en beeld
