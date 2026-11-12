@@ -60,19 +60,19 @@ async function AppointmentsView({ searchParams }: Pick<PageProps<"/admin/afsprak
 
   return (
     <>
-      <nav aria-label="Weergave" className="mt-10 flex max-w-3xl gap-x-8 border-b border-line-strong">
+      <nav aria-label="Weergave" className="mt-10 inline-flex max-w-full gap-1 rounded-full bg-ivory p-1.5">
         {(Object.keys(views) as View[]).map((key) => (
           <Link
             key={key}
             href={(key === "aanvragen" ? "/admin/afspraken" : `/admin/afspraken?weergave=${key}`) as Route}
             aria-current={key === view ? "page" : undefined}
-            className="-mb-px border-b-2 border-transparent pb-3 text-small font-medium text-ink-soft hover:text-ink aria-[current=page]:border-ink aria-[current=page]:text-ink"
+            className="rounded-full px-5 py-2.5 font-medium text-ink-soft transition-colors duration-(--duration-quick) hover:text-ink aria-[current=page]:bg-cream aria-[current=page]:text-ink aria-[current=page]:shadow-[0_6px_16px_-10px_rgb(51_44_37/0.5)]"
           >
             {views[key].label}
           </Link>
         ))}
       </nav>
-      <div className="mt-8 max-w-3xl">
+      <div className="mt-10 max-w-3xl">
         <AppointmentList
           items={items}
           busy={busy}
