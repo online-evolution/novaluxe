@@ -58,47 +58,107 @@ export function AppointmentList({
         <div key={date || "lijst"}>
           {showDate && <h3 className="mb-3 font-medium first-letter:uppercase">{formatLongDate(date)}</h3>}
           <ul className="border-t border-line-strong">
-            {group.map((item) => {
-              const start = utcToZonedParts(item.startAt).time;
-              const end = utcToZonedParts(item.endAt).time;
-              const status = effectiveStatus(item, now);
-              return (
-                <li key={item.id} className="border-b border-line">
-                  <Link
-                    href={`/admin/afspraken/${item.id}`}
-                    className="grid grid-cols-[4.5rem_1fr] gap-x-4 gap-y-1 py-4 hover:bg-ivory/60 sm:grid-cols-[6rem_1fr_auto]"
-                  >
-                    <span className="figures font-medium">
-                      {start}
-                      <span className="block text-small font-normal text-ink-soft">tot {end}</span>
-                    </span>
-                    <span>
-                      <span className="block font-medium">{item.treatmentName}</span>
-                      <span className="block text-small text-ink-soft">
-                        {[
-                          item.variantLabel !== item.treatmentName && item.variantLabel,
-                          item.nailArtRequested && "met nail art",
-                          item.customerName,
-                        ]
-                          .filter(Boolean)
-                          .join(" · ")}
-                      </span>
-                      {showExpiry && status === "pending" && item.expiresAt && (
-                        <span className="mt-1 block text-small text-ink-soft">
-                          Tijd vastgehouden tot {formatMoment(item.expiresAt)}
-                        </span>
-                      )}
-                    </span>
-                    <span className="col-start-2 text-small sm:col-start-3 sm:text-right">
-                      <StatusText appointment={item} now={now} />
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
+            {group.map((item) => (
+              <AppointmentRow key={item.id} item={item} now={now} showExpiry={showExpiry} />
+            ))}
           </ul>
         </div>
       ))}
     </div>
+  );
+}
+
+function AppointmentRow({ item, now, showExpiry }: { item: AppointmentListItem; now: Date; showExpiry: boolean }) {
+  const start = utcToZonedParts(item.startAt).time;
+  const end = utcToZonedParts(item.endAt).time;
+  const status = effectiveStatus(item, now);
+  return (
+    <li className="border-b border-line">
+      <Link
+        href={`/admin/afspraken/${item.id}`}
+        className="grid grid-cols-[4.5rem_1fr] gap-x-4 gap-y-1 py-4 hover:bg-ivory/60 sm:grid-cols-[6rem_1fr_auto]"
+      >
+        <span className="figures font-medium">
+          {start}
+          <span className="block text-small font-normal text-ink-soft">tot {end}</span>
+        </span>
+        <span>
+          <span className="block font-medium">{item.treatmentName}</span>
+          <span className="block text-small text-ink-soft">
+            {[
+              item.variantLabel !== item.treatmentName && item.variantLabel,
+              item.nailArtRequested && "met nail art",
+              item.customerName,
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+          </span>
+          {showExpiry && status === "pending" && item.expiresAt && (
+            <span className="mt-1 block text-small text-ink-soft">
+              Tijd vastgehouden tot {formatMoment(item.expiresAt)}
+            </span>
+          )}
+        </span>
+        <span className="col-start-2 text-small sm:col-start-3 sm:text-right">
+          <StatusText appointment={item} now={now} />
+        </span>
+      </Link>
+    </li>
+  );
+}
+
+export type BusyBlock = { id: string; startAt: Date; endAt: Date; allDay: boolean };
+
+/**
+ * Eén dag: afspraken uit NovaLuxe en bezette tijden uit Jessies eigen
+ * iCloud-agenda's, op volgorde van tijd. Van die tijden bewaren we alleen
+ * begin en einde (docs/besluiten.md), dus er staat geen naam bij.
+ */
+export function DayAgenda({
+  items,
+  busy,
+  now,
+  empty,
+}: {
+  items: AppointmentListItem[];
+  busy: BusyBlock[];
+  now: Date;
+  empty: string;
+}) {
+  if (items.length === 0 && busy.length === 0) return <p className="text-small text-ink-soft">{empty}</p>;
+
+  const rows = [
+    ...items.map((item) => ({ kind: "afspraak" as const, at: item.startAt.getTime(), item })),
+    ...busy.map((block) => ({ kind: "bezet" as const, at: block.allDay ? 0 : block.startAt.getTime(), block })),
+  ].sort((a, b) => a.at - b.at);
+
+  return (
+    <ul className="border-t border-line-strong">
+      {rows.map((row) =>
+        row.kind === "afspraak" ? (
+          <AppointmentRow key={row.item.id} item={row.item} now={now} showExpiry={false} />
+        ) : (
+          <li
+            key={row.block.id}
+            className="grid grid-cols-[4.5rem_1fr] gap-x-4 gap-y-1 border-b border-line py-4 text-ink-soft sm:grid-cols-[6rem_1fr_auto]"
+          >
+            <span className="figures">
+              {row.block.allDay ? (
+                "Hele dag"
+              ) : (
+                <>
+                  {utcToZonedParts(row.block.startAt).time}
+                  <span className="block text-small">tot {utcToZonedParts(row.block.endAt).time}</span>
+                </>
+              )}
+            </span>
+            <span>
+              <span className="block">Bezet in je iCloud-agenda</span>
+              <span className="block text-small">Niet online te boeken</span>
+            </span>
+          </li>
+        ),
+      )}
+    </ul>
   );
 }

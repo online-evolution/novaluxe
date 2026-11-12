@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { AdminSection, Loading } from "@/components/admin/admin-page";
-import { AppointmentList } from "@/components/admin/appointment-list";
+import { AppointmentList, DayAgenda } from "@/components/admin/appointment-list";
 import { actionClass } from "@/components/ui/action";
 import { effectiveStatus } from "@/domain/appointment";
 import { addDays, formatLongDate, localDateString } from "@/lib/time";
-import { listForDay, listRequests } from "@/server/admin/appointments";
+import { listBusyForDay, listForDay, listRequests } from "@/server/admin/appointments";
 import { requireAdmin } from "@/server/auth/session";
 
 /*
  * Startpagina van het beheer: wat er vandaag gebeurt, welke aanvragen op
- * Jessie wachten, en morgen alvast.
+ * Jessie wachten, en morgen alvast. Bezette tijden uit haar iCloud-agenda
+ * staan ertussen, zonder naam.
  */
 export default function AdminHomePage() {
   return (
@@ -25,9 +26,11 @@ async function Dashboard() {
   const now = new Date();
   const today = localDateString(now);
   const tomorrow = addDays(today, 1);
-  const [todayItems, tomorrowItems, requests] = await Promise.all([
+  const [todayItems, tomorrowItems, todayBusy, tomorrowBusy, requests] = await Promise.all([
     listForDay(today),
     listForDay(tomorrow),
+    listBusyForDay(today),
+    listBusyForDay(tomorrow),
     listRequests(),
   ]);
   const open = requests.filter((item) => effectiveStatus(item, now) === "pending");
@@ -54,11 +57,11 @@ async function Dashboard() {
       )}
 
       <AdminSection title="Agenda van vandaag">
-        <AppointmentList items={todayItems} now={now} empty="Vandaag staan er geen afspraken." />
+        <DayAgenda items={todayItems} busy={todayBusy} now={now} empty="Vandaag staan er geen afspraken." />
       </AdminSection>
 
       <AdminSection title={`Morgen, ${formatLongDate(tomorrow)}`}>
-        <AppointmentList items={tomorrowItems} now={now} empty="Morgen staan er nog geen afspraken." />
+        <DayAgenda items={tomorrowItems} busy={tomorrowBusy} now={now} empty="Morgen staan er nog geen afspraken." />
       </AdminSection>
 
       <p className="mt-14 text-small">

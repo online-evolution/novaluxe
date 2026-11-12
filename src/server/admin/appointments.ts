@@ -7,6 +7,7 @@ import {
   appointmentEvents,
   appointmentOptions,
   appointments,
+  calendarBusyBlocks,
   customers,
   extensionReleases,
   treatments,
@@ -62,6 +63,22 @@ export async function listForDay(date: string) {
       ),
     )
     .orderBy(asc(appointments.startAt));
+}
+
+/** Bezette tijden uit Jessies iCloud-agenda's die op deze dag vallen (alleen begin en einde). */
+export async function listBusyForDay(date: string) {
+  const from = zonedDateTimeToUtc(date, "00:00");
+  const to = zonedDateTimeToUtc(addDays(date, 1), "00:00");
+  return getDb()
+    .select({
+      id: calendarBusyBlocks.id,
+      startAt: calendarBusyBlocks.startAt,
+      endAt: calendarBusyBlocks.endAt,
+      allDay: calendarBusyBlocks.allDay,
+    })
+    .from(calendarBusyBlocks)
+    .where(and(lt(calendarBusyBlocks.startAt, to), gt(calendarBusyBlocks.endAt, from)))
+    .orderBy(asc(calendarBusyBlocks.startAt));
 }
 
 /**
