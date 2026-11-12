@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { AdminSection, Loading } from "@/components/admin/admin-page";
-import { AppointmentList, DayAgenda } from "@/components/admin/appointment-list";
+import { AppointmentList } from "@/components/admin/appointment-list";
 import { actionClass } from "@/components/ui/action";
 import { effectiveStatus } from "@/domain/appointment";
 import { addDays, formatLongDate, localDateString } from "@/lib/time";
@@ -10,8 +10,8 @@ import { requireAdmin } from "@/server/auth/session";
 
 /*
  * Startpagina van het beheer: wat er vandaag gebeurt, welke aanvragen op
- * Jessie wachten, en morgen alvast. Bezette tijden uit haar iCloud-agenda
- * staan ertussen, zonder naam.
+ * Jessie wachten, en morgen alvast. Afspraken uit haar eigen iCloud-agenda
+ * staan ertussen, met de titel zoals op haar iPhone.
  */
 export default function AdminHomePage() {
   return (
@@ -57,11 +57,11 @@ async function Dashboard() {
       )}
 
       <AdminSection title="Agenda van vandaag">
-        <DayAgenda items={todayItems} busy={todayBusy} now={now} empty="Vandaag staan er geen afspraken." />
+        <AppointmentList items={todayItems} busy={todayBusy} now={now} empty="Vandaag staan er geen afspraken." />
       </AdminSection>
 
       <AdminSection title={`Morgen, ${formatLongDate(tomorrow)}`}>
-        <DayAgenda items={tomorrowItems} busy={tomorrowBusy} now={now} empty="Morgen staan er nog geen afspraken." />
+        <AppointmentList items={tomorrowItems} busy={tomorrowBusy} now={now} empty="Morgen staan er nog geen afspraken." />
       </AdminSection>
 
       <p className="mt-14 text-small">

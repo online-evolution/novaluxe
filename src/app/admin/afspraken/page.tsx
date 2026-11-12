@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { AdminPageHeader, Loading } from "@/components/admin/admin-page";
 import { AppointmentList } from "@/components/admin/appointment-list";
 import { actionClass } from "@/components/ui/action";
-import { listPast, listRequests, listUpcoming } from "@/server/admin/appointments";
+import { listPast, listRequests, listUpcoming, listUpcomingBusy } from "@/server/admin/appointments";
 import { requireAdmin } from "@/server/auth/session";
 
 export const metadata: Metadata = { title: "Afspraken" };
@@ -17,7 +17,7 @@ const views = {
   },
   komend: {
     label: "Komend",
-    empty: "Er staan geen bevestigde afspraken gepland.",
+    empty: "Er staan geen afspraken gepland.",
     load: listUpcoming,
   },
   eerder: {
@@ -52,7 +52,10 @@ async function AppointmentsView({ searchParams }: Pick<PageProps<"/admin/afsprak
   await requireAdmin();
   const requested = (await searchParams).weergave;
   const view: View = requested === "komend" || requested === "eerder" ? requested : "aanvragen";
-  const items = await views[view].load();
+  const [items, busy] = await Promise.all([
+    views[view].load(),
+    view === "komend" ? listUpcomingBusy() : Promise.resolve([]),
+  ]);
   const now = new Date();
 
   return (
@@ -72,6 +75,7 @@ async function AppointmentsView({ searchParams }: Pick<PageProps<"/admin/afsprak
       <div className="mt-8 max-w-3xl">
         <AppointmentList
           items={items}
+          busy={busy}
           now={now}
           empty={views[view].empty}
           showDate

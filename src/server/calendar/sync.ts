@@ -22,8 +22,9 @@ import { decryptSecret, encryptSecret } from "./secret";
  * Synchronisatie met Jessies iCloud-agenda. Neon is de bron van waarheid:
  *   - bevestigde afspraken komen in de agenda "NovaLuxe" (en gaan er weer uit
  *     bij annuleren); verplaatsen in NovaLuxe verplaatst het agenda-item;
- *   - uit de gekozen eigen agenda's lezen we alleen begin en einde, en die
- *     tijden zijn online niet te boeken;
+ *   - uit de gekozen eigen agenda's lezen we begin, einde en titel (plus de
+ *     naam van de agenda); die tijden zijn online niet te boeken en Jessie
+ *     ziet ze in het beheer;
  *   - verschuift of verwijdert Jessie een NovaLuxe-item op haar iPhone, dan
  *     nemen we dat niet stil over: de koppeling krijgt een afwijking en Jessie
  *     kiest in het beheer. Schrijven gebeurt altijd met If-Match (ETag).
@@ -292,34 +293,28 @@ export async function syncCalendar(): Promise<SyncResult> {
   }
 }
 
-/** Bezette tijden uit de eigen agenda's: alles vervangen, alleen begin en einde. */
+/** Bezette tijden uit de eigen agenda's: alles vervangen, met titel en agendanaam. */
 async function syncBusy(client: DAVClient, urls: string[], targetUrl: string) {
   const from = new Date(Date.now() - 24 * 60 * minute);
   const to = new Date(Date.now() + busyWindowDays * 24 * 60 * minute);
-  const texts: string[] = [];
+  const names = new Map(
+    (await client.fetchCalendars()).map((calendar) => [pathOf(calendar.url), nameOf(calendar)]),
+  );
+  const rows: (typeof calendarBusyBlocks.$inferInsert)[] = [];
   for (const url of urls.filter((item) => item !== targetUrl)) {
     const objects = await client.fetchCalendarObjects({
       calendar: { url } as DAVCalendar,
       timeRange: { start: from.toISOString(), end: to.toISOString() },
     });
-    texts.push(
-      ...objects.map((object) => String(object.data ?? "")).filter(Boolean),
-    );
+    const texts = objects.map((object) => String(object.data ?? "")).filter(Boolean);
+    const calendarName = names.get(pathOf(url)) ?? null;
+    for (const item of busyIntervals(texts, from, to).intervals) {
+      rows.push({ startAt: item.start, endAt: item.end, allDay: item.allDay, title: item.title, calendarName });
+    }
   }
-  const { intervals } = busyIntervals(texts, from, to);
   await getDb().transaction(async (tx) => {
     await tx.delete(calendarBusyBlocks);
-    if (intervals.length > 0) {
-      await tx
-        .insert(calendarBusyBlocks)
-        .values(
-          intervals.map((item) => ({
-            startAt: item.start,
-            endAt: item.end,
-            allDay: item.allDay,
-          })),
-        );
-    }
+    if (rows.length > 0) await tx.insert(calendarBusyBlocks).values(rows);
   });
 }
 

@@ -4,7 +4,7 @@ Doel: vaststellen of NovaLuxe betrouwbaar met een iCloud-agenda kan werken, v√≥√
 
 De spike staat los van de app, in `spike/icloud/`:
 
-- `busy.ts` haalt uit agenda-data alleen begin, einde en bezet/vrij. Titel, beschrijving, locatie en deelnemers worden nooit gelezen. Herhalingen, uitzonderingen, tijdzones, "vrij" en geannuleerde afspraken worden zelf verwerkt (met ical.js), ook als de server dat niet doet.
+- `busy.ts` haalt uit agenda-data alleen begin, einde en bezet/vrij. Titel, beschrijving, locatie en deelnemers worden nooit gelezen. (Sinds 2026-11-12 leest de app ook de titel; zie docs/besluiten.md.) Herhalingen, uitzonderingen, tijdzones, "vrij" en geannuleerde afspraken worden zelf verwerkt (met ical.js), ook als de server dat niet doet.
 - `checks.ts` voert alle controles uit tegen `caldav.icloud.com` (met tsdav). Het beheer (iCloud) en het script `run.ts` gebruiken allebei deze controles.
 - `busy.test.ts` test zonder internet dat het lezen klopt, ook voor de eigen testafspraken van de spike: `npm run spike:icloud:test`.
 

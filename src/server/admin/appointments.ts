@@ -65,19 +65,32 @@ export async function listForDay(date: string) {
     .orderBy(asc(appointments.startAt));
 }
 
-/** Bezette tijden uit Jessies iCloud-agenda's die op deze dag vallen (alleen begin en einde). */
+const busyColumns = {
+  id: calendarBusyBlocks.id,
+  startAt: calendarBusyBlocks.startAt,
+  endAt: calendarBusyBlocks.endAt,
+  allDay: calendarBusyBlocks.allDay,
+  title: calendarBusyBlocks.title,
+  calendarName: calendarBusyBlocks.calendarName,
+};
+
+/** Afspraken uit Jessies eigen iCloud-agenda's die op deze dag beginnen. */
 export async function listBusyForDay(date: string) {
   const from = zonedDateTimeToUtc(date, "00:00");
   const to = zonedDateTimeToUtc(addDays(date, 1), "00:00");
   return getDb()
-    .select({
-      id: calendarBusyBlocks.id,
-      startAt: calendarBusyBlocks.startAt,
-      endAt: calendarBusyBlocks.endAt,
-      allDay: calendarBusyBlocks.allDay,
-    })
+    .select(busyColumns)
     .from(calendarBusyBlocks)
-    .where(and(lt(calendarBusyBlocks.startAt, to), gt(calendarBusyBlocks.endAt, from)))
+    .where(and(gte(calendarBusyBlocks.startAt, from), lt(calendarBusyBlocks.startAt, to)))
+    .orderBy(asc(calendarBusyBlocks.startAt));
+}
+
+/** Komende afspraken uit Jessies eigen iCloud-agenda's (de sync haalt er 120 dagen op). */
+export async function listUpcomingBusy() {
+  return getDb()
+    .select(busyColumns)
+    .from(calendarBusyBlocks)
+    .where(gt(calendarBusyBlocks.endAt, new Date()))
     .orderBy(asc(calendarBusyBlocks.startAt));
 }
 

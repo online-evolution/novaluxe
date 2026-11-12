@@ -30,7 +30,7 @@ export const calendarConnection = pgTable(
     encryptedPassword: text().notNull(),
     /** Agenda "NovaLuxe" waarin bevestigde afspraken komen. */
     targetCalendarUrl: text().notNull(),
-    /** Agenda's waarvan alleen begin en einde meetellen als bezet. */
+    /** Agenda's waarvan de afspraken meetellen als bezet. */
     busyCalendarUrls: text().array().notNull().default([]),
     lastSyncAt: timestamptz(),
     /** Laatste fout in gewone taal; leeg als het goed ging. */
@@ -42,7 +42,10 @@ export const calendarConnection = pgTable(
   (t) => [check("calendar_connection_single", sql`${t.id} = 1`)],
 );
 
-/** Bezette tijden uit Jessies eigen agenda's: alleen begin en einde, niets anders. */
+/**
+ * Bezette tijden uit Jessies eigen agenda's: begin, einde, de titel en de
+ * naam van de agenda. Beschrijving, locatie en deelnemers lezen we niet.
+ */
 export const calendarBusyBlocks = pgTable(
   "calendar_busy_blocks",
   {
@@ -50,6 +53,10 @@ export const calendarBusyBlocks = pgTable(
     startAt: timestamptz().notNull(),
     endAt: timestamptz().notNull(),
     allDay: boolean().notNull().default(false),
+    /** Titel in de agenda, bijvoorbeeld "11.00 Eveline". */
+    title: text(),
+    /** Naam van de agenda, bijvoorbeeld "Werk". */
+    calendarName: text(),
   },
   (t) => [index().on(t.startAt, t.endAt)],
 );

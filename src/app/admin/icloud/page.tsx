@@ -175,7 +175,7 @@ async function Connected({ connection }: { connection: NonNullable<Awaited<Retur
 
       <AdminSection
         title="Welke agenda’s tellen mee als bezet"
-        intro="Tijden in deze agenda’s zijn online niet te boeken. NovaLuxe leest er alleen begin en einde uit."
+        intro="Tijden in deze agenda’s zijn online niet te boeken. NovaLuxe neemt van elke afspraak de tijd en de titel over, zodat je ze ook in het beheer ziet. Notities, locatie en genodigden worden niet gelezen."
         id="agendas"
       >
         <Suspense fallback={<Loading />}>

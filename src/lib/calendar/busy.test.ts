@@ -37,6 +37,26 @@ END:VEVENT`);
   assert.equal(intervals.length, 1);
   assert.equal(intervals[0]!.start.toISOString(), "2026-11-10T09:00:00.000Z");
   assert.equal(intervals[0]!.end.toISOString(), "2026-11-10T10:30:00.000Z");
+  assert.equal(intervals[0]!.title, "Privé");
+});
+
+test("de titel wordt één regel en ingekort; zonder titel blijft hij leeg", () => {
+  const long = "x".repeat(200);
+  const ics = calendar(`BEGIN:VEVENT
+UID:lang
+DTSTART;TZID=Europe/Amsterdam:20261111T100000
+DTEND;TZID=Europe/Amsterdam:20261111T110000
+SUMMARY:${long}
+END:VEVENT
+BEGIN:VEVENT
+UID:leeg
+DTSTART;TZID=Europe/Amsterdam:20261112T100000
+DTEND;TZID=Europe/Amsterdam:20261112T110000
+END:VEVENT`);
+  const { intervals } = busyIntervals([ics], from, to);
+  assert.equal(intervals[0]!.title!.length, 120);
+  assert.ok(intervals[0]!.title!.endsWith("…"));
+  assert.equal(intervals[1]!.title, null);
 });
 
 test("wekelijkse herhaling met een verplaatste en een geschrapte keer", () => {
@@ -46,6 +66,7 @@ UID:sport
 DTSTART;TZID=Europe/Amsterdam:20261111T190000
 DTEND;TZID=Europe/Amsterdam:20261111T200000
 RRULE:FREQ=WEEKLY;COUNT=4
+SUMMARY:Sport
 EXDATE;TZID=Europe/Amsterdam:20261125T190000
 END:VEVENT`,
     `BEGIN:VEVENT
@@ -53,12 +74,17 @@ UID:sport
 RECURRENCE-ID;TZID=Europe/Amsterdam:20261118T190000
 DTSTART;TZID=Europe/Amsterdam:20261118T210000
 DTEND;TZID=Europe/Amsterdam:20261118T220000
+SUMMARY:Sport later
 END:VEVENT`,
   );
   const { intervals, stats } = busyIntervals([ics], from, to);
   assert.deepEqual(
     intervals.map((item) => item.start.toISOString()),
     ["2026-11-11T18:00:00.000Z", "2026-11-18T20:00:00.000Z", "2026-12-02T18:00:00.000Z"],
+  );
+  assert.deepEqual(
+    intervals.map((item) => item.title),
+    ["Sport", "Sport later", "Sport"],
   );
   assert.equal(stats.recurring, 1);
   assert.equal(stats.exceptions, 1);

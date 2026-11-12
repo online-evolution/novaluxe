@@ -1,8 +1,9 @@
 import ICAL from "ical.js";
 
 /*
- * Uit iCalendar-data alleen halen wat NovaLuxe mag weten van een
- * privéafspraak: begin, einde en bezet/vrij. Titel, beschrijving, locatie en
+ * Uit iCalendar-data halen wat NovaLuxe van een afspraak in Jessies eigen
+ * agenda gebruikt: begin, einde, bezet/vrij en de titel (zodat Jessie in het
+ * beheer ziet wie er komt; besluit van 2026-11-12). Beschrijving, locatie en
  * deelnemers worden nooit gelezen. Bewezen in de iCloud-spike (Fase 14,
  * docs/icloud-spike.md).
  */
@@ -12,7 +13,19 @@ export type BusyInterval = {
   end: Date;
   /** Hele dag (DATE in plaats van DATE-TIME). */
   allDay: boolean;
+  /** De titel in de agenda (SUMMARY), ingekort; leeg als er geen is. */
+  title: string | null;
 };
+
+/** Langer dan dit is geen naam meer maar een notitie. */
+const maxTitleLength = 120;
+
+function titleOf(component: ICAL.Component): string | null {
+  const raw = component.getFirstPropertyValue("summary");
+  const title = typeof raw === "string" ? raw.replace(/\s+/g, " ").trim() : "";
+  if (!title) return null;
+  return title.length > maxTitleLength ? `${title.slice(0, maxTitleLength - 1)}…` : title;
+}
 
 export type BusyStats = {
   events: number;
@@ -73,7 +86,7 @@ export function busyIntervals(icsTexts: string[], from: Date, to: Date): { inter
       if (allDay) stats.allDay++;
 
       if (!event.isRecurring()) {
-        push(intervals, event.startDate.toJSDate(), event.endDate.toJSDate(), allDay, from, to);
+        push(intervals, event.startDate.toJSDate(), event.endDate.toJSDate(), allDay, titleOf(component), from, to);
         continue;
       }
 
@@ -86,7 +99,15 @@ export function busyIntervals(icsTexts: string[], from: Date, to: Date): { inter
         const item = details.item.component;
         if (String(item.getFirstPropertyValue("status") ?? "").toUpperCase() === "CANCELLED") continue;
         if (String(item.getFirstPropertyValue("transp") ?? "").toUpperCase() === "TRANSPARENT") continue;
-        push(intervals, details.startDate.toJSDate(), details.endDate.toJSDate(), details.startDate.isDate, from, to);
+        push(
+          intervals,
+          details.startDate.toJSDate(),
+          details.endDate.toJSDate(),
+          details.startDate.isDate,
+          titleOf(item),
+          from,
+          to,
+        );
       }
     }
   }
@@ -95,7 +116,15 @@ export function busyIntervals(icsTexts: string[], from: Date, to: Date): { inter
   return { intervals, stats };
 }
 
-function push(list: BusyInterval[], start: Date, end: Date, allDay: boolean, from: Date, to: Date) {
+function push(
+  list: BusyInterval[],
+  start: Date,
+  end: Date,
+  allDay: boolean,
+  title: string | null,
+  from: Date,
+  to: Date,
+) {
   if (end <= from || start >= to) return;
-  list.push({ start, end, allDay });
+  list.push({ start, end, allDay, title });
 }

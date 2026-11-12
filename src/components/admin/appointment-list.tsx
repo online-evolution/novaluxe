@@ -31,12 +31,15 @@ export function StatusText({
 
 export function AppointmentList({
   items,
+  busy = [],
   now,
   empty,
   showDate = false,
   showExpiry = false,
 }: {
   items: AppointmentListItem[];
+  /** Afspraken uit Jessies eigen iCloud-agenda, tussen de rest op volgorde van tijd. */
+  busy?: BusyBlock[];
   now: Date;
   empty: string;
   /** Per datum groeperen (voor lijsten over meerdere dagen). */
@@ -44,12 +47,17 @@ export function AppointmentList({
   /** Bij aanvragen: tot wanneer de tijd wordt vastgehouden. */
   showExpiry?: boolean;
 }) {
-  if (items.length === 0) return <p className="text-small text-ink-soft">{empty}</p>;
+  if (items.length === 0 && busy.length === 0) return <p className="text-small text-ink-soft">{empty}</p>;
 
-  const groups = new Map<string, AppointmentListItem[]>();
-  for (const item of items) {
-    const key = showDate ? utcToZonedParts(item.startAt).date : "";
-    groups.set(key, [...(groups.get(key) ?? []), item]);
+  const rows: Row[] = [
+    ...items.map((item) => ({ kind: "afspraak" as const, key: item.id, startAt: item.startAt, item })),
+    ...busy.map((block) => ({ kind: "icloud" as const, key: block.id, startAt: block.startAt, block })),
+  ].sort((a, b) => a.startAt.getTime() - b.startAt.getTime());
+
+  const groups = new Map<string, Row[]>();
+  for (const row of rows) {
+    const key = showDate ? utcToZonedParts(row.startAt).date : "";
+    groups.set(key, [...(groups.get(key) ?? []), row]);
   }
 
   return (
@@ -58,13 +66,58 @@ export function AppointmentList({
         <div key={date || "lijst"}>
           {showDate && <h3 className="mb-3 font-medium first-letter:uppercase">{formatLongDate(date)}</h3>}
           <ul className="border-t border-line-strong">
-            {group.map((item) => (
-              <AppointmentRow key={item.id} item={item} now={now} showExpiry={showExpiry} />
-            ))}
+            {group.map((row) =>
+              row.kind === "afspraak" ? (
+                <AppointmentRow key={row.key} item={row.item} now={now} showExpiry={showExpiry} />
+              ) : (
+                <ICloudRow key={row.key} block={row.block} />
+              ),
+            )}
           </ul>
         </div>
       ))}
     </div>
+  );
+}
+
+export type BusyBlock = {
+  id: string;
+  startAt: Date;
+  endAt: Date;
+  allDay: boolean;
+  title: string | null;
+  calendarName: string | null;
+};
+
+type Row =
+  | { kind: "afspraak"; key: string; startAt: Date; item: AppointmentListItem }
+  | { kind: "icloud"; key: string; startAt: Date; block: BusyBlock };
+
+/**
+ * Een afspraak uit Jessies eigen agenda: titel zoals op haar iPhone, en uit
+ * welke agenda. Niet aan te klikken; wijzigen doet ze op haar iPhone.
+ */
+function ICloudRow({ block }: { block: BusyBlock }) {
+  return (
+    <li className="grid grid-cols-[4.5rem_1fr] gap-x-4 gap-y-1 border-b border-line py-4 sm:grid-cols-[6rem_1fr_auto]">
+      <span className="figures font-medium">
+        {block.allDay ? (
+          "Hele dag"
+        ) : (
+          <>
+            {utcToZonedParts(block.startAt).time}
+            <span className="block text-small font-normal text-ink-soft">tot {utcToZonedParts(block.endAt).time}</span>
+          </>
+        )}
+      </span>
+      <span>
+        <span className="block font-medium">{block.title ?? "Bezet"}</span>
+        <span className="block text-small text-ink-soft">
+          {block.calendarName ? `iCloud-agenda ${block.calendarName}` : "iCloud-agenda"}
+        </span>
+      </span>
+      <span className="col-start-2 text-small text-ink-soft sm:col-start-3 sm:text-right">Op je iPhone</span>
+    </li>
   );
 }
 
@@ -104,61 +157,5 @@ function AppointmentRow({ item, now, showExpiry }: { item: AppointmentListItem; 
         </span>
       </Link>
     </li>
-  );
-}
-
-export type BusyBlock = { id: string; startAt: Date; endAt: Date; allDay: boolean };
-
-/**
- * Eén dag: afspraken uit NovaLuxe en bezette tijden uit Jessies eigen
- * iCloud-agenda's, op volgorde van tijd. Van die tijden bewaren we alleen
- * begin en einde (docs/besluiten.md), dus er staat geen naam bij.
- */
-export function DayAgenda({
-  items,
-  busy,
-  now,
-  empty,
-}: {
-  items: AppointmentListItem[];
-  busy: BusyBlock[];
-  now: Date;
-  empty: string;
-}) {
-  if (items.length === 0 && busy.length === 0) return <p className="text-small text-ink-soft">{empty}</p>;
-
-  const rows = [
-    ...items.map((item) => ({ kind: "afspraak" as const, at: item.startAt.getTime(), item })),
-    ...busy.map((block) => ({ kind: "bezet" as const, at: block.allDay ? 0 : block.startAt.getTime(), block })),
-  ].sort((a, b) => a.at - b.at);
-
-  return (
-    <ul className="border-t border-line-strong">
-      {rows.map((row) =>
-        row.kind === "afspraak" ? (
-          <AppointmentRow key={row.item.id} item={row.item} now={now} showExpiry={false} />
-        ) : (
-          <li
-            key={row.block.id}
-            className="grid grid-cols-[4.5rem_1fr] gap-x-4 gap-y-1 border-b border-line py-4 text-ink-soft sm:grid-cols-[6rem_1fr_auto]"
-          >
-            <span className="figures">
-              {row.block.allDay ? (
-                "Hele dag"
-              ) : (
-                <>
-                  {utcToZonedParts(row.block.startAt).time}
-                  <span className="block text-small">tot {utcToZonedParts(row.block.endAt).time}</span>
-                </>
-              )}
-            </span>
-            <span>
-              <span className="block">Bezet in je iCloud-agenda</span>
-              <span className="block text-small">Niet online te boeken</span>
-            </span>
-          </li>
-        ),
-      )}
-    </ul>
   );
 }

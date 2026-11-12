@@ -289,12 +289,12 @@ Vastgestelde uitgangspunten voor de bouw. Hier staat alleen wat besloten is; ope
 - Daarbuiten blijft de regel: geen iCloud-inloggegevens in broncode of logs.
 - **De koppeling (gebouwd na de geslaagde spike):** `src/server/calendar/sync.ts`.
   - Bevestigde afspraken staan als item in de agenda "NovaLuxe" in Jessies iCloud; annuleren haalt het item weg, verplaatsen in NovaLuxe verplaatst het item (met If-Match).
-  - Uit de agenda's die Jessie aanvinkt lezen we alleen begin en einde (`calendar_busy_blocks`). Die tijden zijn online niet te boeken; in het beheer gelden ze als blokkade (waarschuwing, Jessie kan toch inplannen).
+  - Uit de agenda's die Jessie aanvinkt lezen we begin, einde en titel, plus de naam van de agenda (`calendar_busy_blocks`). Die tijden zijn online niet te boeken; in het beheer gelden ze als blokkade (waarschuwing, Jessie kan toch inplannen). Vandaag en Afspraken → Komend tonen ze tussen de NovaLuxe-afspraken, met de titel zoals op haar iPhone.
   - Verschuift of verwijdert Jessie een NovaLuxe-item op haar iPhone, dan wordt dat een afwijking. Jessie kiest in het beheer: de tijd van de iPhone overnemen (nooit over een andere afspraak heen), het item terugzetten, of bij verwijderen de afspraak annuleren.
   - De sleutel voor het wachtwoord wordt met HKDF afgeleid van `AUTH_SECRET`; er is geen extra geheim nodig. Wordt `AUTH_SECRET` vervangen, dan koppelt Jessie opnieuw.
   - **Wanneer:** NovaLuxe werkt de agenda bij direct na elke wijziging in het beheer, via `after()` als de laatste ronde ouder is dan vijf minuten wanneer iemand vrije tijden opvraagt of het beheer opent, en elk kwartier via de vaste taak van Vercel (`vercel.json`, `/api/cron/agenda`; Pro-plan sinds 2026-11-09). Er loopt nooit meer dan één ronde tegelijk (claim in `calendar_connection.sync_started_at`).
 - Bij voorkeur een aparte agenda "NovaLuxe".
-- Van privéafspraken slaan we alleen begin, einde en bezet/vrij op.
+- Van afspraken in haar eigen agenda's slaan we begin, einde, bezet/vrij en de titel op (besluit 2026-11-12, eerst alleen begin en einde): Jessie wil in het beheer zien wie er komt. Beschrijving, locatie en deelnemers lezen we niet. De titels gaan mee in de privacyverklaring; ontkoppelen wist ze. Jessie bepaalt zelf welke agenda's meetellen.
 - Wijzigingen op de iPhone overschrijven nooit stilzwijgend de database. We detecteren de afwijking en Jessie kiest in de admin wat er gebeurt.
 - De integratie komt pas in de kern van de applicatie als de spike betrouwbaar blijkt.
 - De spike staat los van de app in `spike/icloud/` (handleiding en beoordeling: `docs/icloud-spike.md`). CalDAV via tsdav, iCalendar via ical.js; geen eigen XML- of ICS-trucs. Herhalingen rollen we zelf uit, zodat we niet afhangen van server-uitrol door iCloud.

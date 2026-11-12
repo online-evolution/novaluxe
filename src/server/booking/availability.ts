@@ -20,7 +20,7 @@ type Tx = Parameters<Parameters<Db["transaction"]>[0]>[0];
 /**
  * Alles wat een tijd bezet maakt: bevestigde afspraken, aanvragen die nog
  * niet verlopen zijn, blokkades en bezette tijden uit Jessies eigen
- * iCloud-agenda (alleen begin en einde). Altijd vers uit de database.
+ * iCloud-agenda. Altijd vers uit de database.
  */
 export async function loadBusy(from: Date, to: Date, db: Db | Tx = getDb()): Promise<Interval[]> {
   const now = new Date();
