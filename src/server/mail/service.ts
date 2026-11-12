@@ -10,6 +10,7 @@ import {
   rescheduleMail,
   testMail,
   type AppointmentDetails,
+  type MailBrand,
 } from "@/lib/mail/templates";
 import { getDb } from "@/server/db";
 import {
@@ -22,6 +23,9 @@ import {
 } from "@/server/db/schema";
 import { decryptSecret, encryptSecret } from "@/server/secret";
 import { publicBaseUrl } from "@/server/site-url";
+
+/** Het logo in mails: een kleine PNG uit public/brand, via het openbare adres. */
+const mailBrand = (): MailBrand => ({ logoUrl: `${publicBaseUrl()}/brand/mail-logo.png` });
 import {
   friendlyMailError,
   gmailTransport,
@@ -93,7 +97,7 @@ export async function connectMail(
   const transport = gmailTransport(address, appPassword);
   try {
     await transport.verify();
-    await transport.send({ ...testMail(address), to: address });
+    await transport.send({ ...testMail(address, mailBrand()), to: address });
   } catch (error) {
     console.error("Gmail koppelen mislukt", logCode(error));
     return {
@@ -131,7 +135,7 @@ export async function sendTestMail(): Promise<{ ok: true; to: string } | { ok: f
   if (!row) return { ok: false, message: "Gmail is niet gekoppeld." };
   const to = notifyTo(row);
   try {
-    await transportFor(row).send({ ...testMail(row.address), to });
+    await transportFor(row).send({ ...testMail(row.address, mailBrand()), to });
   } catch (error) {
     console.error("Testmail mislukt", logCode(error));
     const message = friendlyMailError(error);
@@ -194,7 +198,7 @@ async function buildMail(
     if (!contact) return { skip: "Het bericht bestaat niet meer." };
     return {
       mail: {
-        ...contactNotificationMail(contact, `${base}/admin/berichten`),
+        ...contactNotificationMail(contact, `${base}/admin/berichten`, mailBrand()),
         to: notifyTo(connection),
         replyTo: contact.email ?? undefined,
       },
@@ -246,6 +250,7 @@ async function buildMail(
             expiresAt: appointment.expiresAt,
           },
           `${base}/admin/afspraken/${appointment.id}`,
+          mailBrand(),
         ),
         to: notifyTo(connection),
         replyTo: customer.email ?? undefined,
@@ -257,12 +262,12 @@ async function buildMail(
   const bookingUrl = `${base}/reserveren`;
   const content =
     message.kind === "bevestiging"
-      ? confirmationMail(details)
+      ? confirmationMail(details, mailBrand())
       : message.kind === "verplaatsing"
-        ? rescheduleMail(details)
+        ? rescheduleMail(details, mailBrand())
         : message.kind === "afwijzing"
-          ? rejectionMail(details, bookingUrl)
-          : cancellationMail(details, bookingUrl);
+          ? rejectionMail(details, bookingUrl, mailBrand())
+          : cancellationMail(details, bookingUrl, mailBrand());
   return { mail: { ...content, to: customer.email } };
 }
 
